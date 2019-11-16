@@ -2,14 +2,14 @@
   "name": "@paraboly/pwc-web-component-template",
   "version": "0.0.1",
   "description": "Template repository for Paraboly Web Component Libraries",
-    "keywords": [
-	"paraboly",
+  "keywords": [
+    "paraboly",
     "stencil",
-	"stenciljs",
-	"web-component",
-	"webcomponent",
-	"ui",
-	"frontend"
+    "stenciljs",
+    "web-component",
+    "webcomponent",
+    "ui",
+    "frontend"
   ],
   "homepage": "https://www.paraboly.com",
   "bugs": "https://github.com/Paraboly/pwc-web-component-template/issues",
