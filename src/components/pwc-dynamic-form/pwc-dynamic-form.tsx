@@ -1,4 +1,5 @@
 import { Component, Prop, h, Watch } from "@stencil/core";
+import { FormJson } from "../../utils/FormJson";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -6,7 +7,7 @@ import { Component, Prop, h, Watch } from "@stencil/core";
   shadow: false
 })
 export class PwcDynamicFormComponent {
-  private formParsed: FormJsonObjects.Root;
+  private formParsed: FormJson.Root;
 
   @Prop() form: string;
 
@@ -20,7 +21,7 @@ export class PwcDynamicFormComponent {
     this.onFormChanged(this.form);
   }
 
-  private constructFormElement(obj: FormJsonObjects.Element) {
+  private constructFormElement(obj: FormJson.Element) {
     return (
       <div>
         Name: {obj.name}, Type: {obj.type}
@@ -45,15 +46,5 @@ export class PwcDynamicFormComponent {
         </form>
       </div>
     );
-  }
-}
-
-declare module FormJsonObjects {
-  export interface Element {
-    name: string;
-    type: string;
-  }
-  export interface Root {
-    elements: Element[];
   }
 }
