@@ -21,10 +21,28 @@ export class PwcDynamicFormComponent {
     this.onFormChanged(this.form);
   }
 
-  private constructFormElement(obj: FormJson.Element) {
+  private constructFormElement(elem: FormJson.Element) {
+    var attributes: { [k: string]: any } = { name: elem.name };
+
+    switch (elem.type) {
+      case "label":
+        let labelElem = elem as FormJson.LabelElement;
+
+        //@ts-ignore
+        return <span {...attributes}>{labelElem.content}</span>;
+
+      case "input":
+        let inputElem = elem as FormJson.InputElement;
+        attributes.value = inputElem.value;
+        attributes.placeholder = inputElem.placeholder;
+
+        //@ts-ignore
+        return <input {...attributes}></input>;
+    }
+
     return (
       <div>
-        Name: {obj.name}, Type: {obj.type}
+        Name: {elem.name}, Type: {elem.type}
       </div>
     );
   }
@@ -32,6 +50,7 @@ export class PwcDynamicFormComponent {
   render() {
     return (
       <div>
+        {/* FOR DEBUG BEGIN */}
         <p>Raw Form Data: {this.form}</p>
         <p>
           Parsed Form Data:
@@ -39,6 +58,7 @@ export class PwcDynamicFormComponent {
         </p>
         <slot />
         <p>Constructed:</p>
+        {/* FOR DEBUG END */}
         <form>
           {this.formParsed.elements.map(elem =>
             this.constructFormElement(elem)

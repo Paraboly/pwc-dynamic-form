@@ -17,13 +17,13 @@
   <body>
     <pwc-dynamic-form
       form='{
-    "elements": [
-      {"name": "label1", "type": "label"},
-      {"name": "input1", "type": "input"},
-      {"name": "label2", "type": "label"},
-      {"name": "input2", "type": "input"}
-    ]
-  }'
+        "elements": [
+          {"name": "label1", "type": "label", "content": "label 1 content"},
+          {"name": "input1", "type": "input", "placeholder": "input 1 placeholder text"},
+          {"name": "label2", "type": "label", "content": "label 2 content"},
+          {"name": "input2", "type": "input", "value": "input 2 default text"}
+        ]
+      }'
       >Slot Content</pwc-dynamic-form
     >
   </body>
