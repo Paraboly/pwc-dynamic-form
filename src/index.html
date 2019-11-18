@@ -16,15 +16,22 @@
   </head>
   <body>
     <pwc-dynamic-form
-      form='{
-        "elements": [
-          {"name": "label1", "type": "label", "content": "label 1 content"},
-          {"name": "input1", "type": "input", "placeholder": "input 1 placeholder text"},
-          {"name": "label2", "type": "label", "content": "label 2 content"},
-          {"name": "input2", "type": "input", "value": "input 2 default text"}
+      config='{"title": "This is a form", "footer": "This is a footer"}'
+    >
+      <div>Above</div>
+
+      <pwc-dynamic-form-content
+        config='{
+        "fields": [
+          {"type": "text", "name": "text1", "label": "text1-label"},
+          {"type": "number", "name": "number1", "label": "number1-label"},
+          {"type": "checkbox", "name": "cb1", "label": "cb1-label"}
         ]
       }'
-      >Slot Content</pwc-dynamic-form
-    >
+      >
+      </pwc-dynamic-form-content>
+
+      <div>Below</div>
+    </pwc-dynamic-form>
   </body>
 </html>

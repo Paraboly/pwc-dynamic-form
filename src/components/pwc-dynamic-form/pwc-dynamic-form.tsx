@@ -1,5 +1,6 @@
-import { Component, Prop, h, Watch } from "@stencil/core";
-import { FormJson } from "../../utils/FormJson";
+import { Component, h, Prop, Watch } from "@stencil/core";
+import { DynamicFormConfig } from "./DynamicFormConfig";
+import "@paraboly/pwc-ibox";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -7,64 +8,39 @@ import { FormJson } from "../../utils/FormJson";
   shadow: false
 })
 export class PwcDynamicFormComponent {
-  private formParsed: FormJson.Root;
+  private parsedConfig: DynamicFormConfig.Root;
 
-  @Prop() form: string;
+  @Prop() config: string;
 
-  @Watch("form")
-  onFormChanged(form: string) {
-    this.formParsed = JSON.parse(form);
-    this.form = form;
+  @Watch("config")
+  onConfigChanged(config: string) {
+    this.parsedConfig = JSON.parse(config);
+    this.config = config;
   }
 
   componentWillLoad() {
-    this.onFormChanged(this.form);
-  }
-
-  private constructFormElement(elem: FormJson.Element) {
-    var attributes: { [k: string]: any } = { name: elem.name };
-
-    switch (elem.type) {
-      case "label":
-        let labelElem = elem as FormJson.LabelElement;
-
-        //@ts-ignore
-        return <span {...attributes}>{labelElem.content}</span>;
-
-      case "input":
-        let inputElem = elem as FormJson.InputElement;
-        attributes.value = inputElem.value;
-        attributes.placeholder = inputElem.placeholder;
-
-        //@ts-ignore
-        return <input {...attributes}></input>;
-    }
-
-    return (
-      <div>
-        Name: {elem.name}, Type: {elem.type}
-      </div>
-    );
+    this.onConfigChanged(this.config);
   }
 
   render() {
     return (
-      <div>
-        {/* FOR DEBUG BEGIN */}
-        <p>Raw Form Data: {this.form}</p>
-        <p>
-          Parsed Form Data:
-          <pre>{JSON.stringify(this.formParsed, null, 4)}</pre>
-        </p>
-        <slot />
-        <p>Constructed:</p>
-        {/* FOR DEBUG END */}
-        <form>
-          {this.formParsed.elements.map(elem =>
-            this.constructFormElement(elem)
-          )}
-        </form>
-      </div>
+      <pwc-ibox>
+        <pwc-ibox-title>
+          {this.parsedConfig.title}
+          <pwc-ibox-tools
+            minimize-button="true"
+            close-button="true"
+          ></pwc-ibox-tools>
+        </pwc-ibox-title>
+
+        <pwc-ibox-content>
+          <form>
+            <slot />
+          </form>
+        </pwc-ibox-content>
+
+        <pwc-ibox-footer>{this.parsedConfig.footer}</pwc-ibox-footer>
+      </pwc-ibox>
     );
   }
 }

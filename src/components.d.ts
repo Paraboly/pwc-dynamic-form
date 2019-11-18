@@ -11,7 +11,10 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface PwcDynamicForm {
-    'form': string;
+    'config': string;
+  }
+  interface PwcDynamicFormContent {
+    'config': string;
   }
 }
 
@@ -23,18 +26,29 @@ declare global {
     prototype: HTMLPwcDynamicFormElement;
     new (): HTMLPwcDynamicFormElement;
   };
+
+  interface HTMLPwcDynamicFormContentElement extends Components.PwcDynamicFormContent, HTMLStencilElement {}
+  var HTMLPwcDynamicFormContentElement: {
+    prototype: HTMLPwcDynamicFormContentElement;
+    new (): HTMLPwcDynamicFormContentElement;
+  };
   interface HTMLElementTagNameMap {
     'pwc-dynamic-form': HTMLPwcDynamicFormElement;
+    'pwc-dynamic-form-content': HTMLPwcDynamicFormContentElement;
   }
 }
 
 declare namespace LocalJSX {
   interface PwcDynamicForm {
-    'form'?: string;
+    'config'?: string;
+  }
+  interface PwcDynamicFormContent {
+    'config'?: string;
   }
 
   interface IntrinsicElements {
     'pwc-dynamic-form': PwcDynamicForm;
+    'pwc-dynamic-form-content': PwcDynamicFormContent;
   }
 }
 
@@ -45,6 +59,7 @@ declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
       'pwc-dynamic-form': LocalJSX.PwcDynamicForm & JSXBase.HTMLAttributes<HTMLPwcDynamicFormElement>;
+      'pwc-dynamic-form-content': LocalJSX.PwcDynamicFormContent & JSXBase.HTMLAttributes<HTMLPwcDynamicFormContentElement>;
     }
   }
 }
