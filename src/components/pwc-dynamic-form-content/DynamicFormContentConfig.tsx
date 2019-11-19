@@ -35,7 +35,9 @@ export declare module DynamicFormContentConfig {
   // Select
   //
 
-  export interface Select extends Field {}
+  export interface Select extends Field {
+    values: string[];
+  }
 
   export interface SingleSelect extends Select {}
 

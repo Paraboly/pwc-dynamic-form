@@ -1,6 +1,12 @@
 import { Component, h, Prop, Watch } from "@stencil/core";
 import { DynamicFormContentConfig } from "./DynamicFormContentConfig";
 
+import * as Chc from "choices.js";
+const Choices = Chc.default;
+window["Choices"] = Choices;
+
+import "choicesjs-stencil";
+
 @Component({
   tag: "pwc-dynamic-form-content",
   styleUrl: "pwc-dynamic-form-content.css",
@@ -65,6 +71,42 @@ export class PwcDynamicFormContentComponent {
             <label>
               <input type="checkbox" id={field.id} checked={checkbox.checked} />
               {field.label}
+            </label>
+          </div>
+        );
+
+      case "singleSelect":
+        const singleSelect = field as DynamicFormContentConfig.SingleSelect;
+
+        return (
+          <div class="form-group">
+            <label>
+              {field.label}
+              <choicesjs-stencil
+                type="single"
+                id={field.id}
+                name={field.id}
+                choices={singleSelect.values}
+                shouldSort={false}
+              ></choicesjs-stencil>
+            </label>
+          </div>
+        );
+
+      case "multiSelect":
+        const multiSelect = field as DynamicFormContentConfig.MultiSelect;
+
+        return (
+          <div class="form-group">
+            <label>
+              {field.label}
+              <choicesjs-stencil
+                type="multiple"
+                id={field.id}
+                name={field.id}
+                choices={multiSelect.values}
+                shouldSort={false}
+              ></choicesjs-stencil>
             </label>
           </div>
         );

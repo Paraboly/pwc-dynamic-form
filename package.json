@@ -40,6 +40,9 @@
     "@stencil/core": "^1.3.3"
   },
   "dependencies": {
-    "@paraboly/pwc-ibox": "0.0.7"
+    "@paraboly/pwc-ibox": "0.0.7",
+    "@types/node": "^12.12.8",
+    "choices.js": "^7.0",
+    "choicesjs-stencil": "^1.4.0"
   }
 }
