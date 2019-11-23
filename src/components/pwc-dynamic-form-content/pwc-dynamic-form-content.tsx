@@ -1,16 +1,11 @@
 import { Component, h, Prop, Watch } from "@stencil/core";
 import { DynamicFormContentConfig } from "./DynamicFormContentConfig";
-
-import * as Chc from "choices.js";
-const Choices = Chc.default;
-window["Choices"] = Choices;
-
-import "choicesjs-stencil";
+import "@paraboly/pwc-choices";
 
 @Component({
   tag: "pwc-dynamic-form-content",
   styleUrl: "pwc-dynamic-form-content.css",
-  shadow: false
+  shadow: true
 })
 export class PwcDynamicFormContentComponent {
   private configParsed: DynamicFormContentConfig.Root;
@@ -82,13 +77,12 @@ export class PwcDynamicFormContentComponent {
           <div class="form-group">
             <label>
               {field.label}
-              <choicesjs-stencil
+              <pwc-choices
                 type="single"
                 id={field.id}
                 name={field.id}
-                choices={singleSelect.values}
-                shouldSort={false}
-              ></choicesjs-stencil>
+                choices={singleSelect.choices}
+              ></pwc-choices>
             </label>
           </div>
         );
@@ -100,13 +94,12 @@ export class PwcDynamicFormContentComponent {
           <div class="form-group">
             <label>
               {field.label}
-              <choicesjs-stencil
+              <pwc-choices
                 type="multiple"
                 id={field.id}
                 name={field.id}
-                choices={multiSelect.values}
-                shouldSort={false}
-              ></choicesjs-stencil>
+                choices={multiSelect.choices}
+              ></pwc-choices>
             </label>
           </div>
         );

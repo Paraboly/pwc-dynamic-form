@@ -13,21 +13,75 @@
       src="/build/stencil-starter-project-name.esm.js"
     ></script>
     <script nomodule src="/build/stencil-starter-project-name.js"></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <pwc-dynamic-form
-      config='{"title": "This is a form", "footer": "This is a footer"}'
+      config='{"title": "Dynamic form title text", "footer": "Dynamic form footer text"}'
     >
       <div>Above Dynamic Content</div>
 
       <pwc-dynamic-form-content
         config='{
         "fields": [
-          {"type": "text", "name": "text1", "label": "text1-label"},
-          {"type": "number", "name": "number1", "label": "number1-label"},
-          {"type": "checkbox", "name": "cb1", "label": "cb1-label"},
-          {"type": "singleSelect", "name": "ss1", "label": "ss1-label", "values": "foo, bar, baz"},
-          {"type": "multiSelect", "name": "ms1", "label": "ms1-label", "values": "foo, bar, baz"}
+          {
+            "type": "text", 
+            "name": "text1", 
+            "label": "text1-label"
+          },
+          {
+            "type": "number", 
+            "name": "number1", 
+            "label": "number1-label"
+          },
+          {
+            "type": "checkbox", 
+            "name": "cb1", 
+            "label": "cb1-label"
+          },
+          {
+            "type": "singleSelect", 
+            "name": "ss1", 
+            "label": "ss1-label", 
+            "choices": [
+              {
+                "value": "superstar",
+                "label": "Superstar",
+                "selected": false,
+                "disabled": false
+              },
+              {
+                "value": "foo",
+                "label": "bar",
+                "selected": false,
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "type": "multiSelect", 
+            "name": "ms1", 
+            "label": "ms1-label", 
+            "choices": [
+              {
+                "value": "superstar",
+                "label": "Superstar",
+                "selected": false,
+                "disabled": false
+              },
+              {
+                "value": "foo",
+                "label": "bar",
+                "selected": false,
+                "disabled": false
+              }
+            ]
+          }
         ]
       }'
       ></pwc-dynamic-form-content>
