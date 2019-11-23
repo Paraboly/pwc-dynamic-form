@@ -1,4 +1,4 @@
-import { Component, h, Prop, Watch } from "@stencil/core";
+import { Component, h, Prop, Watch, Element } from "@stencil/core";
 import { DynamicFormContentConfig } from "./DynamicFormContentConfig";
 import "@paraboly/pwc-choices";
 
@@ -9,6 +9,8 @@ import "@paraboly/pwc-choices";
 })
 export class PwcDynamicFormContentComponent {
   private configParsed: DynamicFormContentConfig.Root;
+
+  @Element() rootElement: HTMLElement;
 
   @Prop() config: string;
 
@@ -110,6 +112,8 @@ export class PwcDynamicFormContentComponent {
     return (
       <div>
         {this.configParsed.fields.map(field => this.constructField(field))}
+
+        <shadow-dom-test></shadow-dom-test>
       </div>
     );
   }

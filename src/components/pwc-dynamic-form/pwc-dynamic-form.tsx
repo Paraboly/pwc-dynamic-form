@@ -1,4 +1,4 @@
-import { Component, h, Prop, Watch } from "@stencil/core";
+import { Component, h, Prop, Watch, Element } from "@stencil/core";
 import { DynamicFormConfig } from "./DynamicFormConfig";
 import "@paraboly/pwc-ibox";
 
@@ -10,6 +10,8 @@ import "@paraboly/pwc-ibox";
 export class PwcDynamicFormComponent {
   private parsedConfig: DynamicFormConfig.Root;
 
+  @Element() rootElement: HTMLElement;
+
   @Prop() config: string;
 
   @Watch("config")
@@ -19,6 +21,18 @@ export class PwcDynamicFormComponent {
   }
 
   componentWillLoad() {
+    this.rootElement.addEventListener("click", e => {
+      if (e.target == this.rootElement) {
+        e.composedPath().forEach(p => {
+          let elm = p as HTMLElement;
+          if (elm && elm.classList && elm.classList.contains("choices__list")) {
+            console.log(elm);
+          }
+        });
+      }
+      return false;
+    });
+
     this.onConfigChanged(this.config);
   }
 
