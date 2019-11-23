@@ -88,5 +88,13 @@
 
       <div>Below Dynamic Content</div>
     </pwc-dynamic-form>
+
+    <script>
+      document
+        .querySelector("pwc-dynamic-form")
+        .addEventListener("click", function(e) {
+          console.log(e);
+        });
+    </script>
   </body>
 </html>
