@@ -5,7 +5,7 @@ import "@paraboly/pwc-choices";
 @Component({
   tag: "pwc-dynamic-form-content",
   styleUrl: "pwc-dynamic-form-content.css",
-  shadow: true
+  shadow: false
 })
 export class PwcDynamicFormContentComponent {
   private configParsed: DynamicFormContentConfig.Root;

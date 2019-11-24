@@ -5,7 +5,7 @@ import "@paraboly/pwc-ibox";
 @Component({
   tag: "pwc-dynamic-form",
   styleUrl: "pwc-dynamic-form.css",
-  shadow: true
+  shadow: false
 })
 export class PwcDynamicFormComponent {
   private parsedConfig: DynamicFormConfig.Root;
