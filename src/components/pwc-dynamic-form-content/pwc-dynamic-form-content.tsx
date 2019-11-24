@@ -36,6 +36,7 @@ export class PwcDynamicFormContentComponent {
                 id={field.id}
                 placeholder={text.placeholder}
                 value={text.value}
+                required={field.required}
               />
             </label>
           </div>
@@ -53,6 +54,7 @@ export class PwcDynamicFormContentComponent {
                 id={field.id}
                 placeholder={number.placeholder}
                 value={number.value}
+                required={field.required}
               />
             </label>
           </div>
@@ -64,7 +66,12 @@ export class PwcDynamicFormContentComponent {
         return (
           <div class="form-group">
             <label>
-              <input type="checkbox" id={field.id} checked={checkbox.checked} />
+              <input
+                type="checkbox"
+                id={field.id}
+                checked={checkbox.checked}
+                required={field.required}
+              />
               {field.label}
             </label>
           </div>

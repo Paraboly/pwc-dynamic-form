@@ -7,6 +7,7 @@ export declare module DynamicFormContentConfig {
     type: string;
     id: string;
     label: string;
+    required: boolean;
   }
 
   //

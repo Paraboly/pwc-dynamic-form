@@ -26,12 +26,14 @@
           {
             "type": "text", 
             "name": "text1", 
-            "label": "text1-label"
+            "label": "text1-label",
+            "required": true
           },
           {
             "type": "number", 
             "name": "number1", 
-            "label": "number1-label"
+            "label": "number1-label",
+            "required": true
           },
           {
             "type": "checkbox", 
@@ -79,6 +81,14 @@
         ]
       }'
       ></pwc-dynamic-form-content>
+
+      <pwc-dynamic-form-buttons
+        config='{"buttons": [
+        {"label": "submit"},
+        {"label": "cancel"},
+        {"label": "reset"}
+      ]}'
+      ></pwc-dynamic-form-buttons>
 
       <div>Below Dynamic Content</div>
     </pwc-dynamic-form>

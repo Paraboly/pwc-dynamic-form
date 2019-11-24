@@ -7,11 +7,16 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-
+import {
+  DynamicFormButtonsConfig,
+} from './components/pwc-dynamic-form-buttons/DynamicFormButtonsConfig';
 
 export namespace Components {
   interface PwcDynamicForm {
     'config': string;
+  }
+  interface PwcDynamicFormButtons {
+    'config': string | DynamicFormButtonsConfig.Root;
   }
   interface PwcDynamicFormContent {
     'config': string;
@@ -27,6 +32,12 @@ declare global {
     new (): HTMLPwcDynamicFormElement;
   };
 
+  interface HTMLPwcDynamicFormButtonsElement extends Components.PwcDynamicFormButtons, HTMLStencilElement {}
+  var HTMLPwcDynamicFormButtonsElement: {
+    prototype: HTMLPwcDynamicFormButtonsElement;
+    new (): HTMLPwcDynamicFormButtonsElement;
+  };
+
   interface HTMLPwcDynamicFormContentElement extends Components.PwcDynamicFormContent, HTMLStencilElement {}
   var HTMLPwcDynamicFormContentElement: {
     prototype: HTMLPwcDynamicFormContentElement;
@@ -34,6 +45,7 @@ declare global {
   };
   interface HTMLElementTagNameMap {
     'pwc-dynamic-form': HTMLPwcDynamicFormElement;
+    'pwc-dynamic-form-buttons': HTMLPwcDynamicFormButtonsElement;
     'pwc-dynamic-form-content': HTMLPwcDynamicFormContentElement;
   }
 }
@@ -42,12 +54,16 @@ declare namespace LocalJSX {
   interface PwcDynamicForm {
     'config'?: string;
   }
+  interface PwcDynamicFormButtons {
+    'config'?: string | DynamicFormButtonsConfig.Root;
+  }
   interface PwcDynamicFormContent {
     'config'?: string;
   }
 
   interface IntrinsicElements {
     'pwc-dynamic-form': PwcDynamicForm;
+    'pwc-dynamic-form-buttons': PwcDynamicFormButtons;
     'pwc-dynamic-form-content': PwcDynamicFormContent;
   }
 }
@@ -59,6 +75,7 @@ declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
       'pwc-dynamic-form': LocalJSX.PwcDynamicForm & JSXBase.HTMLAttributes<HTMLPwcDynamicFormElement>;
+      'pwc-dynamic-form-buttons': LocalJSX.PwcDynamicFormButtons & JSXBase.HTMLAttributes<HTMLPwcDynamicFormButtonsElement>;
       'pwc-dynamic-form-content': LocalJSX.PwcDynamicFormContent & JSXBase.HTMLAttributes<HTMLPwcDynamicFormContentElement>;
     }
   }
