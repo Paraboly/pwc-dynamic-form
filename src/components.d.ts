@@ -16,6 +16,7 @@ export namespace Components {
   interface PwcDynamicFormContent {
     'config': string;
   }
+  interface ShadowDomTest {}
 }
 
 declare global {
@@ -32,9 +33,16 @@ declare global {
     prototype: HTMLPwcDynamicFormContentElement;
     new (): HTMLPwcDynamicFormContentElement;
   };
+
+  interface HTMLShadowDomTestElement extends Components.ShadowDomTest, HTMLStencilElement {}
+  var HTMLShadowDomTestElement: {
+    prototype: HTMLShadowDomTestElement;
+    new (): HTMLShadowDomTestElement;
+  };
   interface HTMLElementTagNameMap {
     'pwc-dynamic-form': HTMLPwcDynamicFormElement;
     'pwc-dynamic-form-content': HTMLPwcDynamicFormContentElement;
+    'shadow-dom-test': HTMLShadowDomTestElement;
   }
 }
 
@@ -45,10 +53,12 @@ declare namespace LocalJSX {
   interface PwcDynamicFormContent {
     'config'?: string;
   }
+  interface ShadowDomTest {}
 
   interface IntrinsicElements {
     'pwc-dynamic-form': PwcDynamicForm;
     'pwc-dynamic-form-content': PwcDynamicFormContent;
+    'shadow-dom-test': ShadowDomTest;
   }
 }
 
@@ -60,6 +70,7 @@ declare module "@stencil/core" {
     interface IntrinsicElements {
       'pwc-dynamic-form': LocalJSX.PwcDynamicForm & JSXBase.HTMLAttributes<HTMLPwcDynamicFormElement>;
       'pwc-dynamic-form-content': LocalJSX.PwcDynamicFormContent & JSXBase.HTMLAttributes<HTMLPwcDynamicFormContentElement>;
+      'shadow-dom-test': LocalJSX.ShadowDomTest & JSXBase.HTMLAttributes<HTMLShadowDomTestElement>;
     }
   }
 }
