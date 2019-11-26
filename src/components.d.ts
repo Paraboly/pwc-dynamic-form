@@ -8,18 +8,24 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
+  DynamicFormConfig,
+} from './components/pwc-dynamic-form/DynamicFormConfig';
+import {
   DynamicFormButtonsConfig,
 } from './components/pwc-dynamic-form-buttons/DynamicFormButtonsConfig';
+import {
+  DynamicFormContentConfig,
+} from './components/pwc-dynamic-form-content/DynamicFormContentConfig';
 
 export namespace Components {
   interface PwcDynamicForm {
-    'config': string;
+    'config': string | DynamicFormConfig.Root;
   }
   interface PwcDynamicFormButtons {
     'config': string | DynamicFormButtonsConfig.Root;
   }
   interface PwcDynamicFormContent {
-    'config': string;
+    'config': string | DynamicFormContentConfig.Root;
   }
 }
 
@@ -52,13 +58,13 @@ declare global {
 
 declare namespace LocalJSX {
   interface PwcDynamicForm {
-    'config'?: string;
+    'config'?: string | DynamicFormConfig.Root;
   }
   interface PwcDynamicFormButtons {
     'config'?: string | DynamicFormButtonsConfig.Root;
   }
   interface PwcDynamicFormContent {
-    'config'?: string;
+    'config'?: string | DynamicFormContentConfig.Root;
   }
 
   interface IntrinsicElements {

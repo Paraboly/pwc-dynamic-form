@@ -7,18 +7,13 @@ import { DynamicFormButtonsConfig } from "./DynamicFormButtonsConfig";
   shadow: false
 })
 export class PwcDynamicFormButtonsComponent {
-  parsedConfig: any;
-
-  private parseConfig(config: string | DynamicFormButtonsConfig.Root): void {
-    this.parsedConfig =
-      (config && typeof config === "string" && JSON.parse(config)) || config;
-  }
+  private resolvedConfig: DynamicFormButtonsConfig.Root;
 
   @Prop() config: string | DynamicFormButtonsConfig.Root;
 
   @Watch("config")
-  onConfigChanged(newValue: string | DynamicFormButtonsConfig.Root) {
-    this.parseConfig(newValue);
+  onConfigChanged(config: string | DynamicFormButtonsConfig.Root) {
+    this.resolvedConfig = resolveJson(config);
   }
 
   componentWillLoad() {
@@ -32,7 +27,7 @@ export class PwcDynamicFormButtonsComponent {
   render() {
     return (
       <div>
-        {this.parsedConfig.buttons.map(
+        {this.resolvedConfig.buttons.map(
           (button: DynamicFormButtonsConfig.Button) =>
             this.constructButton(button)
         )}

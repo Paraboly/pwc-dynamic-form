@@ -8,14 +8,13 @@ import "@paraboly/pwc-ibox";
   shadow: false
 })
 export class PwcDynamicFormComponent {
-  private parsedConfig: DynamicFormConfig.Root;
+  private resolvedConfig: DynamicFormConfig.Root;
 
-  @Prop() config: string;
+  @Prop() config: string | DynamicFormConfig.Root;
 
   @Watch("config")
-  onConfigChanged(config: string) {
-    this.parsedConfig = JSON.parse(config);
-    this.config = config;
+  onConfigChanged(config: string | DynamicFormConfig.Root) {
+    this.resolvedConfig = resolveJson(config);
   }
 
   componentWillLoad() {
@@ -26,7 +25,7 @@ export class PwcDynamicFormComponent {
     return (
       <pwc-ibox>
         <pwc-ibox-title>
-          {this.parsedConfig.title}
+          {this.resolvedConfig.title}
           <pwc-ibox-tools
             minimize-button="true"
             close-button="true"
@@ -39,7 +38,7 @@ export class PwcDynamicFormComponent {
           </form>
         </pwc-ibox-content>
 
-        <pwc-ibox-footer>{this.parsedConfig.footer}</pwc-ibox-footer>
+        <pwc-ibox-footer>{this.resolvedConfig.footer}</pwc-ibox-footer>
       </pwc-ibox>
     );
   }

@@ -8,14 +8,13 @@ import "@paraboly/pwc-choices";
   shadow: false
 })
 export class PwcDynamicFormContentComponent {
-  private configParsed: DynamicFormContentConfig.Root;
+  private resolvedConfig: DynamicFormContentConfig.Root;
 
-  @Prop() config: string;
+  @Prop() config: string | DynamicFormContentConfig.Root;
 
   @Watch("config")
-  onConfigChanged(form: string) {
-    this.configParsed = JSON.parse(form);
-    this.config = form;
+  onConfigChanged(config: string | DynamicFormContentConfig.Root) {
+    this.resolvedConfig = resolveJson(config);
   }
 
   componentWillLoad() {
@@ -116,7 +115,7 @@ export class PwcDynamicFormContentComponent {
   render() {
     return (
       <div>
-        {this.configParsed.fields.map(field => this.constructField(field))}
+        {this.resolvedConfig.fields.map(field => this.constructField(field))}
       </div>
     );
   }
