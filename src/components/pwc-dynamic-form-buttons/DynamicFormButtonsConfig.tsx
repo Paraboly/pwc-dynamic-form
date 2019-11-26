@@ -1,10 +1,7 @@
+import { JSXBase } from "@stencil/core/dist/declarations";
+
 export declare module DynamicFormButtonsConfig {
   export interface Root {
-    buttons: Button[];
-  }
-
-  export interface Button {
-    action: "submit" | "reset";
-    label: string;
+    buttons: JSXBase.InputHTMLAttributes<HTMLInputElement>[];
   }
 }

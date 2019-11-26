@@ -17,14 +17,9 @@ export class PwcDynamicFormComponent {
     this.resolvedConfig = resolveJson(config);
   }
 
-  @Listen("submitButtonClicked")
-  handleSubmitButtonClicked(event: any) {
+  @Listen("submit")
+  handleSubmit(event: any) {
     console.log("handleSubmitButtonClicked", event);
-  }
-
-  @Listen("resetButtonClicked")
-  handleResetButtonClicked(event: any) {
-    console.log("handleResetButtonClicked", event);
   }
 
   componentWillLoad() {
