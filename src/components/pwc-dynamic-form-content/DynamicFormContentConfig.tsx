@@ -1,46 +1,18 @@
+import { JSXBase } from "@stencil/core/dist/declarations";
+
 export declare module DynamicFormContentConfig {
   export interface Root {
-    fields: Field[];
+    fields: (NativeField | PwcSelectField)[];
   }
 
-  export interface Field {
-    type: string;
-    id: string;
+  export interface NativeField
+    extends JSXBase.InputHTMLAttributes<HTMLInputElement> {
     label: string;
-    required: boolean;
   }
 
-  //
-  // Input
-  //
-
-  export interface Input extends Field {
-    inputType: string;
+  export interface PwcSelectField
+    extends JSXBase.InputHTMLAttributes<HTMLPwcChoicesElement> {
+    type: "select-single" | "select-multiple" | "select-text";
+    label: string;
   }
-
-  export interface Text extends Input {
-    placeholder: string;
-    value: string;
-  }
-
-  export interface Number extends Input {
-    placeholder: string;
-    value: string;
-  }
-
-  export interface Checkbox extends Input {
-    checked: boolean;
-  }
-
-  //
-  // Select
-  //
-
-  export interface Select extends Field {
-    choices: string[];
-  }
-
-  export interface SingleSelect extends Select {}
-
-  export interface MultiSelect extends Select {}
 }

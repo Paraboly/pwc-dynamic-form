@@ -22,94 +22,65 @@ export class PwcDynamicFormContentComponent {
     this.onConfigChanged(this.config);
   }
 
-  private constructField(field: DynamicFormContentConfig.Field) {
+  private constructField(
+    field:
+      | DynamicFormContentConfig.NativeField
+      | DynamicFormContentConfig.PwcSelectField
+  ) {
+    let __field;
+
     switch (field.type) {
-      case "text":
-        const text = field as DynamicFormContentConfig.Text;
+      // Special handle reason: using pwc-choices.
+      case "select-single":
+        __field = field as DynamicFormContentConfig.PwcSelectField;
+        __field.type = "single";
+        return constructSelect(__field);
 
-        return (
-          <div class="form-group">
-            <label>
-              {field.label}
-              <input
-                type="text"
-                id={field.id}
-                placeholder={text.placeholder}
-                value={text.value}
-                required={field.required}
-              />
-            </label>
-          </div>
-        );
+      // Special handle reason: using pwc-choices.
+      case "select-multiple":
+        __field = field as DynamicFormContentConfig.PwcSelectField;
+        __field.type = "multiple";
+        return constructSelect(__field);
 
-      case "number":
-        const number = field as DynamicFormContentConfig.Number;
+      // Special handle reason: using pwc-choices.
+      case "select-text":
+        __field = field as DynamicFormContentConfig.PwcSelectField;
+        __field.type = "text";
+        return constructSelect(__field);
 
-        return (
-          <div class="form-group">
-            <label>
-              {field.label}
-              <input
-                type="number"
-                id={field.id}
-                placeholder={number.placeholder}
-                value={number.value}
-                required={field.required}
-              />
-            </label>
-          </div>
-        );
-
+      // Special handle reason: label needs to be placed after the input element.
       case "checkbox":
-        const checkbox = field as DynamicFormContentConfig.Checkbox;
-
+        __field = field as DynamicFormContentConfig.NativeField;
         return (
           <div class="form-group">
             <label>
-              <input
-                type="checkbox"
-                id={field.id}
-                checked={checkbox.checked}
-                required={field.required}
-              />
-              {field.label}
+              <input {...__field}></input>
+              {__field.label}
             </label>
           </div>
         );
 
-      case "singleSelect":
-        const singleSelect = field as DynamicFormContentConfig.SingleSelect;
-
+      default:
+        __field = field as DynamicFormContentConfig.NativeField;
         return (
           <div class="form-group">
             <label>
-              {field.label}
-              <pwc-choices
-                type="single"
-                id={field.id}
-                name={field.id}
-                choices={singleSelect.choices}
-              ></pwc-choices>
+              {__field.label}
+              <input {...__field}></input>
             </label>
           </div>
         );
+    }
 
-      case "multiSelect":
-        const multiSelect = field as DynamicFormContentConfig.MultiSelect;
-
-        return (
-          <div class="form-group">
-            <label>
-              {field.label}
-              <pwc-choices
-                type="multiple"
-                id={field.id}
-                name={field.id}
-                choices={multiSelect.choices}
-              ></pwc-choices>
-            </label>
-          </div>
-        );
+    function constructSelect(field) {
+      return (
+        <div class="form-group">
+          <label>
+            {field.label}
+            <pwc-choices {...field}></pwc-choices>
+          </label>
+        </div>
+      );
     }
   }
 
