@@ -1,6 +1,7 @@
 import { Component, h, Prop, Watch } from "@stencil/core";
 import { DynamicFormContentConfig } from "./DynamicFormContentConfig";
 import "@paraboly/pwc-choices";
+import { resolveJson } from "../../utils/utils";
 
 @Component({
   tag: "pwc-dynamic-form-content",

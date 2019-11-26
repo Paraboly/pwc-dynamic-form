@@ -62,6 +62,8 @@ declare namespace LocalJSX {
   }
   interface PwcDynamicFormButtons {
     'config'?: string | DynamicFormButtonsConfig.Root;
+    'onResetButtonClicked'?: (event: CustomEvent<any>) => void;
+    'onSubmitButtonClicked'?: (event: CustomEvent<any>) => void;
   }
   interface PwcDynamicFormContent {
     'config'?: string | DynamicFormContentConfig.Root;

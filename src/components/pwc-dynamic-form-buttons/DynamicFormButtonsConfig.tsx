@@ -4,6 +4,7 @@ export declare module DynamicFormButtonsConfig {
   }
 
   export interface Button {
-    label: "submit" | "cancel" | "reset";
+    action: "submit" | "reset";
+    label: string;
   }
 }

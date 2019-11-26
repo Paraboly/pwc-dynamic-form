@@ -1,6 +1,7 @@
-import { Component, h, Prop, Watch } from "@stencil/core";
+import { Component, h, Prop, Watch, Listen } from "@stencil/core";
 import { DynamicFormConfig } from "./DynamicFormConfig";
 import "@paraboly/pwc-ibox";
+import { resolveJson } from "../../utils/utils";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -15,6 +16,16 @@ export class PwcDynamicFormComponent {
   @Watch("config")
   onConfigChanged(config: string | DynamicFormConfig.Root) {
     this.resolvedConfig = resolveJson(config);
+  }
+
+  @Listen("submitButtonClicked")
+  handleSubmitButtonClicked(event: any) {
+    console.log("handleSubmitButtonClicked", event);
+  }
+
+  @Listen("resetButtonClicked")
+  handleResetButtonClicked(event: any) {
+    console.log("handleResetButtonClicked", event);
   }
 
   componentWillLoad() {

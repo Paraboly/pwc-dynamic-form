@@ -1,5 +1,14 @@
-import { Component, h, Prop, Watch } from "@stencil/core";
+import {
+  Component,
+  h,
+  Prop,
+  Watch,
+  Event,
+  EventEmitter,
+  Listen
+} from "@stencil/core";
 import { DynamicFormButtonsConfig } from "./DynamicFormButtonsConfig";
+import { resolveJson } from "../../utils/utils";
 
 @Component({
   tag: "pwc-dynamic-form-buttons",
@@ -16,12 +25,40 @@ export class PwcDynamicFormButtonsComponent {
     this.resolvedConfig = resolveJson(config);
   }
 
+  @Event() submitButtonClicked: EventEmitter;
+  @Event() resetButtonClicked: EventEmitter;
+
   componentWillLoad() {
     this.onConfigChanged(this.config);
   }
 
+  private handleGeneratedButtonClick(
+    button: DynamicFormButtonsConfig.Button,
+    event: MouseEvent
+  ) {
+    switch (button.action) {
+      case "submit":
+        event.stopPropagation();
+        event.preventDefault();
+        this.submitButtonClicked.emit();
+        break;
+      case "reset":
+        event.stopPropagation();
+        event.preventDefault();
+        this.resetButtonClicked.emit();
+        break;
+    }
+  }
+
   private constructButton(button: DynamicFormButtonsConfig.Button) {
-    return <button>{button.label}</button>;
+    return (
+      <button
+        formAction={button.action}
+        onClick={e => this.handleGeneratedButtonClick(button, e)}
+      >
+        {button.label || button.action}
+      </button>
+    );
   }
 
   render() {
