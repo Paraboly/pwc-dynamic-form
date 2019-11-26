@@ -1,4 +1,4 @@
-import { Component, h, Prop, Watch } from "@stencil/core";
+import { Component, h, Prop, Watch, Listen } from "@stencil/core";
 import { DynamicFormConfig } from "./DynamicFormConfig";
 import { resolveJson } from "../../utils/utils";
 
@@ -15,6 +15,16 @@ export class PwcDynamicFormComponent {
   @Watch("config")
   onConfigChanged(config: string | DynamicFormConfig.Root) {
     this.resolvedConfig = resolveJson(config);
+  }
+
+  @Listen("submitButtonClicked")
+  handleSubmitButtonClicked(event: any) {
+    console.log("handleSubmitButtonClicked", event);
+  }
+
+  @Listen("resetButtonClicked")
+  handleResetButtonClicked(event: any) {
+    console.log("handleResetButtonClicked", event);
   }
 
   componentWillLoad() {
