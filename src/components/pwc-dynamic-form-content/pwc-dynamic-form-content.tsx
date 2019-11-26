@@ -1,4 +1,4 @@
-import { Component, h, Prop, Watch } from "@stencil/core";
+import { Component, h, Prop, Watch, Listen } from "@stencil/core";
 import { DynamicFormContentConfig } from "./DynamicFormContentConfig";
 import "@paraboly/pwc-choices";
 import { resolveJson } from "../../utils/utils";
@@ -16,6 +16,16 @@ export class PwcDynamicFormContentComponent {
   @Watch("config")
   onConfigChanged(config: string | DynamicFormContentConfig.Root) {
     this.resolvedConfig = resolveJson(config);
+  }
+
+  @Listen("submitButtonClicked", { target: "parent" })
+  handleSubmitButtonClicked(event: any) {
+    console.log("handleSubmitButtonClicked", event);
+  }
+
+  @Listen("resetButtonClicked", { target: "parent" })
+  handleResetButtonClicked(event: any) {
+    console.log("handleResetButtonClicked", event);
   }
 
   componentWillLoad() {
