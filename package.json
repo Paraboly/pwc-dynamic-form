@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@paraboly/pwc-choices": "^0.1.0",
-    "@paraboly/pwc-ibox": "0.0.7",
     "@types/node": "^12.12.8"
   }
 }

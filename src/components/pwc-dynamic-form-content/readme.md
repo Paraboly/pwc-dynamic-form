@@ -7,21 +7,21 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type     | Default     |
-| -------- | --------- | ----------- | -------- | ----------- |
-| `config` | `config`  |             | `string` | `undefined` |
+| Property | Attribute | Description | Type             | Default     |
+| -------- | --------- | ----------- | ---------------- | ----------- |
+| `config` | `config`  |             | `Root \| string` | `undefined` |
 
 
 ## Dependencies
 
 ### Depends on
 
-- choicesjs-stencil
+- pwc-choices
 
 ### Graph
 ```mermaid
 graph TD;
-  pwc-dynamic-form-content --> choicesjs-stencil
+  pwc-dynamic-form-content --> pwc-choices
   style pwc-dynamic-form-content fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

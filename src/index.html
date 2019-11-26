@@ -15,11 +15,7 @@
     <script nomodule src="/build/stencil-starter-project-name.js"></script>
   </head>
   <body>
-    <pwc-dynamic-form
-      config='{"title": "Dynamic form title text", "footer": "Dynamic form footer text"}'
-    >
-      <div>Above Dynamic Content</div>
-
+    <pwc-dynamic-form config="{}">
       <pwc-dynamic-form-content
         config='{
         "fields": [
@@ -81,15 +77,12 @@
         ]
       }'
       ></pwc-dynamic-form-content>
-
       <pwc-dynamic-form-buttons
         config='{"buttons": [
-        {"action": "submit", "label": "CUSTOM SUBMIT LABEL"},
-        {"action": "reset"}
-      ]}'
+            {"action": "submit", "label": "CUSTOM SUBMIT LABEL"},
+            {"action": "reset"}
+          ]}'
       ></pwc-dynamic-form-buttons>
-
-      <div>Below Dynamic Content</div>
     </pwc-dynamic-form>
   </body>
 </html>

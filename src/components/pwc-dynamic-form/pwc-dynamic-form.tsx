@@ -1,6 +1,5 @@
 import { Component, h, Prop, Watch, Listen } from "@stencil/core";
 import { DynamicFormConfig } from "./DynamicFormConfig";
-import "@paraboly/pwc-ibox";
 import { resolveJson } from "../../utils/utils";
 
 @Component({
@@ -30,27 +29,14 @@ export class PwcDynamicFormComponent {
 
   componentWillLoad() {
     this.onConfigChanged(this.config);
+    console.log(this.resolvedConfig);
   }
 
   render() {
     return (
-      <pwc-ibox>
-        <pwc-ibox-title>
-          {this.resolvedConfig.title}
-          <pwc-ibox-tools
-            minimize-button="true"
-            close-button="true"
-          ></pwc-ibox-tools>
-        </pwc-ibox-title>
-
-        <pwc-ibox-content>
-          <form>
-            <slot />
-          </form>
-        </pwc-ibox-content>
-
-        <pwc-ibox-footer>{this.resolvedConfig.footer}</pwc-ibox-footer>
-      </pwc-ibox>
+      <form>
+        <slot />
+      </form>
     );
   }
 }
