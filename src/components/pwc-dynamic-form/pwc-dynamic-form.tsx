@@ -5,11 +5,14 @@ import {
   Watch,
   Listen,
   Method,
-  Element
+  Element,
+  Event,
+  EventEmitter
 } from "@stencil/core";
 import { DynamicFormConfig } from "./DynamicFormConfig";
-import { resolveJson } from "../../utils/utils";
-import Enumerable from "linq";
+import { resolveJson, getVanillaHtmlInputs } from "../../utils/utils";
+import { FormChangedEvent } from "./DynamicFormEvents";
+import { FieldChangedEvent } from "../pwc-dynamic-form-content/DynamicFormContentEvents";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -33,6 +36,21 @@ export class PwcDynamicFormComponent {
     console.log("handleSubmitButtonClicked", event);
   }
 
+  @Event() formChanged: EventEmitter<FormChangedEvent>;
+
+  @Listen("fieldChanged")
+  handleFieldChanged(fieldChangedEvent: FieldChangedEvent) {
+    const rootElement = this.rootElement;
+    this.getFieldValues().then(v => {
+      const formChangedEvent = new FormChangedEvent(
+        fieldChangedEvent,
+        v,
+        rootElement
+      );
+      this.formChanged.emit(formChangedEvent);
+    });
+  }
+
   @Method()
   async getFieldValues(
     returnOnlyValuesForPwcSelects: boolean = false
@@ -41,11 +59,7 @@ export class PwcDynamicFormComponent {
     let resultObj: { [key: string]: string | string[] } = {};
 
     // vanilla html inputs
-    const allInputs = form.querySelectorAll("input");
-    const vanillaInputs = Enumerable.from(allInputs).where(
-      a =>
-        false === Enumerable.from(a.classList).any(c => c.includes("choices__"))
-    );
+    const vanillaInputs = getVanillaHtmlInputs(this.rootElement);
 
     vanillaInputs.forEach(vf => {
       console.log(vf);

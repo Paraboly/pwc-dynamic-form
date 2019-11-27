@@ -106,6 +106,10 @@
               console.log(fieldValues);
             });
         });
+
+      document
+        .querySelector("#example-form")
+        .addEventListener("formChanged", e => console.log(e));
     </script>
   </body>
 </html>

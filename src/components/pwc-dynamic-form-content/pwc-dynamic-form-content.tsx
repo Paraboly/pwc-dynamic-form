@@ -1,7 +1,16 @@
-import { Component, h, Prop, Watch } from "@stencil/core";
+import {
+  Component,
+  h,
+  Prop,
+  Watch,
+  Event,
+  EventEmitter,
+  Element
+} from "@stencil/core";
 import { DynamicFormContentConfig } from "./DynamicFormContentConfig";
+import { FieldChangedEvent } from "./DynamicFormContentEvents";
 import "@paraboly/pwc-choices";
-import { resolveJson } from "../../utils/utils";
+import { resolveJson, getVanillaHtmlInputs } from "../../utils/utils";
 
 @Component({
   tag: "pwc-dynamic-form-content",
@@ -11,6 +20,8 @@ import { resolveJson } from "../../utils/utils";
 export class PwcDynamicFormContentComponent {
   private resolvedConfig: DynamicFormContentConfig.Root;
 
+  @Element() rootElement: HTMLPwcDynamicFormContentElement;
+
   @Prop() config: string | DynamicFormContentConfig.Root;
 
   @Watch("config")
@@ -18,8 +29,14 @@ export class PwcDynamicFormContentComponent {
     this.resolvedConfig = resolveJson(config);
   }
 
+  @Event() fieldChanged: EventEmitter<FieldChangedEvent>;
+
   componentWillLoad() {
     this.onConfigChanged(this.config);
+  }
+
+  private handleFieldChange(event: FieldChangedEvent) {
+    this.fieldChanged.emit(event);
   }
 
   private constructField(
@@ -86,11 +103,45 @@ export class PwcDynamicFormContentComponent {
     }
   }
 
+  componentDidLoad() {
+    this.init();
+  }
+
+  componentDidUpdate() {
+    this.init();
+  }
+
   render() {
     return (
       <div>
         {this.resolvedConfig.fields.map(field => this.constructField(field))}
       </div>
     );
+  }
+
+  private init() {
+    const pwcChoicesElements = this.rootElement.querySelectorAll("pwc-choices");
+    pwcChoicesElements.forEach(pce => {
+      pce.addEventListener("change", originalEvent => {
+        pce.getValue().then(value => {
+          const fieldChangedevent = new FieldChangedEvent(
+            pce,
+            value,
+            originalEvent
+          );
+          this.handleFieldChange(fieldChangedevent);
+        });
+      });
+    });
+
+    // vanilla html inputs
+    const vanillaInputs = getVanillaHtmlInputs(this.rootElement);
+
+    vanillaInputs.forEach(vf => {
+      vf.addEventListener("change", e => {
+        const fieldChangedEvent = new FieldChangedEvent(vf, vf.value, e);
+        this.handleFieldChange(fieldChangedEvent);
+      });
+    });
   }
 }
