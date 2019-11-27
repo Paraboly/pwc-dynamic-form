@@ -1,4 +1,5 @@
 import { JSXBase } from "@stencil/core/dist/declarations";
+import "@paraboly/pwc-choices";
 
 export declare module DynamicFormContentConfig {
   export interface Root {

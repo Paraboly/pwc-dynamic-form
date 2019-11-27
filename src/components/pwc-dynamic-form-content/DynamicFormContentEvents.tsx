@@ -1,3 +1,5 @@
+import "@paraboly/pwc-choices";
+
 export class FieldChangedEvent {
   constructor(
     element: HTMLInputElement | HTMLPwcChoicesElement,
