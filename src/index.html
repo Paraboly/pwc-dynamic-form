@@ -71,7 +71,7 @@
                 "label": "Superstar",
                 "selected": false,
                 "disabled": false
-              },
+              }, 
               {
                 "value": "foo",
                 "label": "bar",
@@ -91,17 +91,18 @@
       ></pwc-dynamic-form-buttons>
     </pwc-dynamic-form>
 
-    <button id="get-values-button"></button>
+    <button id="get-values-button">Log Values</button>
 
-    <script async="true">
+    <script>
       document
         .querySelector("#get-values-button")
-        .addEventListener("click", async function(e) {
-          const fieldValues = document
+        .addEventListener("click", e => {
+          document
             .querySelector("#example-form")
-            .getFieldValues();
-          await fieldValues;
-          console.log(fieldValues);
+            .getFieldValues(true)
+            .then(fieldValues => {
+              console.log(fieldValues);
+            });
         });
     </script>
   </body>

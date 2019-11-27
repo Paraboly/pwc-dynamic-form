@@ -34,11 +34,13 @@ export class PwcDynamicFormComponent {
   }
 
   @Method()
-  async getFieldValues(): Promise<{ [key: string]: string }> {
+  async getFieldValues(
+    returnOnlyValuesForPwcSelects: boolean = false
+  ): Promise<{ [key: string]: string | string[] }> {
     const form: HTMLFormElement = this.rootElement.querySelector("form");
-    let resultObj: { [key: string]: string } = {};
+    let resultObj: { [key: string]: string | string[] } = {};
 
-    // Process vanilla html inputs
+    // vanilla html inputs
     const allInputs = form.querySelectorAll("input");
     const vanillaInputs = Enumerable.from(allInputs).where(
       a =>
@@ -50,8 +52,17 @@ export class PwcDynamicFormComponent {
       resultObj[vf.name] = vf.value;
     });
 
-    // Process pwc-choices inputs
-    // @todo
+    // pwc-choices
+    const pwcChoicesInputs = form.querySelectorAll("pwc-choices");
+
+    for (const key in pwcChoicesInputs) {
+      if (pwcChoicesInputs.hasOwnProperty(key)) {
+        const ci = pwcChoicesInputs[key];
+        console.log(ci);
+        const value = await ci.getValue(returnOnlyValuesForPwcSelects);
+        resultObj[ci.name] = value;
+      }
+    }
 
     return resultObj;
   }
