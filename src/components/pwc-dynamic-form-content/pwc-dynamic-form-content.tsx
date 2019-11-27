@@ -27,46 +27,48 @@ export class PwcDynamicFormContentComponent {
       | DynamicFormContentConfig.NativeField
       | DynamicFormContentConfig.PwcSelectField
   ) {
-    let __field;
+    let castedField;
+    let label = field.label;
+    delete field.label;
 
     switch (field.type) {
       // Special handle reason: using pwc-choices.
       case "select-single":
-        __field = field as DynamicFormContentConfig.PwcSelectField;
-        __field.type = "single";
-        return constructSelect(__field);
+        castedField = field as DynamicFormContentConfig.PwcSelectField;
+        castedField.type = "single";
+        return constructSelect(castedField);
 
       // Special handle reason: using pwc-choices.
       case "select-multiple":
-        __field = field as DynamicFormContentConfig.PwcSelectField;
-        __field.type = "multiple";
-        return constructSelect(__field);
+        castedField = field as DynamicFormContentConfig.PwcSelectField;
+        castedField.type = "multiple";
+        return constructSelect(castedField);
 
       // Special handle reason: using pwc-choices.
       case "select-text":
-        __field = field as DynamicFormContentConfig.PwcSelectField;
-        __field.type = "text";
-        return constructSelect(__field);
+        castedField = field as DynamicFormContentConfig.PwcSelectField;
+        castedField.type = "text";
+        return constructSelect(castedField);
 
       // Special handle reason: label needs to be placed after the input element.
       case "checkbox":
-        __field = field as DynamicFormContentConfig.NativeField;
+        castedField = field as DynamicFormContentConfig.NativeField;
         return (
           <div class="form-group">
             <label>
-              <input {...__field}></input>
-              {__field.label}
+              <input {...castedField}></input>
+              {label}
             </label>
           </div>
         );
 
       default:
-        __field = field as DynamicFormContentConfig.NativeField;
+        castedField = field as DynamicFormContentConfig.NativeField;
         return (
           <div class="form-group">
             <label>
-              {__field.label}
-              <input {...__field}></input>
+              {label}
+              <input {...castedField}></input>
             </label>
           </div>
         );
@@ -76,7 +78,7 @@ export class PwcDynamicFormContentComponent {
       return (
         <div class="form-group">
           <label>
-            {field.label}
+            {label}
             <pwc-choices {...field}></pwc-choices>
           </label>
         </div>
