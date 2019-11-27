@@ -12,6 +12,13 @@
 | `config` | `config`  |             | `Root \| string` | `undefined` |
 
 
+## Events
+
+| Event          | Description | Type                             |
+| -------------- | ----------- | -------------------------------- |
+| `fieldChanged` |             | `CustomEvent<FieldChangedEvent>` |
+
+
 ## Dependencies
 
 ### Depends on

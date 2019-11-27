@@ -12,6 +12,13 @@
 | `config` | `config`  |             | `Root \| string` | `undefined` |
 
 
+## Events
+
+| Event         | Description | Type                            |
+| ------------- | ----------- | ------------------------------- |
+| `formChanged` |             | `CustomEvent<FormChangedEvent>` |
+
+
 ## Methods
 
 ### `getFieldValues(returnOnlyValuesForPwcSelects?: boolean) => Promise<{ [key: string]: string | string[]; }>`

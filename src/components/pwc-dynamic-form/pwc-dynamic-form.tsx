@@ -20,6 +20,7 @@ import { FieldChangedEvent } from "../pwc-dynamic-form-content/DynamicFormConten
   shadow: false
 })
 export class PwcDynamicFormComponent {
+  //@ts-ignore
   private resolvedConfig: DynamicFormConfig.Root;
 
   @Element() rootElement: HTMLPwcDynamicFormElement;
