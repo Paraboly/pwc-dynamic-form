@@ -1,7 +1,7 @@
 import { Config } from "@stencil/core";
 
 export const config: Config = {
-  namespace: "stencil-starter-project-name",
+  namespace: "pwc-dynamic-form",
   outputTargets: [
     {
       type: "dist",
