@@ -14,7 +14,7 @@
         src="https://raw.githubusercontent.com/paraboly/pwc-dynamic-form/master/assets/Screenshots/JSLibraryBoilerplate.png" />
 </p>
 
-## [Live Codepen Example](https://codepen.io/wrathchaos/pen/dyyvRzM)
+## [Live Codepen Example](https://jsfiddle.net/starikcetin/bwcpeqLn/)
 
 ## Installation
 
