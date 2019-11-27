@@ -31,11 +31,6 @@ export class PwcDynamicFormComponent {
     this.resolvedConfig = resolveJson(config);
   }
 
-  @Listen("submit")
-  handleSubmit(event: any) {
-    console.log("handleSubmitButtonClicked", event);
-  }
-
   @Event() formChanged: EventEmitter<FormChangedEvent>;
 
   @Listen("fieldChanged")
@@ -62,7 +57,6 @@ export class PwcDynamicFormComponent {
     const vanillaInputs = getVanillaHtmlInputs(this.rootElement);
 
     vanillaInputs.forEach(vf => {
-      console.log(vf);
       resultObj[vf.name] = vf.value;
     });
 
@@ -72,7 +66,6 @@ export class PwcDynamicFormComponent {
     for (const key in pwcChoicesInputs) {
       if (pwcChoicesInputs.hasOwnProperty(key)) {
         const ci = pwcChoicesInputs[key];
-        console.log(ci);
         const value = await ci.getValue(returnOnlyValuesForPwcSelects);
         resultObj[ci.name] = value;
       }
@@ -83,7 +76,6 @@ export class PwcDynamicFormComponent {
 
   componentWillLoad() {
     this.onConfigChanged(this.config);
-    console.log(this.resolvedConfig);
   }
 
   render() {
