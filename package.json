@@ -9,7 +9,13 @@
     "web-component",
     "webcomponent",
     "ui",
-    "frontend"
+    "frontend",
+    "starikcetin",
+    "form",
+    "html-form",
+    "pwc",
+    "dynamic",
+    "pwc-choices"
   ],
   "homepage": "https://www.paraboly.com",
   "bugs": "https://github.com/Paraboly/pwc-dynamic-form/issues",

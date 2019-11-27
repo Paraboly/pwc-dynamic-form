@@ -12,14 +12,6 @@
 | `config` | `config`  |             | `Root \| string` | `undefined` |
 
 
-## Events
-
-| Event                 | Description | Type               |
-| --------------------- | ----------- | ------------------ |
-| `resetButtonClicked`  |             | `CustomEvent<any>` |
-| `submitButtonClicked` |             | `CustomEvent<any>` |
-
-
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

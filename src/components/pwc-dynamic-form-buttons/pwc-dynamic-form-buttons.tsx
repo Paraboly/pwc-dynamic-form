@@ -1,4 +1,4 @@
-import { Component, h, Prop, Watch, Event, EventEmitter } from "@stencil/core";
+import { Component, h, Prop, Watch } from "@stencil/core";
 import { DynamicFormButtonsConfig } from "./DynamicFormButtonsConfig";
 import { resolveJson } from "../../utils/utils";
 import { JSXBase } from "@stencil/core/dist/declarations";
