@@ -20,6 +20,7 @@ import {
 export namespace Components {
   interface PwcDynamicForm {
     'config': string | DynamicFormConfig.Root;
+    'getFieldValues': () => Promise<{ [key: string]: string; }>;
   }
   interface PwcDynamicFormButtons {
     'config': string | DynamicFormButtonsConfig.Root;

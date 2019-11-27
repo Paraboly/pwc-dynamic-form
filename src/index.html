@@ -15,7 +15,7 @@
     <script nomodule src="/build/stencil-starter-project-name.js"></script>
   </head>
   <body>
-    <pwc-dynamic-form config="{}">
+    <pwc-dynamic-form config="{}" id="example-form">
       <pwc-dynamic-form-content
         config='{
         "fields": [
@@ -90,5 +90,19 @@
           ]}'
       ></pwc-dynamic-form-buttons>
     </pwc-dynamic-form>
+
+    <button id="get-values-button"></button>
+
+    <script async="true">
+      document
+        .querySelector("#get-values-button")
+        .addEventListener("click", async function(e) {
+          const fieldValues = document
+            .querySelector("#example-form")
+            .getFieldValues();
+          await fieldValues;
+          console.log(fieldValues);
+        });
+    </script>
   </body>
 </html>
