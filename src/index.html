@@ -1,17 +1,112 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-  <title>Stencil Component Starter</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
+    <title>Stencil Component Starter</title>
 
-  <script type="module" src="/build/stencil-starter-project-name.esm.js"></script>
-  <script nomodule src="/build/stencil-starter-project-name.js"></script>
+    <script type="module" src="/build/pwc-dynamic-form.esm.js"></script>
+    <script nomodule src="/build/pwc-dynamic-form.js"></script>
+  </head>
+  <body>
+    <pwc-dynamic-form config="{}" id="example-form">
+      <pwc-dynamic-form-content
+        config='{
+        "fields": [
+          {
+            "type": "text", 
+            "name": "text1", 
+            "id": "text1", 
+            "label": "text1-label",
+            "required": true,
+            "style": {"color": "white", "background-color": "black"}
+          },
+          {
+            "type": "number", 
+            "name": "number1", 
+            "id": "number1", 
+            "label": "number1-label",
+            "required": true
+          },
+          {
+            "type": "checkbox", 
+            "name": "cb1", 
+            "id": "cb1", 
+            "label": "cb1-label"
+          },
+          {
+            "type": "select-single", 
+            "name": "ss1", 
+            "id": "ss1", 
+            "label": "ss1-label", 
+            "choices": [
+              {
+                "value": "superstar",
+                "label": "Superstar",
+                "selected": false,
+                "disabled": false
+              },
+              {
+                "value": "foo",
+                "label": "bar",
+                "selected": false,
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "type": "select-multiple", 
+            "name": "ms1", 
+            "id": "ms1", 
+            "label": "ms1-label", 
+            "choices": [
+              {
+                "value": "superstar",
+                "label": "Superstar",
+                "selected": false,
+                "disabled": false
+              }, 
+              {
+                "value": "foo",
+                "label": "bar",
+                "selected": false,
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      }'
+      ></pwc-dynamic-form-content>
+      <pwc-dynamic-form-buttons
+        config='{"buttons": [
+            {"type": "submit", "value": "CUSTOM SUBMIT LABEL", "style": {"color": "white", "background-color": "black"}},
+            {"type": "reset"}
+          ]}'
+      ></pwc-dynamic-form-buttons>
+    </pwc-dynamic-form>
 
-</head>
-<body>
+    <hr style="margin-top: 25px; margin-bottom: 25px" />
 
-  <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+    <button id="get-values-button">Log Values</button>
 
-</body>
+    <script>
+      document
+        .querySelector("#get-values-button")
+        .addEventListener("click", e => {
+          document
+            .querySelector("#example-form")
+            .getFieldValues(true)
+            .then(fieldValues => {
+              console.log(fieldValues);
+            });
+        });
+
+      document
+        .querySelector("#example-form")
+        .addEventListener("formChanged", e => console.log(e));
+    </script>
+  </body>
 </html>
