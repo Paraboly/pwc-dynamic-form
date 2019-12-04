@@ -50,15 +50,19 @@ export class PwcDynamicFormComponent {
   @Method()
   async getFieldValues(
     returnOnlyValuesForPwcSelects: boolean = false
-  ): Promise<{ [key: string]: string | string[] }> {
+  ): Promise<{ [key: string]: boolean | string | string[] }> {
     const form: HTMLFormElement = this.rootElement.querySelector("form");
-    let resultObj: { [key: string]: string | string[] } = {};
+    let resultObj: { [key: string]: boolean | string | string[] } = {};
 
     // vanilla html inputs
     const vanillaInputs = getVanillaHtmlInputs(this.rootElement);
 
     vanillaInputs.forEach(vf => {
-      resultObj[vf.name] = vf.value;
+      if (vf.type === "checkbox") {
+        resultObj[vf.name] = vf.checked;
+      } else {
+        resultObj[vf.name] = vf.value;
+      }
     });
 
     // pwc-choices

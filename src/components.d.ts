@@ -26,7 +26,7 @@ import {
 export namespace Components {
   interface PwcDynamicForm {
     'config': string | DynamicFormConfig.Root;
-    'getFieldValues': (returnOnlyValuesForPwcSelects?: boolean) => Promise<{ [key: string]: string | string[]; }>;
+    'getFieldValues': (returnOnlyValuesForPwcSelects?: boolean) => Promise<{ [key: string]: string | boolean | string[]; }>;
   }
   interface PwcDynamicFormButtons {
     'config': string | DynamicFormButtonsConfig.Root;

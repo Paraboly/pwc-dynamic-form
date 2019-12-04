@@ -21,13 +21,13 @@
 
 ## Methods
 
-### `getFieldValues(returnOnlyValuesForPwcSelects?: boolean) => Promise<{ [key: string]: string | string[]; }>`
+### `getFieldValues(returnOnlyValuesForPwcSelects?: boolean) => Promise<{ [key: string]: string | boolean | string[]; }>`
 
 
 
 #### Returns
 
-Type: `Promise<{ [key: string]: string | string[]; }>`
+Type: `Promise<{ [key: string]: string | boolean | string[]; }>`
 
 
 

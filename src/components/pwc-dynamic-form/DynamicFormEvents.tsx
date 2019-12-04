@@ -3,7 +3,7 @@ import { FieldChangedEvent } from "../pwc-dynamic-form-content/DynamicFormConten
 export class FormChangedEvent {
   constructor(
     fieldChangedEvent: FieldChangedEvent,
-    formValues: { [key: string]: string | string[] },
+    formValues: { [key: string]: boolean | string | string[] },
     formElement: HTMLPwcDynamicFormElement
   ) {
     this.fieldChangedEvent = fieldChangedEvent;
@@ -12,6 +12,6 @@ export class FormChangedEvent {
   }
 
   fieldChangedEvent: FieldChangedEvent;
-  formValues: { [key: string]: string | string[] };
+  formValues: { [key: string]: boolean | string | string[] };
   formElement: HTMLPwcDynamicFormElement;
 }
