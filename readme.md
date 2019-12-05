@@ -23,8 +23,8 @@
 - Put two script tags similar to this in the head of your index.html:
 
 ```html
-<script type="module" src="https://unpkg.com/@paraboly/pwc-dynamic-form@0.0.3/dist/pwc-dynamic-form/pwc-dynamic-form.esm.js"></script>
-<script nomodule src="https://unpkg.com/@paraboly/pwc-dynamic-form@0.0.3/dist/pwc-dynamic-form/pwc-dynamic-form.js"></script>
+<script type="module" src="https://unpkg.com/@paraboly/pwc-dynamic-form@latest/dist/pwc-dynamic-form/pwc-dynamic-form.esm.js"></script>
+<script nomodule src="https://unpkg.com/@paraboly/pwc-dynamic-form@latest/dist/pwc-dynamic-form/pwc-dynamic-form.js"></script>
 ```
 
 - Then you can use the element anywhere in your template, JSX, html etc
