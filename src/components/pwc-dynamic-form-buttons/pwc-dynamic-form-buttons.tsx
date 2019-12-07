@@ -31,9 +31,11 @@ export class PwcDynamicFormButtonsComponent {
   render() {
     return (
       <div>
-        {this.resolvedConfig.buttons.map(button =>
-          this.constructButton(button)
-        )}
+        {this.resolvedConfig
+          ? this.resolvedConfig.buttons.map(button =>
+              this.constructButton(button)
+            )
+          : ""}
       </div>
     );
   }

@@ -12,101 +12,111 @@
     <script nomodule src="/build/pwc-dynamic-form.js"></script>
   </head>
   <body>
-    <pwc-dynamic-form config="{}" id="example-form">
-      <pwc-dynamic-form-content
-        config='{
-        "fields": [
-          {
-            "type": "text", 
-            "name": "text1", 
-            "id": "text1", 
-            "label": "text1-label",
-            "required": true,
-            "style": {"color": "white", "background-color": "black"}
-          },
-          {
-            "type": "number", 
-            "name": "number1", 
-            "id": "number1", 
-            "label": "number1-label",
-            "required": true
-          },
-          {
-            "type": "checkbox", 
-            "name": "cb1", 
-            "id": "cb1", 
-            "label": "cb1-label"
-          },
-          {
-            "type": "select-single", 
-            "name": "ss1", 
-            "id": "ss1", 
-            "label": "ss1-label", 
-            "choices": [
-              {
-                "value": "superstar",
-                "label": "Superstar",
-                "selected": false,
-                "disabled": false
-              },
-              {
-                "value": "foo",
-                "label": "bar",
-                "selected": false,
-                "disabled": false
-              }
-            ]
-          },
-          {
-            "type": "select-multiple", 
-            "name": "ms1", 
-            "id": "ms1", 
-            "label": "ms1-label", 
-            "choices": [
-              {
-                "value": "superstar",
-                "label": "Superstar",
-                "selected": false,
-                "disabled": false
-              }, 
-              {
-                "value": "foo",
-                "label": "bar",
-                "selected": false,
-                "disabled": false
-              }
-            ]
-          }
-        ]
-      }'
-      ></pwc-dynamic-form-content>
-      <pwc-dynamic-form-buttons
-        config='{"buttons": [
-            {"type": "submit", "value": "CUSTOM SUBMIT LABEL", "style": {"color": "white", "background-color": "black"}},
-            {"type": "reset"}
-          ]}'
-      ></pwc-dynamic-form-buttons>
+    <pwc-dynamic-form>
+      <pwc-dynamic-form-content></pwc-dynamic-form-content>
+      <pwc-dynamic-form-buttons></pwc-dynamic-form-buttons>
     </pwc-dynamic-form>
 
     <hr style="margin-top: 25px; margin-bottom: 25px" />
 
     <button id="get-values-button">Log Values</button>
 
-    <script>
+    <script async>
+      const dynamicForm = document.querySelector("pwc-dynamic-form");
+      const dynamicFormContent = dynamicForm.querySelector(
+        "pwc-dynamic-form-content"
+      );
+
       document
         .querySelector("#get-values-button")
         .addEventListener("click", e => {
-          document
-            .querySelector("#example-form")
-            .getFieldValues(true)
-            .then(fieldValues => {
-              console.log(fieldValues);
-            });
+          dynamicForm.getFieldValues(true).then(fieldValues => {
+            console.log(fieldValues);
+          });
         });
 
-      document
-        .querySelector("#example-form")
-        .addEventListener("formChanged", e => console.log(e));
+      dynamicForm.addEventListener("formChanged", e => console.log(e));
+
+      (async function() {
+        await waitForSecondsAndInit(2);
+        dynamicFormContent.config = {
+          fields: [
+            {
+              type: "text",
+              name: "text1",
+              id: "text1",
+              label: "text1-label",
+              required: true,
+              style: { color: "white", "background-color": "black" }
+            },
+            {
+              type: "number",
+              name: "number1",
+              id: "number1",
+              label: "number1-label",
+              required: true
+            },
+            {
+              type: "checkbox",
+              name: "cb1",
+              id: "cb1",
+              label: "cb1-label"
+            },
+            {
+              type: "select-single",
+              name: "ss1",
+              id: "ss1",
+              label: "ss1-label",
+              choices: [
+                {
+                  value: "superstar",
+                  label: "Superstar",
+                  selected: false,
+                  disabled: false
+                },
+                {
+                  value: "foo",
+                  label: "bar",
+                  selected: false,
+                  disabled: false
+                }
+              ]
+            },
+            {
+              type: "select-multiple",
+              name: "ms1",
+              id: "ms1",
+              label: "ms1-label",
+              choices: [
+                {
+                  value: "superstar",
+                  label: "Superstar",
+                  selected: false,
+                  disabled: false
+                },
+                {
+                  value: "foo",
+                  label: "bar",
+                  selected: false,
+                  disabled: false
+                }
+              ]
+            }
+          ]
+        };
+      })();
+
+      async function waitForSecondsAndInit(seconds) {
+        await sleep(seconds);
+        console.log("here I am");
+      }
+
+      function timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+      async function sleep(seconds) {
+        await timeout(seconds * 1000);
+      }
     </script>
   </body>
 </html>

@@ -114,7 +114,9 @@ export class PwcDynamicFormContentComponent {
   render() {
     return (
       <div>
-        {this.resolvedConfig.fields.map(field => this.constructField(field))}
+        {this.resolvedConfig
+          ? this.resolvedConfig.fields.map(field => this.constructField(field))
+          : ""}
       </div>
     );
   }
