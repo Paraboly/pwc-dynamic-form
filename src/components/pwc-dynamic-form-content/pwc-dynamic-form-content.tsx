@@ -12,7 +12,7 @@ import { getVanillaHtmlInputs, resolveJson } from "../../utils/utils";
 import {
   FieldTypeUnion,
   NativeField,
-  PwcColorPickerField,
+  ColorPickerField,
   PwcSelectField
 } from "./ContentConfig";
 import { FieldChangedEventPayload } from "./ContentEvents";
@@ -51,7 +51,7 @@ export class PwcDynamicFormContentComponent {
 
     switch (field.type) {
       case "color":
-        castedField = field as PwcColorPickerField;
+        castedField = field as ColorPickerField;
         return (
           <div class="form-group">
             <label>

@@ -2,7 +2,7 @@ import { JSXBase } from "@stencil/core/dist/declarations";
 import "@paraboly/pwc-choices";
 import "@paraboly/pwc-color-picker";
 
-export type FieldTypeUnion = NativeField | PwcSelectField | PwcColorPickerField;
+export type FieldTypeUnion = NativeField | PwcSelectField | ColorPickerField;
 
 export interface NativeField
   extends JSXBase.InputHTMLAttributes<HTMLInputElement> {
@@ -15,7 +15,7 @@ export interface PwcSelectField
   label: string;
 }
 
-export interface PwcColorPickerField
+export interface ColorPickerField
   extends JSXBase.InputHTMLAttributes<HTMLColorPickerElement> {
   label: string;
 }
