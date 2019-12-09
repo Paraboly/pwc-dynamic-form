@@ -1,7 +1,6 @@
 import { Component, h, Prop, Watch } from "@stencil/core";
-import { DynamicFormButtonsConfig } from "./DynamicFormButtonsConfig";
 import { resolveJson } from "../../utils/utils";
-import { JSXBase } from "@stencil/core/dist/declarations";
+import { ItemType } from "./ButtonsConfig";
 
 @Component({
   tag: "pwc-dynamic-form-buttons",
@@ -9,32 +8,28 @@ import { JSXBase } from "@stencil/core/dist/declarations";
   shadow: false
 })
 export class PwcDynamicFormButtonsComponent {
-  private resolvedConfig: DynamicFormButtonsConfig.Root;
+  private resolvedItems: ItemType[];
 
-  @Prop() config: string | DynamicFormButtonsConfig.Root;
+  @Prop() items: string | ItemType[];
 
-  @Watch("config")
-  onConfigChanged(config: string | DynamicFormButtonsConfig.Root) {
-    this.resolvedConfig = resolveJson(config);
+  @Watch("items")
+  onConfigChanged(items: string | ItemType[]) {
+    this.resolvedItems = resolveJson(items);
   }
 
   componentWillLoad() {
-    this.onConfigChanged(this.config);
+    this.onConfigChanged(this.items);
   }
 
-  private constructButton(
-    button: JSXBase.InputHTMLAttributes<HTMLInputElement>
-  ): HTMLInputElement {
+  private constructButton(button: ItemType): HTMLInputElement {
     return <input {...button}></input>;
   }
 
   render() {
     return (
       <div>
-        {this.resolvedConfig
-          ? this.resolvedConfig.buttons.map(button =>
-              this.constructButton(button)
-            )
+        {this.resolvedItems
+          ? this.resolvedItems.map(button => this.constructButton(button))
           : ""}
       </div>
     );

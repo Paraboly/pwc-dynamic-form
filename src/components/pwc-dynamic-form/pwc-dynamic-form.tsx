@@ -1,18 +1,15 @@
 import {
   Component,
   h,
-  Prop,
-  Watch,
   Listen,
   Method,
   Element,
   Event,
   EventEmitter
 } from "@stencil/core";
-import { DynamicFormConfig } from "./DynamicFormConfig";
-import { resolveJson, getVanillaHtmlInputs } from "../../utils/utils";
-import { FormChangedEventPayload } from "./DynamicFormEvents";
-import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/DynamicFormContentEvents";
+import { getVanillaHtmlInputs } from "../../utils/utils";
+import { FormChangedEventPayload } from "./FormEvents";
+import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/ContentEvents";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -24,13 +21,6 @@ export class PwcDynamicFormComponent {
   private resolvedConfig: DynamicFormConfig.Root;
 
   @Element() rootElement: HTMLPwcDynamicFormElement;
-
-  @Prop() config: string | DynamicFormConfig.Root;
-
-  @Watch("config")
-  onConfigChanged(config: string | DynamicFormConfig.Root) {
-    this.resolvedConfig = resolveJson(config);
-  }
 
   @Event() formChanged: EventEmitter<FormChangedEventPayload>;
 
@@ -108,10 +98,6 @@ export class PwcDynamicFormComponent {
     }
 
     return resultObj;
-  }
-
-  componentWillLoad() {
-    this.onConfigChanged(this.config);
   }
 
   render() {

@@ -1,16 +1,21 @@
+import "@paraboly/pwc-choices";
 import {
   Component,
-  h,
-  Prop,
-  Watch,
+  Element,
   Event,
   EventEmitter,
-  Element
+  h,
+  Prop,
+  Watch
 } from "@stencil/core";
-import { DynamicFormContentConfig } from "./DynamicFormContentConfig";
-import { FieldChangedEventPayload } from "./DynamicFormContentEvents";
-import "@paraboly/pwc-choices";
-import { resolveJson, getVanillaHtmlInputs } from "../../utils/utils";
+import { getVanillaHtmlInputs, resolveJson } from "../../utils/utils";
+import {
+  FieldTypeUnion,
+  NativeField,
+  PwcColorPickerField,
+  PwcSelectField
+} from "./ContentConfig";
+import { FieldChangedEventPayload } from "./ContentEvents";
 
 @Component({
   tag: "pwc-dynamic-form-content",
@@ -18,40 +23,35 @@ import { resolveJson, getVanillaHtmlInputs } from "../../utils/utils";
   shadow: false
 })
 export class PwcDynamicFormContentComponent {
-  private resolvedConfig: DynamicFormContentConfig.Root;
+  private resolvedItems: FieldTypeUnion[];
 
   @Element() rootElement: HTMLPwcDynamicFormContentElement;
 
-  @Prop() config: string | DynamicFormContentConfig.Root;
+  @Prop() items: string | FieldTypeUnion[];
 
-  @Watch("config")
-  onConfigChanged(config: string | DynamicFormContentConfig.Root) {
-    this.resolvedConfig = resolveJson(config);
+  @Watch("items")
+  onItemsChanged(items: string | FieldTypeUnion[]) {
+    this.resolvedItems = resolveJson(items);
   }
 
   @Event() fieldChanged: EventEmitter<FieldChangedEventPayload>;
 
   componentWillLoad() {
-    this.onConfigChanged(this.config);
+    this.onItemsChanged(this.items);
   }
 
   private handleFieldChange(eventPayload: FieldChangedEventPayload) {
     this.fieldChanged.emit(eventPayload);
   }
 
-  private constructField(
-    field:
-      | DynamicFormContentConfig.NativeField
-      | DynamicFormContentConfig.PwcSelectField
-      | DynamicFormContentConfig.PwcColorPickerField
-  ) {
+  private constructField(field: FieldTypeUnion) {
     let castedField;
     let label = field.label;
     delete field.label;
 
     switch (field.type) {
       case "color":
-        castedField = field as DynamicFormContentConfig.PwcColorPickerField;
+        castedField = field as PwcColorPickerField;
         return (
           <div class="form-group">
             <label>
@@ -63,25 +63,25 @@ export class PwcDynamicFormContentComponent {
 
       // Special handle reason: using pwc-choices.
       case "select-single":
-        castedField = field as DynamicFormContentConfig.PwcSelectField;
+        castedField = field as PwcSelectField;
         castedField.type = "single";
         return constructSelect(castedField);
 
       // Special handle reason: using pwc-choices.
       case "select-multiple":
-        castedField = field as DynamicFormContentConfig.PwcSelectField;
+        castedField = field as PwcSelectField;
         castedField.type = "multiple";
         return constructSelect(castedField);
 
       // Special handle reason: using pwc-choices.
       case "select-text":
-        castedField = field as DynamicFormContentConfig.PwcSelectField;
+        castedField = field as PwcSelectField;
         castedField.type = "text";
         return constructSelect(castedField);
 
       // Special handle reason: label needs to be placed after the input element.
       case "checkbox":
-        castedField = field as DynamicFormContentConfig.NativeField;
+        castedField = field as NativeField;
         return (
           <div class="form-group">
             <label>
@@ -92,7 +92,7 @@ export class PwcDynamicFormContentComponent {
         );
 
       default:
-        castedField = field as DynamicFormContentConfig.NativeField;
+        castedField = field as NativeField;
         return (
           <div class="form-group">
             <label>
@@ -126,8 +126,8 @@ export class PwcDynamicFormContentComponent {
   render() {
     return (
       <div>
-        {this.resolvedConfig
-          ? this.resolvedConfig.fields.map(field => this.constructField(field))
+        {this.resolvedItems
+          ? this.resolvedItems.map(field => this.constructField(field))
           : ""}
       </div>
     );

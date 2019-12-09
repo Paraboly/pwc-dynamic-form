@@ -1,4 +1,4 @@
-import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/DynamicFormContentEvents";
+import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/ContentEvents";
 
 export interface FormChangedEventPayload {
   type: "change" | "reset";
