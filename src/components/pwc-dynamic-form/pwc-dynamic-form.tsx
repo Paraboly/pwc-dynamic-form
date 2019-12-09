@@ -38,11 +38,28 @@ export class PwcDynamicFormComponent {
   handleFieldChanged(fieldChangedEventPayload: FieldChangedEventPayload) {
     const rootElement = this.rootElement;
     this.getFieldValues().then(v => {
-      const formChangedEventPayload = new FormChangedEventPayload(
-        fieldChangedEventPayload,
-        v,
-        rootElement
-      );
+      const formChangedEventPayload: FormChangedEventPayload = {
+        type: "change",
+        fieldChangedEventPayload: fieldChangedEventPayload,
+        formResetEvent: null,
+        formValues: v,
+        formElement: rootElement
+      };
+      this.formChanged.emit(formChangedEventPayload);
+    });
+  }
+
+  @Listen("reset")
+  handleFormReset(formResetEvent: Event) {
+    const rootElement = this.rootElement;
+    this.getFieldValues().then(v => {
+      const formChangedEventPayload: FormChangedEventPayload = {
+        type: "reset",
+        fieldChangedEventPayload: null,
+        formResetEvent: formResetEvent,
+        formValues: v,
+        formElement: rootElement
+      };
       this.formChanged.emit(formChangedEventPayload);
     });
   }
