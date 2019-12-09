@@ -11,7 +11,7 @@ import {
   DynamicFormConfig,
 } from './components/pwc-dynamic-form/DynamicFormConfig';
 import {
-  FormChangedEvent,
+  FormChangedEventPayload,
 } from './components/pwc-dynamic-form/DynamicFormEvents';
 import {
   DynamicFormButtonsConfig,
@@ -20,7 +20,7 @@ import {
   DynamicFormContentConfig,
 } from './components/pwc-dynamic-form-content/DynamicFormContentConfig';
 import {
-  FieldChangedEvent,
+  FieldChangedEventPayload,
 } from './components/pwc-dynamic-form-content/DynamicFormContentEvents';
 
 export namespace Components {
@@ -66,14 +66,14 @@ declare global {
 declare namespace LocalJSX {
   interface PwcDynamicForm {
     'config'?: string | DynamicFormConfig.Root;
-    'onFormChanged'?: (event: CustomEvent<FormChangedEvent>) => void;
+    'onFormChanged'?: (event: CustomEvent<FormChangedEventPayload>) => void;
   }
   interface PwcDynamicFormButtons {
     'config'?: string | DynamicFormButtonsConfig.Root;
   }
   interface PwcDynamicFormContent {
     'config'?: string | DynamicFormContentConfig.Root;
-    'onFieldChanged'?: (event: CustomEvent<FieldChangedEvent>) => void;
+    'onFieldChanged'?: (event: CustomEvent<FieldChangedEventPayload>) => void;
   }
 
   interface IntrinsicElements {

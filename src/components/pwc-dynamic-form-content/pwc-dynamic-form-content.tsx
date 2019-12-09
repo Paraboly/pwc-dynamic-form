@@ -8,7 +8,7 @@ import {
   Element
 } from "@stencil/core";
 import { DynamicFormContentConfig } from "./DynamicFormContentConfig";
-import { FieldChangedEvent } from "./DynamicFormContentEvents";
+import { FieldChangedEventPayload } from "./DynamicFormContentEvents";
 import "@paraboly/pwc-choices";
 import { resolveJson, getVanillaHtmlInputs } from "../../utils/utils";
 
@@ -29,14 +29,14 @@ export class PwcDynamicFormContentComponent {
     this.resolvedConfig = resolveJson(config);
   }
 
-  @Event() fieldChanged: EventEmitter<FieldChangedEvent>;
+  @Event() fieldChanged: EventEmitter<FieldChangedEventPayload>;
 
   componentWillLoad() {
     this.onConfigChanged(this.config);
   }
 
-  private handleFieldChange(event: FieldChangedEvent) {
-    this.fieldChanged.emit(event);
+  private handleFieldChange(eventPayload: FieldChangedEventPayload) {
+    this.fieldChanged.emit(eventPayload);
   }
 
   private constructField(
@@ -126,12 +126,12 @@ export class PwcDynamicFormContentComponent {
     pwcChoicesElements.forEach(pce => {
       pce.addEventListener("change", originalEvent => {
         pce.getValue().then(value => {
-          const fieldChangedevent = new FieldChangedEvent(
+          const fieldChangedEventPayload = new FieldChangedEventPayload(
             pce,
             value,
             originalEvent
           );
-          this.handleFieldChange(fieldChangedevent);
+          this.handleFieldChange(fieldChangedEventPayload);
         });
       });
     });
@@ -141,8 +141,12 @@ export class PwcDynamicFormContentComponent {
 
     vanillaInputs.forEach(vf => {
       vf.addEventListener("change", e => {
-        const fieldChangedEvent = new FieldChangedEvent(vf, vf.value, e);
-        this.handleFieldChange(fieldChangedEvent);
+        const fieldChangedEventPayload = new FieldChangedEventPayload(
+          vf,
+          vf.value,
+          e
+        );
+        this.handleFieldChange(fieldChangedEventPayload);
       });
     });
   }

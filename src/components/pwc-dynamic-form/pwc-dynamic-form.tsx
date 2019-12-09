@@ -11,8 +11,8 @@ import {
 } from "@stencil/core";
 import { DynamicFormConfig } from "./DynamicFormConfig";
 import { resolveJson, getVanillaHtmlInputs } from "../../utils/utils";
-import { FormChangedEvent } from "./DynamicFormEvents";
-import { FieldChangedEvent } from "../pwc-dynamic-form-content/DynamicFormContentEvents";
+import { FormChangedEventPayload } from "./DynamicFormEvents";
+import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/DynamicFormContentEvents";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -32,18 +32,18 @@ export class PwcDynamicFormComponent {
     this.resolvedConfig = resolveJson(config);
   }
 
-  @Event() formChanged: EventEmitter<FormChangedEvent>;
+  @Event() formChanged: EventEmitter<FormChangedEventPayload>;
 
   @Listen("fieldChanged")
-  handleFieldChanged(fieldChangedEvent: FieldChangedEvent) {
+  handleFieldChanged(fieldChangedEventPayload: FieldChangedEventPayload) {
     const rootElement = this.rootElement;
     this.getFieldValues().then(v => {
-      const formChangedEvent = new FormChangedEvent(
-        fieldChangedEvent,
+      const formChangedEventPayload = new FormChangedEventPayload(
+        fieldChangedEventPayload,
         v,
         rootElement
       );
-      this.formChanged.emit(formChangedEvent);
+      this.formChanged.emit(formChangedEventPayload);
     });
   }
 

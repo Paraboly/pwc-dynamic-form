@@ -1,8 +1,8 @@
-import { FieldChangedEvent } from "../pwc-dynamic-form-content/DynamicFormContentEvents";
+import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/DynamicFormContentEvents";
 
-export class FormChangedEvent {
+export class FormChangedEventPayload {
   constructor(
-    fieldChangedEvent: FieldChangedEvent,
+    fieldChangedEvent: FieldChangedEventPayload,
     formValues: { [key: string]: boolean | string | string[] },
     formElement: HTMLPwcDynamicFormElement
   ) {
@@ -11,7 +11,7 @@ export class FormChangedEvent {
     this.formElement = formElement;
   }
 
-  fieldChangedEvent: FieldChangedEvent;
+  fieldChangedEvent: FieldChangedEventPayload;
   formValues: { [key: string]: boolean | string | string[] };
   formElement: HTMLPwcDynamicFormElement;
 }

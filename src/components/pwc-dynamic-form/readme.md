@@ -14,9 +14,9 @@
 
 ## Events
 
-| Event         | Description | Type                            |
-| ------------- | ----------- | ------------------------------- |
-| `formChanged` |             | `CustomEvent<FormChangedEvent>` |
+| Event         | Description | Type                                   |
+| ------------- | ----------- | -------------------------------------- |
+| `formChanged` |             | `CustomEvent<FormChangedEventPayload>` |
 
 
 ## Methods

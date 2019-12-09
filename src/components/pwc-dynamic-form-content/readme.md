@@ -14,9 +14,9 @@
 
 ## Events
 
-| Event          | Description | Type                             |
-| -------------- | ----------- | -------------------------------- |
-| `fieldChanged` |             | `CustomEvent<FieldChangedEvent>` |
+| Event          | Description | Type                                    |
+| -------------- | ----------- | --------------------------------------- |
+| `fieldChanged` |             | `CustomEvent<FieldChangedEventPayload>` |
 
 
 ## Dependencies
