@@ -137,7 +137,7 @@ export class PwcDynamicFormContentComponent {
     });
 
     // vanilla html inputs
-    const vanillaInputs = getVanillaHtmlInputs(this.rootElement);
+    const vanillaInputs = getVanillaHtmlInputs(this.rootElement, true);
 
     vanillaInputs.forEach(vf => {
       vf.addEventListener("change", e => {

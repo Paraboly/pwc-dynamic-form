@@ -55,7 +55,10 @@ export class PwcDynamicFormComponent {
     let resultObj: { [key: string]: boolean | string | string[] } = {};
 
     // vanilla html inputs
-    const vanillaInputs = getVanillaHtmlInputs(this.rootElement);
+    const vanillaInputs = getVanillaHtmlInputs(
+      this.rootElement.querySelector("pwc-dynamic-form-content"),
+      true
+    );
 
     vanillaInputs.forEach(vf => {
       if (vf.type === "checkbox") {

@@ -7,13 +7,15 @@ export function resolveJson<TReturnType>(
 }
 
 export function getVanillaHtmlInputs(
-  rootElement: HTMLElement
+  rootElement: HTMLElement,
+  skipButtonElements: boolean
 ): HTMLInputElement[] {
-  const allInputs = rootElement.querySelectorAll("input");
-  return Enumerable.from(allInputs)
+  return Enumerable.from(rootElement.querySelectorAll("input"))
     .where(
       a =>
-        false === Enumerable.from(a.classList).any(c => c.includes("choices__"))
+        false ===
+        (Enumerable.from(a.classList).any(c => c.includes("choices__")) ||
+          (skipButtonElements && a.type === "button"))
     )
     .toArray();
 }
