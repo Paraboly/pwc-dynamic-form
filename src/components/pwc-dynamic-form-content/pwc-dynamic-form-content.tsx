@@ -126,11 +126,11 @@ export class PwcDynamicFormContentComponent {
     pwcChoicesElements.forEach(pce => {
       pce.addEventListener("change", originalEvent => {
         pce.getValue().then(value => {
-          const fieldChangedEventPayload = new FieldChangedEventPayload(
-            pce,
-            value,
-            originalEvent
-          );
+          const fieldChangedEventPayload: FieldChangedEventPayload = {
+            element: pce,
+            newValue: value,
+            originalEvent: originalEvent
+          };
           this.handleFieldChange(fieldChangedEventPayload);
         });
       });
@@ -141,11 +141,11 @@ export class PwcDynamicFormContentComponent {
 
     vanillaInputs.forEach(vf => {
       vf.addEventListener("change", e => {
-        const fieldChangedEventPayload = new FieldChangedEventPayload(
-          vf,
-          vf.value,
-          e
-        );
+        const fieldChangedEventPayload: FieldChangedEventPayload = {
+          element: vf,
+          newValue: vf.value,
+          originalEvent: e
+        };
         this.handleFieldChange(fieldChangedEventPayload);
       });
     });
