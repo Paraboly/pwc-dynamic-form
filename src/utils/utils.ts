@@ -11,11 +11,30 @@ export function getVanillaHtmlInputs(
   skipButtonElements: boolean
 ): HTMLInputElement[] {
   return Enumerable.from(rootElement.querySelectorAll("input"))
-    .where(
-      a =>
+    .where(inputElement => {
+      const inputElementParents = getAllParentElements(inputElement);
+
+      const isChoices = Enumerable.from(inputElementParents).any(p =>
+        p.tagName.includes("PWC-CHOICES")
+      );
+      const isButton = inputElement.type === "button";
+      const isColorPicker = Enumerable.from(inputElementParents).any(p =>
+        p.tagName.includes("COLOR-PICKER")
+      );
+      return (
         false ===
-        (Enumerable.from(a.classList).any(c => c.includes("choices__")) ||
-          (skipButtonElements && a.type === "button"))
-    )
+        (isChoices || (skipButtonElements && isButton) || isColorPicker)
+      );
+    })
     .toArray();
+}
+
+export function getAllParentElements(node: HTMLElement): HTMLElement[] {
+  var a = node;
+  var els = [];
+  while (a) {
+    els.unshift(a);
+    a = a.parentElement;
+  }
+  return els;
 }

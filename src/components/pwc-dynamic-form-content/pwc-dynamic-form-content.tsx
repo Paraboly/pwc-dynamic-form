@@ -43,12 +43,24 @@ export class PwcDynamicFormContentComponent {
     field:
       | DynamicFormContentConfig.NativeField
       | DynamicFormContentConfig.PwcSelectField
+      | DynamicFormContentConfig.PwcColorPickerField
   ) {
     let castedField;
     let label = field.label;
     delete field.label;
 
     switch (field.type) {
+      case "color":
+        castedField = field as DynamicFormContentConfig.PwcColorPickerField;
+        return (
+          <div class="form-group">
+            <label>
+              {label}
+              <color-picker {...castedField}></color-picker>
+            </label>
+          </div>
+        );
+
       // Special handle reason: using pwc-choices.
       case "select-single":
         castedField = field as DynamicFormContentConfig.PwcSelectField;
@@ -122,6 +134,18 @@ export class PwcDynamicFormContentComponent {
   }
 
   private init() {
+    const colorPickers = this.rootElement.querySelectorAll("color-picker");
+    colorPickers.forEach(cp => {
+      cp.addEventListener("colorPickedEvent", originalEvent => {
+        const fieldChangedEventPayload: FieldChangedEventPayload = {
+          element: cp,
+          newValue: cp.activeColor,
+          originalEvent: originalEvent
+        };
+        this.handleFieldChange(fieldChangedEventPayload);
+      });
+    });
+
     const pwcChoicesElements = this.rootElement.querySelectorAll("pwc-choices");
     pwcChoicesElements.forEach(pce => {
       pce.addEventListener("change", originalEvent => {

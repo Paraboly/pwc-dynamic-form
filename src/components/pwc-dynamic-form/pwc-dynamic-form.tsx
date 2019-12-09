@@ -96,6 +96,17 @@ export class PwcDynamicFormComponent {
       }
     }
 
+    // color-picker
+    const colorPickers = this.rootElement.querySelectorAll("color-picker");
+    for (const key in colorPickers) {
+      if (colorPickers.hasOwnProperty(key)) {
+        const cp = colorPickers[key];
+        const value = cp.activeColor;
+        const name = cp.getAttribute("name");
+        resultObj[name] = value;
+      }
+    }
+
     return resultObj;
   }
 
