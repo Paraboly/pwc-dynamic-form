@@ -9,7 +9,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getVanillaHtmlInputs, resolveJson } from "../../utils/utils";
-import { PwcFilter } from "../../utils/PwcFilter";
+import { PwcDynamicForm } from "../../utils/PwcDynamicForm";
 
 @Component({
   tag: "pwc-dynamic-form-content",
@@ -17,35 +17,37 @@ import { PwcFilter } from "../../utils/PwcFilter";
   shadow: false
 })
 export class PwcDynamicFormContentComponent {
-  private resolvedItems: PwcFilter.ContentItemConfig[];
+  private resolvedItems: PwcDynamicForm.ContentItemConfig[];
 
   @Element() rootElement: HTMLPwcDynamicFormContentElement;
 
-  @Prop() items: string | PwcFilter.ContentItemConfig[];
+  @Prop() items: string | PwcDynamicForm.ContentItemConfig[];
 
   @Watch("items")
-  onItemsChanged(items: string | PwcFilter.ContentItemConfig[]) {
+  onItemsChanged(items: string | PwcDynamicForm.ContentItemConfig[]) {
     this.resolvedItems = resolveJson(items);
   }
 
-  @Event() fieldChanged: EventEmitter<PwcFilter.FieldChangedEventPayload>;
+  @Event() fieldChanged: EventEmitter<PwcDynamicForm.FieldChangedEventPayload>;
 
   componentWillLoad() {
     this.onItemsChanged(this.items);
   }
 
-  private handleFieldChange(eventPayload: PwcFilter.FieldChangedEventPayload) {
+  private handleFieldChange(
+    eventPayload: PwcDynamicForm.FieldChangedEventPayload
+  ) {
     this.fieldChanged.emit(eventPayload);
   }
 
-  private constructField(field: PwcFilter.ContentItemConfig) {
+  private constructField(field: PwcDynamicForm.ContentItemConfig) {
     let castedField;
     let label = field.label;
     delete field.label;
 
     switch (field.type) {
       case "color":
-        castedField = field as PwcFilter.ColorPickerConfig;
+        castedField = field as PwcDynamicForm.ColorPickerConfig;
         return (
           <div class="form-group">
             <label>
@@ -57,25 +59,25 @@ export class PwcDynamicFormContentComponent {
 
       // Special handle reason: using pwc-choices.
       case "select-single":
-        castedField = field as PwcFilter.PwcSelectConfig;
+        castedField = field as PwcDynamicForm.PwcSelectConfig;
         castedField.type = "single";
         return constructSelect(castedField);
 
       // Special handle reason: using pwc-choices.
       case "select-multiple":
-        castedField = field as PwcFilter.PwcSelectConfig;
+        castedField = field as PwcDynamicForm.PwcSelectConfig;
         castedField.type = "multiple";
         return constructSelect(castedField);
 
       // Special handle reason: using pwc-choices.
       case "select-text":
-        castedField = field as PwcFilter.PwcSelectConfig;
+        castedField = field as PwcDynamicForm.PwcSelectConfig;
         castedField.type = "text";
         return constructSelect(castedField);
 
       // Special handle reason: label needs to be placed after the input element.
       case "checkbox":
-        castedField = field as PwcFilter.NativeInputConfig;
+        castedField = field as PwcDynamicForm.NativeInputConfig;
         return (
           <div class="form-group">
             <label>
@@ -86,7 +88,7 @@ export class PwcDynamicFormContentComponent {
         );
 
       default:
-        castedField = field as PwcFilter.NativeInputConfig;
+        castedField = field as PwcDynamicForm.NativeInputConfig;
         return (
           <div class="form-group">
             <label>
@@ -131,7 +133,7 @@ export class PwcDynamicFormContentComponent {
     const colorPickers = this.rootElement.querySelectorAll("color-picker");
     colorPickers.forEach(cp => {
       cp.addEventListener("colorPickedEvent", originalEvent => {
-        const fieldChangedEventPayload: PwcFilter.FieldChangedEventPayload = {
+        const fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload = {
           element: cp,
           newValue: cp.activeColor,
           originalEvent: originalEvent
@@ -144,7 +146,7 @@ export class PwcDynamicFormContentComponent {
     pwcChoicesElements.forEach(pce => {
       pce.addEventListener("change", originalEvent => {
         pce.getValue().then(value => {
-          const fieldChangedEventPayload: PwcFilter.FieldChangedEventPayload = {
+          const fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload = {
             element: pce,
             newValue: value,
             originalEvent: originalEvent
@@ -159,7 +161,7 @@ export class PwcDynamicFormContentComponent {
 
     vanillaInputs.forEach(vf => {
       vf.addEventListener("change", e => {
-        const fieldChangedEventPayload: PwcFilter.FieldChangedEventPayload = {
+        const fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload = {
           element: vf,
           newValue: vf.value,
           originalEvent: e

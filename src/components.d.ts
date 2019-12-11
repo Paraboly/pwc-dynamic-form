@@ -8,18 +8,18 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  PwcFilter,
-} from './utils/PwcFilter';
+  PwcDynamicForm,
+} from './utils/PwcDynamicForm';
 
 export namespace Components {
   interface PwcDynamicForm {
     'getFieldValues': (returnOnlyValuesForPwcSelects?: boolean) => Promise<{ [key: string]: string | boolean | string[]; }>;
   }
   interface PwcDynamicFormButtons {
-    'items': string | PwcFilter.ButtonItemConfig[];
+    'items': string | PwcDynamicForm.ButtonItemConfig[];
   }
   interface PwcDynamicFormContent {
-    'items': string | PwcFilter.ContentItemConfig[];
+    'items': string | PwcDynamicForm.ContentItemConfig[];
   }
 }
 
@@ -52,14 +52,14 @@ declare global {
 
 declare namespace LocalJSX {
   interface PwcDynamicForm {
-    'onFormChanged'?: (event: CustomEvent<PwcFilter.FormChangedEventPayload>) => void;
+    'onFormChanged'?: (event: CustomEvent<PwcDynamicForm.FormChangedEventPayload>) => void;
   }
   interface PwcDynamicFormButtons {
-    'items'?: string | PwcFilter.ButtonItemConfig[];
+    'items'?: string | PwcDynamicForm.ButtonItemConfig[];
   }
   interface PwcDynamicFormContent {
-    'items'?: string | PwcFilter.ContentItemConfig[];
-    'onFieldChanged'?: (event: CustomEvent<PwcFilter.FieldChangedEventPayload>) => void;
+    'items'?: string | PwcDynamicForm.ContentItemConfig[];
+    'onFieldChanged'?: (event: CustomEvent<PwcDynamicForm.FieldChangedEventPayload>) => void;
   }
 
   interface IntrinsicElements {

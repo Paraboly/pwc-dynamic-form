@@ -8,7 +8,7 @@ import {
   EventEmitter
 } from "@stencil/core";
 import { getVanillaHtmlInputs } from "../../utils/utils";
-import { PwcFilter } from "../../utils/PwcFilter";
+import { PwcDynamicForm } from "../../utils/PwcDynamicForm";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -21,15 +21,15 @@ export class PwcDynamicFormComponent {
 
   @Element() rootElement: HTMLPwcDynamicFormElement;
 
-  @Event() formChanged: EventEmitter<PwcFilter.FormChangedEventPayload>;
+  @Event() formChanged: EventEmitter<PwcDynamicForm.FormChangedEventPayload>;
 
   @Listen("fieldChanged")
   handleFieldChanged(
-    fieldChangedEventPayload: PwcFilter.FieldChangedEventPayload
+    fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload
   ) {
     const rootElement = this.rootElement;
     this.getFieldValues().then(v => {
-      const formChangedEventPayload: PwcFilter.FormChangedEventPayload = {
+      const formChangedEventPayload: PwcDynamicForm.FormChangedEventPayload = {
         type: "change",
         fieldChangedEventPayload: fieldChangedEventPayload,
         formResetEvent: null,
@@ -44,7 +44,7 @@ export class PwcDynamicFormComponent {
   handleFormReset(formResetEvent: Event) {
     const rootElement = this.rootElement;
     this.getFieldValues().then(v => {
-      const formChangedEventPayload: PwcFilter.FormChangedEventPayload = {
+      const formChangedEventPayload: PwcDynamicForm.FormChangedEventPayload = {
         type: "reset",
         fieldChangedEventPayload: null,
         formResetEvent: formResetEvent,
