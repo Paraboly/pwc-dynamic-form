@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type                   | Default     |
-| -------- | --------- | ----------- | ---------------------- | ----------- |
-| `items`  | `items`   |             | `ItemType[] \| string` | `undefined` |
+| Property | Attribute | Description | Type                           | Default     |
+| -------- | --------- | ----------- | ------------------------------ | ----------- |
+| `items`  | `items`   |             | `ButtonItemConfig[] \| string` | `undefined` |
 
 
 ----------------------------------------------
