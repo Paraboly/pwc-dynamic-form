@@ -1,6 +1,6 @@
-import { JSXBase } from "@stencil/core/dist/declarations";
-import "@paraboly/pwc-color-picker";
 import "@paraboly/pwc-choices";
+import "@paraboly/pwc-color-picker";
+import { JSXBase } from "@stencil/core/dist/declarations";
 
 export namespace PwcDynamicForm {
   export type ButtonItemConfig = JSXBase.InputHTMLAttributes<HTMLInputElement>;
@@ -19,6 +19,7 @@ export namespace PwcDynamicForm {
     extends JSXBase.InputHTMLAttributes<HTMLPwcChoicesElement> {
     type: "select-single" | "select-multiple" | "select-text";
     label: string;
+    choices: Array<any>;
   }
 
   export interface ColorPickerConfig
