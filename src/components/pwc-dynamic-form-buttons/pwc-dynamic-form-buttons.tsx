@@ -1,6 +1,6 @@
 import { Component, h, Prop, Watch } from "@stencil/core";
 import { resolveJson } from "../../utils/utils";
-import { ItemType } from "./ButtonsConfig";
+import { PwcFilter } from "../../utils/PwcFilter";
 
 @Component({
   tag: "pwc-dynamic-form-buttons",
@@ -8,12 +8,12 @@ import { ItemType } from "./ButtonsConfig";
   shadow: false
 })
 export class PwcDynamicFormButtonsComponent {
-  private resolvedItems: ItemType[];
+  private resolvedItems: PwcFilter.ButtonItemConfig[];
 
-  @Prop() items: string | ItemType[];
+  @Prop() items: string | PwcFilter.ButtonItemConfig[];
 
   @Watch("items")
-  onConfigChanged(items: string | ItemType[]) {
+  onConfigChanged(items: string | PwcFilter.ButtonItemConfig[]) {
     this.resolvedItems = resolveJson(items);
   }
 
@@ -21,7 +21,9 @@ export class PwcDynamicFormButtonsComponent {
     this.onConfigChanged(this.items);
   }
 
-  private constructButton(button: ItemType): HTMLInputElement {
+  private constructButton(
+    button: PwcFilter.ButtonItemConfig
+  ): HTMLInputElement {
     return <input {...button}></input>;
   }
 
