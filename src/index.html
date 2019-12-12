@@ -42,37 +42,13 @@
       dynamicForm.addEventListener("formChanged", e => console.log(e));
 
       (async function() {
+        init();
         await waitForSecondsAndInit(2);
+        init();
+      })();
+
+      function init() {
         dynamicFormContent.items = [
-          {
-            type: "color",
-            name: "c1",
-            id: "c1",
-            label: "c1-label",
-            colors: ["#951955", "#130394", "#ff7f00", "#989898", "#52d2f2"],
-            activeColor: "pink"
-          },
-          {
-            type: "text",
-            name: "text1",
-            id: "text1",
-            label: "text1-label",
-            required: true,
-            style: { color: "white", "background-color": "black" }
-          },
-          {
-            type: "number",
-            name: "number1",
-            id: "number1",
-            label: "number1-label",
-            required: true
-          },
-          {
-            type: "checkbox",
-            name: "cb1",
-            id: "cb1",
-            label: "cb1-label"
-          },
           {
             type: "select-single",
             name: "ss1",
@@ -91,7 +67,8 @@
                 selected: false,
                 disabled: false
               }
-            ]
+            ],
+            distinct: "value"
           },
           {
             type: "select-multiple",
@@ -121,7 +98,7 @@
             distinct: "value"
           }
         ];
-      })();
+      }
 
       async function waitForSecondsAndInit(seconds) {
         await sleep(seconds);

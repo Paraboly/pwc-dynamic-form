@@ -20,7 +20,7 @@ export namespace PwcDynamicForm {
     type: "select-single" | "select-multiple" | "select-text";
     label: string;
     choices: Array<any>;
-    distinct: "value" | "label" | "all" | "none";
+    distinct?: "value" | "label" | "all" | "none";
   }
 
   export interface ColorPickerConfig
