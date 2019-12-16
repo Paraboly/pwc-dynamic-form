@@ -42,8 +42,7 @@
 - Then you can use the element anywhere in your template, JSX, html etc
 
 # Usage
-
-TODO
+See [documentation](/documentation.md) for advanced usage.
 
 ## Future Plans
 
