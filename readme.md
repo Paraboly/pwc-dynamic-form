@@ -50,7 +50,7 @@ TODO
 - [ ] Documentation
 - [x] ~~LICENSE~~
 - [ ] Form Validation
-- [ ] Support for pwc-color-picker
+- [x] ~~Support for pwc-color-picker~~
 
 ## Authors
 
