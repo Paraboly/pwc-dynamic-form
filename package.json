@@ -22,7 +22,6 @@
   "repository": "git@github.com:Paraboly/pwc-dynamic-form.git",
   "author": "starikcetin (https://github.com/starikcetin/) <cetinsamedtarik@gmail.com>",
   "license": "MIT",
-  "peerDependencies": {},
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
