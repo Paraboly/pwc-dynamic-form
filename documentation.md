@@ -36,10 +36,9 @@ formElement: HTMLPwcDynamicFormElement;
 ```
 
 - `type`: type of the change. `change` if the event is raised due to a field change. `reset` if the event is raised due to a form reset.
-- `fieldChangedEventPayload`: (valid if type is `change`) payload of the
-- `fieldChangedEvent` that caused this event to be raised.
-- `fieldChangedEventPayload`: (valid if type is `reset`) the `reset` event that caused this event to be raised.
-- `formValues`: current form values (no the values before the event, but the new ones).
+- `fieldChangedEventPayload`: (valid if type is `change`) payload of the `fieldChangedEvent` that caused this event to be raised.
+- `formResetEvent`: (valid if type is `reset`) the `reset` event that caused this event to be raised.
+- `formValues`: current form values (not the values before the event, but the new ones).
 - `formElement`: the `<pwc-dynamic-form>` element.
 
 ## `getFieldValues` Method
