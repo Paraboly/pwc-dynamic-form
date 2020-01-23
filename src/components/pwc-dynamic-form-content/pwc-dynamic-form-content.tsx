@@ -10,7 +10,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getVanillaHtmlInputs, resolveJson } from "../../utils/utils";
-import { PwcDynamicFormInterfaces } from "../../interfaces/pwc-dynamic-form-interfaces";
+import { PwcDynamicFormInterfaces } from "../../interfaces/PwcDynamicFormInterfaces";
 
 @Component({
   tag: "pwc-dynamic-form-content",

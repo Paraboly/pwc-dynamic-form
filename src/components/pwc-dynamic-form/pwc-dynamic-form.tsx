@@ -10,8 +10,8 @@ import {
   EventEmitter
 } from "@stencil/core";
 import { getVanillaHtmlInputs } from "../../utils/utils";
-import { PwcDynamicFormInterfaces } from "../../interfaces/pwc-dynamic-form-interfaces";
-import { PwcChoices } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoices";
+import { PwcDynamicFormInterfaces } from "../../interfaces/PwcDynamicFormInterfaces";
+import { PwcChoicesInterfaces } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoicesInterfaces";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -59,7 +59,7 @@ export class PwcDynamicForm {
 
   @Method()
   async getFieldValues(
-    pwcChoicesRetreiveMode: PwcChoices.RetreiveMode
+    pwcChoicesRetreiveMode: PwcChoicesInterfaces.RetreiveMode
   ): Promise<{
     [key: string]: PwcDynamicFormInterfaces.FormValueTypeUnion;
   }> {

@@ -9,14 +9,14 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   PwcDynamicFormInterfaces,
-} from './interfaces/pwc-dynamic-form-interfaces';
+} from './interfaces/PwcDynamicFormInterfaces';
 import {
-  PwcChoices,
-} from '@paraboly/pwc-choices/dist/types/interfaces/PwcChoices';
+  PwcChoicesInterfaces,
+} from '@paraboly/pwc-choices/dist/types/interfaces/PwcChoicesInterfaces';
 
 export namespace Components {
   interface PwcDynamicForm {
-    'getFieldValues': (pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<{ [key: string]: PwcDynamicFormInterfaces.FormValueTypeUnion; }>;
+    'getFieldValues': (pwcChoicesRetreiveMode: any) => Promise<{ [key: string]: any; }>;
   }
   interface PwcDynamicFormButtons {
     'items': string | PwcDynamicFormInterfaces.ButtonItemConfig[];

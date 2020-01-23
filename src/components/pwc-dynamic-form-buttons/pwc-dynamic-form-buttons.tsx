@@ -2,7 +2,7 @@ import "@paraboly/pwc-choices";
 import "@paraboly/pwc-color-picker";
 import { Component, h, Prop, Watch } from "@stencil/core";
 import { resolveJson } from "../../utils/utils";
-import { PwcDynamicFormInterfaces } from "../../interfaces/pwc-dynamic-form-interfaces";
+import { PwcDynamicFormInterfaces } from "../../interfaces/PwcDynamicFormInterfaces";
 
 @Component({
   tag: "pwc-dynamic-form-buttons",
