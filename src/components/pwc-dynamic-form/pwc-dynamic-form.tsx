@@ -19,9 +19,6 @@ import { PwcChoices } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoic
   shadow: false
 })
 export class PwcDynamicFormComponent {
-  //@ts-ignore
-  private resolvedConfig: DynamicFormConfig.Root;
-
   @Element() rootElement: HTMLPwcDynamicFormElement;
 
   @Event() formChanged: EventEmitter<PwcDynamicForm.FormChangedEventPayload>;
@@ -34,7 +31,7 @@ export class PwcDynamicFormComponent {
     this.getFieldValues("value").then(v => {
       const formChangedEventPayload: PwcDynamicForm.FormChangedEventPayload = {
         type: "change",
-        fieldChangedEventPayload: fieldChangedEventPayload,
+        fieldChangedEventPayload,
         formResetEvent: null,
         formValues: v,
         formElement: rootElement
@@ -50,7 +47,7 @@ export class PwcDynamicFormComponent {
       const formChangedEventPayload: PwcDynamicForm.FormChangedEventPayload = {
         type: "reset",
         fieldChangedEventPayload: null,
-        formResetEvent: formResetEvent,
+        formResetEvent,
         formValues: v,
         formElement: rootElement
       };
@@ -65,7 +62,7 @@ export class PwcDynamicFormComponent {
     [key: string]: PwcDynamicForm.FormValueTypeUnion;
   }> {
     const form: HTMLFormElement = this.rootElement.querySelector("form");
-    let resultObj: {
+    const resultObj: {
       [key: string]: PwcDynamicForm.FormValueTypeUnion;
     } = {};
 

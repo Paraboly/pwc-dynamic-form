@@ -43,7 +43,7 @@ export class PwcDynamicFormContentComponent {
 
   private constructField(field: PwcDynamicForm.ContentItemConfig) {
     let castedField;
-    let label = field.label;
+    const label = field.label;
     delete field.label;
 
     switch (field.type) {
@@ -131,7 +131,7 @@ export class PwcDynamicFormContentComponent {
         const fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload = {
           element: cp,
           newValue: cp.activeColor,
-          originalEvent: originalEvent
+          originalEvent
         };
         this.handleFieldChange(fieldChangedEventPayload);
       });
@@ -144,7 +144,7 @@ export class PwcDynamicFormContentComponent {
         const fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload = {
           element: pce,
           newValue: value,
-          originalEvent: originalEvent
+          originalEvent
         };
         this.handleFieldChange(fieldChangedEventPayload);
       });

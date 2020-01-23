@@ -32,8 +32,8 @@ export function getVanillaHtmlInputs(
 }
 
 export function getAllParentElements(node: HTMLElement): HTMLElement[] {
-  var a = node;
-  var els = [];
+  let a = node;
+  const els = [];
   while (a) {
     els.unshift(a);
     a = a.parentElement;
