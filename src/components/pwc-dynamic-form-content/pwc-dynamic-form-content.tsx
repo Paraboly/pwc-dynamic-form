@@ -59,21 +59,15 @@ export class PwcDynamicFormContentComponent {
 
       // Special handle reason: using pwc-choices.
       case "select-single":
-        castedField = field as PwcDynamicForm.PwcSelectConfig;
+        castedField = field as PwcDynamicForm.PwcChoicesConfig;
         castedField.type = "single";
-        return constructSelect(castedField);
+        return this.constructPwcChoices(label, castedField);
 
       // Special handle reason: using pwc-choices.
-      case "select-multiple":
-        castedField = field as PwcDynamicForm.PwcSelectConfig;
-        castedField.type = "multiple";
-        return constructSelect(castedField);
-
-      // Special handle reason: using pwc-choices.
-      case "select-text":
-        castedField = field as PwcDynamicForm.PwcSelectConfig;
-        castedField.type = "text";
-        return constructSelect(castedField);
+      case "select-multi":
+        castedField = field as PwcDynamicForm.PwcChoicesConfig;
+        castedField.type = "multi";
+        return this.constructPwcChoices(label, castedField);
 
       // Special handle reason: label needs to be placed after the input element.
       case "checkbox":
@@ -98,25 +92,25 @@ export class PwcDynamicFormContentComponent {
           </div>
         );
     }
-
-    function constructSelect(field) {
-      return (
-        <div class="form-group">
-          <label>
-            {label}
-            <pwc-choices {...field}></pwc-choices>
-          </label>
-        </div>
-      );
-    }
   }
 
-  componentDidLoad() {
-    this.init();
+  private constructPwcChoices(label: string, castedField: any) {
+    return (
+      <div class="form-group">
+        <label>
+          {label}
+          <pwc-choices {...castedField}></pwc-choices>
+        </label>
+      </div>
+    );
   }
 
-  componentDidUpdate() {
-    this.init();
+  async componentDidLoad() {
+    await this.init();
+  }
+
+  async componentDidUpdate() {
+    await this.init();
   }
 
   render() {
@@ -144,15 +138,14 @@ export class PwcDynamicFormContentComponent {
 
     const pwcChoicesElements = this.rootElement.querySelectorAll("pwc-choices");
     pwcChoicesElements.forEach(pce => {
-      pce.addEventListener("change", originalEvent => {
-        pce.getValue().then(value => {
-          const fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload = {
-            element: pce,
-            newValue: value,
-            originalEvent: originalEvent
-          };
-          this.handleFieldChange(fieldChangedEventPayload);
-        });
+      pce.addEventListener("change", async originalEvent => {
+        const value = (await pce.getSelectedOptions("value")) as string[];
+        const fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload = {
+          element: pce,
+          newValue: value,
+          originalEvent: originalEvent
+        };
+        this.handleFieldChange(fieldChangedEventPayload);
       });
     });
 

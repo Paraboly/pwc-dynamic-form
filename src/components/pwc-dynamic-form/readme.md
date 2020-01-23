@@ -14,13 +14,13 @@
 
 ## Methods
 
-### `getFieldValues(returnOnlyValuesForPwcSelects?: boolean) => Promise<{ [key: string]: string | boolean | string[]; }>`
+### `getFieldValues(pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<{ [key: string]: PwcDynamicForm.FormValueTypeUnion; }>`
 
 
 
 #### Returns
 
-Type: `Promise<{ [key: string]: string | boolean | string[]; }>`
+Type: `Promise<{ [key: string]: FormValueTypeUnion; }>`
 
 
 

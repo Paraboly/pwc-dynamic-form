@@ -10,10 +10,13 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   PwcDynamicForm,
 } from './utils/PwcDynamicForm';
+import {
+  PwcChoices,
+} from '@paraboly/pwc-choices/dist/types/interfaces/PwcChoices';
 
 export namespace Components {
   interface PwcDynamicForm {
-    'getFieldValues': (returnOnlyValuesForPwcSelects?: boolean) => Promise<{ [key: string]: string | boolean | string[]; }>;
+    'getFieldValues': (pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<{ [key: string]: PwcDynamicForm.FormValueTypeUnion; }>;
   }
   interface PwcDynamicFormButtons {
     'items': string | PwcDynamicForm.ButtonItemConfig[];

@@ -34,7 +34,7 @@
       document
         .querySelector("#get-values-button")
         .addEventListener("click", e => {
-          dynamicForm.getFieldValues(true).then(fieldValues => {
+          dynamicForm.getFieldValues("value").then(fieldValues => {
             console.log(fieldValues);
           });
         });
@@ -54,45 +54,35 @@
             name: "ss1",
             id: "ss1",
             label: "ss1-label",
-            choices: [
+            options: [
               {
                 value: "superstar",
-                label: "Superstar",
-                selected: false,
-                disabled: false
+                label: "Superstar"
               },
               {
                 value: "foo",
-                label: "bar",
-                selected: false,
-                disabled: false
+                label: "bar"
               }
             ],
             distinct: "value"
           },
           {
-            type: "select-multiple",
+            type: "select-multi",
             name: "ms1",
             id: "ms1",
             label: "ms1-label",
-            choices: [
+            options: [
               {
                 value: "superstar",
-                label: "Superstar",
-                selected: false,
-                disabled: false
+                label: "Superstar"
               },
               {
                 value: "foo",
-                label: "bar",
-                selected: false,
-                disabled: false
+                label: "bar"
               },
               {
                 value: "foo",
-                label: "bar",
-                selected: false,
-                disabled: false
+                label: "bar"
               }
             ],
             distinct: "value"

@@ -9,6 +9,7 @@ import {
 } from "@stencil/core";
 import { getVanillaHtmlInputs } from "../../utils/utils";
 import { PwcDynamicForm } from "../../utils/PwcDynamicForm";
+import { PwcChoices } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoices";
 
 @Component({
   tag: "pwc-dynamic-form",
@@ -28,7 +29,7 @@ export class PwcDynamicFormComponent {
     fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload
   ) {
     const rootElement = this.rootElement;
-    this.getFieldValues().then(v => {
+    this.getFieldValues("value").then(v => {
       const formChangedEventPayload: PwcDynamicForm.FormChangedEventPayload = {
         type: "change",
         fieldChangedEventPayload: fieldChangedEventPayload,
@@ -43,7 +44,7 @@ export class PwcDynamicFormComponent {
   @Listen("reset")
   handleFormReset(formResetEvent: Event) {
     const rootElement = this.rootElement;
-    this.getFieldValues().then(v => {
+    this.getFieldValues("value").then(v => {
       const formChangedEventPayload: PwcDynamicForm.FormChangedEventPayload = {
         type: "reset",
         fieldChangedEventPayload: null,
@@ -57,10 +58,14 @@ export class PwcDynamicFormComponent {
 
   @Method()
   async getFieldValues(
-    returnOnlyValuesForPwcSelects: boolean = false
-  ): Promise<{ [key: string]: boolean | string | string[] }> {
+    pwcChoicesRetreiveMode: PwcChoices.RetreiveMode
+  ): Promise<{
+    [key: string]: PwcDynamicForm.FormValueTypeUnion;
+  }> {
     const form: HTMLFormElement = this.rootElement.querySelector("form");
-    let resultObj: { [key: string]: boolean | string | string[] } = {};
+    let resultObj: {
+      [key: string]: PwcDynamicForm.FormValueTypeUnion;
+    } = {};
 
     // vanilla html inputs
     const vanillaInputs = getVanillaHtmlInputs(
@@ -82,7 +87,7 @@ export class PwcDynamicFormComponent {
     for (const key in pwcChoicesInputs) {
       if (pwcChoicesInputs.hasOwnProperty(key)) {
         const ci = pwcChoicesInputs[key];
-        const value = await ci.getValue(returnOnlyValuesForPwcSelects);
+        const value = await ci.getSelectedOptions(pwcChoicesRetreiveMode);
         resultObj[ci.name] = value;
       }
     }

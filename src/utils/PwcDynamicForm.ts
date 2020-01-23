@@ -1,13 +1,14 @@
 import "@paraboly/pwc-choices";
 import "@paraboly/pwc-color-picker";
 import { JSXBase } from "@stencil/core/dist/declarations";
+import { PwcChoices } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoices";
 
 export namespace PwcDynamicForm {
   export type ButtonItemConfig = JSXBase.InputHTMLAttributes<HTMLInputElement>;
 
   export type ContentItemConfig =
     | NativeInputConfig
-    | PwcSelectConfig
+    | PwcChoicesConfig
     | ColorPickerConfig;
 
   export interface NativeInputConfig
@@ -15,12 +16,10 @@ export namespace PwcDynamicForm {
     label: string;
   }
 
-  export interface PwcSelectConfig
+  export interface PwcChoicesConfig
     extends JSXBase.InputHTMLAttributes<HTMLPwcChoicesElement> {
-    type: "select-single" | "select-multiple" | "select-text";
+    type: "select-single" | "select-multi";
     label: string;
-    choices: Array<any>;
-    distinct?: "value" | "label" | "all" | "none";
   }
 
   export interface ColorPickerConfig
@@ -28,11 +27,20 @@ export namespace PwcDynamicForm {
     label: string;
   }
 
+  export type FormValueTypeUnion =
+    | boolean
+    | string
+    | string[]
+    | PwcChoices.IOption[]
+    | PwcChoices.IOption;
+
   export interface FormChangedEventPayload {
     type: "change" | "reset";
     fieldChangedEventPayload: FieldChangedEventPayload;
     formResetEvent: Event;
-    formValues: { [key: string]: boolean | string | string[] };
+    formValues: {
+      [key: string]: FormValueTypeUnion;
+    };
     formElement: HTMLPwcDynamicFormElement;
   }
 
