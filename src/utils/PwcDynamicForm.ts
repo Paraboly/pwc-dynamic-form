@@ -11,6 +11,28 @@ export namespace PwcDynamicForm {
     | PwcChoicesConfig
     | ColorPickerConfig;
 
+  export type FormValueTypeUnion =
+    | boolean
+    | string
+    | string[]
+    | PwcChoices.IOption[]
+    | PwcChoices.IOption;
+
+  export type PwcChoicesType = "select-single" | "select-multi";
+
+  export type FormChangeType = "change" | "reset";
+
+  export type FieldChangedEventElementType =
+    | HTMLInputElement
+    | HTMLPwcChoicesElement
+    | HTMLColorPickerElement;
+
+  export type FieldChangedEventNewValueType = string | string[];
+
+  export type FormValuesType = {
+    [key: string]: FormValueTypeUnion;
+  };
+
   export interface NativeInputConfig
     extends JSXBase.InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -18,7 +40,7 @@ export namespace PwcDynamicForm {
 
   export interface PwcChoicesConfig
     extends JSXBase.InputHTMLAttributes<HTMLPwcChoicesElement> {
-    type: "select-single" | "select-multi";
+    type: PwcChoicesType;
     label: string;
   }
 
@@ -27,26 +49,17 @@ export namespace PwcDynamicForm {
     label: string;
   }
 
-  export type FormValueTypeUnion =
-    | boolean
-    | string
-    | string[]
-    | PwcChoices.IOption[]
-    | PwcChoices.IOption;
-
   export interface FormChangedEventPayload {
-    type: "change" | "reset";
+    type: FormChangeType;
     fieldChangedEventPayload: FieldChangedEventPayload;
     formResetEvent: Event;
-    formValues: {
-      [key: string]: FormValueTypeUnion;
-    };
+    formValues: FormValuesType;
     formElement: HTMLPwcDynamicFormElement;
   }
 
   export interface FieldChangedEventPayload {
-    element: HTMLInputElement | HTMLPwcChoicesElement | HTMLColorPickerElement;
-    newValue: string | string[];
+    element: FieldChangedEventElementType;
+    newValue: FieldChangedEventNewValueType;
     originalEvent: Event | CustomEvent;
   }
 }
