@@ -1,6 +1,6 @@
 {
   "name": "@paraboly/pwc-dynamic-form",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Generate HTML forms from JSON configuration.",
   "keywords": [
     "paraboly",
@@ -45,7 +45,7 @@
     "@stencil/core": "^1.3.3"
   },
   "dependencies": {
-    "@paraboly/pwc-choices": "^0.3.1",
+    "@paraboly/pwc-choices": "^0.3.3",
     "@paraboly/pwc-color-picker": "0.0.6",
     "@types/node": "^12.12.8",
     "linq": "^3.2.1"
