@@ -1,3 +1,5 @@
+import "@paraboly/pwc-choices";
+import "@paraboly/pwc-color-picker";
 import { Component, h, Prop, Watch } from "@stencil/core";
 import { resolveJson } from "../../utils/utils";
 import { PwcDynamicForm } from "../../utils/PwcDynamicForm";

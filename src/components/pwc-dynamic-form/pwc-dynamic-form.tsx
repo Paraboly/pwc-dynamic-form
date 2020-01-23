@@ -1,3 +1,5 @@
+import "@paraboly/pwc-choices";
+import "@paraboly/pwc-color-picker";
 import {
   Component,
   h,
