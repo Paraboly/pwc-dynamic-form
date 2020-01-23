@@ -3,7 +3,7 @@ import "@paraboly/pwc-color-picker";
 import { JSXBase } from "@stencil/core/dist/declarations";
 import { PwcChoices } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoices";
 
-export namespace PwcDynamicForm {
+export namespace PwcDynamicFormInterfaces {
   export type ButtonItemConfig = JSXBase.InputHTMLAttributes<HTMLInputElement>;
 
   export type ContentItemConfig =

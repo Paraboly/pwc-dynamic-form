@@ -14,7 +14,7 @@
 
 ## Methods
 
-### `getFieldValues(pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<{ [key: string]: PwcDynamicForm.FormValueTypeUnion; }>`
+### `getFieldValues(pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<{ [key: string]: PwcDynamicFormInterfaces.FormValueTypeUnion; }>`
 
 
 

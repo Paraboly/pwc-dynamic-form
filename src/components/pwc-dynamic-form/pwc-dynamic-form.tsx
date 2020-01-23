@@ -10,7 +10,7 @@ import {
   EventEmitter
 } from "@stencil/core";
 import { getVanillaHtmlInputs } from "../../utils/utils";
-import { PwcDynamicForm } from "../../utils/PwcDynamicForm";
+import { PwcDynamicFormInterfaces } from "../../interfaces/pwc-dynamic-form-interfaces";
 import { PwcChoices } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoices";
 
 @Component({
@@ -18,18 +18,20 @@ import { PwcChoices } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoic
   styleUrl: "pwc-dynamic-form.css",
   shadow: false
 })
-export class PwcDynamicFormComponent {
+export class PwcDynamicForm {
   @Element() rootElement: HTMLPwcDynamicFormElement;
 
-  @Event() formChanged: EventEmitter<PwcDynamicForm.FormChangedEventPayload>;
+  @Event() formChanged: EventEmitter<
+    PwcDynamicFormInterfaces.FormChangedEventPayload
+  >;
 
   @Listen("fieldChanged")
   handleFieldChanged(
-    fieldChangedEventPayload: PwcDynamicForm.FieldChangedEventPayload
+    fieldChangedEventPayload: PwcDynamicFormInterfaces.FieldChangedEventPayload
   ) {
     const rootElement = this.rootElement;
     this.getFieldValues("value").then(v => {
-      const formChangedEventPayload: PwcDynamicForm.FormChangedEventPayload = {
+      const formChangedEventPayload: PwcDynamicFormInterfaces.FormChangedEventPayload = {
         type: "change",
         fieldChangedEventPayload,
         formResetEvent: null,
@@ -44,7 +46,7 @@ export class PwcDynamicFormComponent {
   handleFormReset(formResetEvent: Event) {
     const rootElement = this.rootElement;
     this.getFieldValues("value").then(v => {
-      const formChangedEventPayload: PwcDynamicForm.FormChangedEventPayload = {
+      const formChangedEventPayload: PwcDynamicFormInterfaces.FormChangedEventPayload = {
         type: "reset",
         fieldChangedEventPayload: null,
         formResetEvent,
@@ -59,11 +61,11 @@ export class PwcDynamicFormComponent {
   async getFieldValues(
     pwcChoicesRetreiveMode: PwcChoices.RetreiveMode
   ): Promise<{
-    [key: string]: PwcDynamicForm.FormValueTypeUnion;
+    [key: string]: PwcDynamicFormInterfaces.FormValueTypeUnion;
   }> {
     const form: HTMLFormElement = this.rootElement.querySelector("form");
     const resultObj: {
-      [key: string]: PwcDynamicForm.FormValueTypeUnion;
+      [key: string]: PwcDynamicFormInterfaces.FormValueTypeUnion;
     } = {};
 
     // vanilla html inputs
