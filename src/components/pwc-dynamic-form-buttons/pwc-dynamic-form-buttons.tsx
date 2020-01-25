@@ -2,7 +2,7 @@ import "@paraboly/pwc-choices";
 import "@paraboly/pwc-color-picker";
 import { Component, h, Prop, Watch } from "@stencil/core";
 import { resolveJson } from "../../utils/utils";
-import { PwcDynamicFormInterfaces } from "../../interfaces/PwcDynamicFormInterfaces";
+import { ButtonItemConfig } from "./ButtonItemConfig";
 
 @Component({
   tag: "pwc-dynamic-form-buttons",
@@ -10,12 +10,12 @@ import { PwcDynamicFormInterfaces } from "../../interfaces/PwcDynamicFormInterfa
   shadow: false
 })
 export class PwcDynamicFormButtons {
-  private resolvedItems: PwcDynamicFormInterfaces.ButtonItemConfig[];
+  private resolvedItems: ButtonItemConfig[];
 
-  @Prop() items: string | PwcDynamicFormInterfaces.ButtonItemConfig[];
+  @Prop() items: string | ButtonItemConfig[];
 
   @Watch("items")
-  onConfigChanged(items: string | PwcDynamicFormInterfaces.ButtonItemConfig[]) {
+  onConfigChanged(items: string | ButtonItemConfig[]) {
     this.resolvedItems = resolveJson(items);
   }
 
@@ -23,9 +23,7 @@ export class PwcDynamicFormButtons {
     this.onConfigChanged(this.items);
   }
 
-  private constructButton(
-    button: PwcDynamicFormInterfaces.ButtonItemConfig
-  ): HTMLInputElement {
+  private constructButton(button: ButtonItemConfig): HTMLInputElement {
     return <input {...button}></input>;
   }
 

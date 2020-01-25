@@ -10,7 +10,12 @@ import {
   Watch
 } from "@stencil/core";
 import { getVanillaHtmlInputs, resolveJson } from "../../utils/utils";
-import { PwcDynamicFormInterfaces } from "../../interfaces/PwcDynamicFormInterfaces";
+import { ContentItemConfig } from "./ContentItemConfig";
+import { FieldChangedEventPayload } from "./FieldChangedEventPayload";
+import { ColorPickerConfig } from "./ColorPickerConfig";
+import { NativeInputConfig } from "./NativeInputConfig";
+import { PwcChoicesConfig } from "./PwcChoicesConfig";
+import { IOption } from "@paraboly/pwc-choices/dist/types/components/pwc-choices/IOption";
 
 @Component({
   tag: "pwc-dynamic-form-content",
@@ -18,39 +23,35 @@ import { PwcDynamicFormInterfaces } from "../../interfaces/PwcDynamicFormInterfa
   shadow: false
 })
 export class PwcDynamicFormContent {
-  private resolvedItems: PwcDynamicFormInterfaces.ContentItemConfig[];
+  private resolvedItems: ContentItemConfig[];
 
   @Element() rootElement: HTMLPwcDynamicFormContentElement;
 
-  @Prop() items: string | PwcDynamicFormInterfaces.ContentItemConfig[];
+  @Prop() items: string | ContentItemConfig[];
 
   @Watch("items")
-  onItemsChanged(items: string | PwcDynamicFormInterfaces.ContentItemConfig[]) {
+  onItemsChanged(items: string | ContentItemConfig[]) {
     this.resolvedItems = resolveJson(items);
   }
 
-  @Event() fieldChanged: EventEmitter<
-    PwcDynamicFormInterfaces.FieldChangedEventPayload
-  >;
+  @Event() fieldChanged: EventEmitter<FieldChangedEventPayload>;
 
   componentWillLoad() {
     this.onItemsChanged(this.items);
   }
 
-  private handleFieldChange(
-    eventPayload: PwcDynamicFormInterfaces.FieldChangedEventPayload
-  ) {
+  private handleFieldChange(eventPayload: FieldChangedEventPayload) {
     this.fieldChanged.emit(eventPayload);
   }
 
-  private constructField(field: PwcDynamicFormInterfaces.ContentItemConfig) {
+  private constructField(field: ContentItemConfig) {
     let castedField;
     const label = field.label;
     delete field.label;
 
     switch (field.type) {
       case "color":
-        castedField = field as PwcDynamicFormInterfaces.ColorPickerConfig;
+        castedField = field as ColorPickerConfig;
         return (
           <div class="form-group">
             <label>
@@ -62,19 +63,19 @@ export class PwcDynamicFormContent {
 
       // Special handle reason: using pwc-choices.
       case "select-single":
-        castedField = field as PwcDynamicFormInterfaces.PwcChoicesConfig;
+        castedField = field as PwcChoicesConfig;
         castedField.type = "single";
         return this.constructPwcChoices(label, castedField);
 
       // Special handle reason: using pwc-choices.
       case "select-multi":
-        castedField = field as PwcDynamicFormInterfaces.PwcChoicesConfig;
+        castedField = field as PwcChoicesConfig;
         castedField.type = "multi";
         return this.constructPwcChoices(label, castedField);
 
       // Special handle reason: label needs to be placed after the input element.
       case "checkbox":
-        castedField = field as PwcDynamicFormInterfaces.NativeInputConfig;
+        castedField = field as NativeInputConfig;
         return (
           <div class="form-group">
             <label>
@@ -85,7 +86,7 @@ export class PwcDynamicFormContent {
         );
 
       default:
-        castedField = field as PwcDynamicFormInterfaces.NativeInputConfig;
+        castedField = field as NativeInputConfig;
         return (
           <div class="form-group">
             <label>
@@ -108,29 +109,11 @@ export class PwcDynamicFormContent {
     );
   }
 
-  async componentDidLoad() {
-    await this.init();
-  }
-
-  async componentDidUpdate() {
-    await this.init();
-  }
-
-  render() {
-    return (
-      <div>
-        {this.resolvedItems
-          ? this.resolvedItems.map(field => this.constructField(field))
-          : ""}
-      </div>
-    );
-  }
-
   private init() {
     const colorPickers = this.rootElement.querySelectorAll("color-picker");
     colorPickers.forEach(cp => {
       cp.addEventListener("colorPickedEvent", originalEvent => {
-        const fieldChangedEventPayload: PwcDynamicFormInterfaces.FieldChangedEventPayload = {
+        const fieldChangedEventPayload: FieldChangedEventPayload = {
           element: cp,
           newValue: cp.activeColor,
           originalEvent
@@ -141,15 +124,17 @@ export class PwcDynamicFormContent {
 
     const pwcChoicesElements = this.rootElement.querySelectorAll("pwc-choices");
     pwcChoicesElements.forEach(pce => {
-      pce.addEventListener("change", async originalEvent => {
-        const value = (await pce.getSelectedOptions("value")) as string[];
-        const fieldChangedEventPayload: PwcDynamicFormInterfaces.FieldChangedEventPayload = {
-          element: pce,
-          newValue: value,
-          originalEvent
-        };
-        this.handleFieldChange(fieldChangedEventPayload);
-      });
+      pce.addEventListener(
+        "selectedOptionsChanged",
+        (event: CustomEvent<IOption[]>) => {
+          const fieldChangedEventPayload: FieldChangedEventPayload = {
+            element: pce,
+            newValue: event.detail,
+            originalEvent: event
+          };
+          this.handleFieldChange(fieldChangedEventPayload);
+        }
+      );
     });
 
     // vanilla html inputs
@@ -157,7 +142,7 @@ export class PwcDynamicFormContent {
 
     vanillaInputs.forEach(vf => {
       vf.addEventListener("change", e => {
-        const fieldChangedEventPayload: PwcDynamicFormInterfaces.FieldChangedEventPayload = {
+        const fieldChangedEventPayload: FieldChangedEventPayload = {
           element: vf,
           newValue: vf.value,
           originalEvent: e
@@ -165,5 +150,23 @@ export class PwcDynamicFormContent {
         this.handleFieldChange(fieldChangedEventPayload);
       });
     });
+  }
+
+  componentDidLoad() {
+    this.init();
+  }
+
+  componentDidUpdate() {
+    this.init();
+  }
+
+  render() {
+    return (
+      <div>
+        {this.resolvedItems
+          ? this.resolvedItems.map(field => this.constructField(field))
+          : ""}
+      </div>
+    );
   }
 }

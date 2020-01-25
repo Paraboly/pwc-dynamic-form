@@ -8,21 +8,33 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  PwcDynamicFormInterfaces,
-} from './interfaces/PwcDynamicFormInterfaces';
+  FormChangedEventPayload,
+} from './components/pwc-dynamic-form/FormChangedEventPayload';
+import {
+  FormValuesType,
+} from './components/pwc-dynamic-form/FormValuesType';
 import {
   RetreiveMode,
 } from '@paraboly/pwc-choices/dist/types/components/pwc-choices/RetreiveMode';
+import {
+  ButtonItemConfig,
+} from './components/pwc-dynamic-form-buttons/ButtonItemConfig';
+import {
+  ContentItemConfig,
+} from './components/pwc-dynamic-form-content/ContentItemConfig';
+import {
+  FieldChangedEventPayload,
+} from './components/pwc-dynamic-form-content/FieldChangedEventPayload';
 
 export namespace Components {
   interface PwcDynamicForm {
-    'getFieldValues': (pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<{ [key: string]: PwcDynamicFormInterfaces.FormValueTypeUnion; }>;
+    'getFieldValues': (pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<FormValuesType>;
   }
   interface PwcDynamicFormButtons {
-    'items': string | PwcDynamicFormInterfaces.ButtonItemConfig[];
+    'items': string | ButtonItemConfig[];
   }
   interface PwcDynamicFormContent {
-    'items': string | PwcDynamicFormInterfaces.ContentItemConfig[];
+    'items': string | ContentItemConfig[];
   }
 }
 
@@ -55,14 +67,14 @@ declare global {
 
 declare namespace LocalJSX {
   interface PwcDynamicForm {
-    'onFormChanged'?: (event: CustomEvent<PwcDynamicFormInterfaces.FormChangedEventPayload>) => void;
+    'onFormChanged'?: (event: CustomEvent<FormChangedEventPayload>) => void;
   }
   interface PwcDynamicFormButtons {
-    'items'?: string | PwcDynamicFormInterfaces.ButtonItemConfig[];
+    'items'?: string | ButtonItemConfig[];
   }
   interface PwcDynamicFormContent {
-    'items'?: string | PwcDynamicFormInterfaces.ContentItemConfig[];
-    'onFieldChanged'?: (event: CustomEvent<PwcDynamicFormInterfaces.FieldChangedEventPayload>) => void;
+    'items'?: string | ContentItemConfig[];
+    'onFieldChanged'?: (event: CustomEvent<FieldChangedEventPayload>) => void;
   }
 
   interface IntrinsicElements {
