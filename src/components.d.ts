@@ -11,12 +11,12 @@ import {
   PwcDynamicFormInterfaces,
 } from './interfaces/PwcDynamicFormInterfaces';
 import {
-  PwcChoicesInterfaces,
-} from '@paraboly/pwc-choices/dist/types/interfaces/PwcChoicesInterfaces';
+  RetreiveMode,
+} from '@paraboly/pwc-choices/dist/types/components/pwc-choices/RetreiveMode';
 
 export namespace Components {
   interface PwcDynamicForm {
-    'getFieldValues': (pwcChoicesRetreiveMode: any) => Promise<{ [key: string]: any; }>;
+    'getFieldValues': (pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<{ [key: string]: PwcDynamicFormInterfaces.FormValueTypeUnion; }>;
   }
   interface PwcDynamicFormButtons {
     'items': string | PwcDynamicFormInterfaces.ButtonItemConfig[];

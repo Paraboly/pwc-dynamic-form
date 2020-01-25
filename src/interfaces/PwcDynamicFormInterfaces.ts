@@ -1,7 +1,7 @@
 import "@paraboly/pwc-choices";
 import "@paraboly/pwc-color-picker";
 import { JSXBase } from "@stencil/core/dist/declarations";
-import { PwcChoicesInterfaces } from "@paraboly/pwc-choices/dist/types/interfaces/PwcChoicesInterfaces";
+import { IOption as PwcChoicesIOption } from "@paraboly/pwc-choices/dist/types/components/pwc-choices/IOption";
 
 export namespace PwcDynamicFormInterfaces {
   export type ButtonItemConfig = JSXBase.InputHTMLAttributes<HTMLInputElement>;
@@ -15,8 +15,8 @@ export namespace PwcDynamicFormInterfaces {
     | boolean
     | string
     | string[]
-    | PwcChoicesInterfaces.IOption[]
-    | PwcChoicesInterfaces.IOption;
+    | PwcChoicesIOption[]
+    | PwcChoicesIOption;
 
   export type PwcChoicesType = "select-single" | "select-multi";
 
