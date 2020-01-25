@@ -28,7 +28,7 @@ import {
 
 export namespace Components {
   interface PwcDynamicForm {
-    'getFieldValues': (pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<FormValuesType>;
+    'getFieldValues': (pwcChoicesRetreiveMode: any) => Promise<FormValuesType>;
   }
   interface PwcDynamicFormButtons {
     'items': string | ButtonItemConfig[];
