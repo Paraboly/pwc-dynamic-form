@@ -7,9 +7,10 @@ import {
   EventEmitter,
   h,
   Prop,
-  Watch
+  Watch,
+  Listen
 } from "@stencil/core";
-import { getVanillaHtmlInputs, resolveJson } from "../../utils/utils";
+import { resolveJson } from "../../utils/utils";
 import { ContentItemConfig } from "./ContentItemConfig";
 import { FieldChangedEventPayload } from "./FieldChangedEventPayload";
 import { PwcColorPickerConfig } from "./PwcColorPickerConfig";
@@ -30,11 +31,45 @@ export class PwcDynamicFormContent {
   @Prop() items: string | ContentItemConfig[];
 
   @Watch("items")
-  onItemsChanged(items: string | ContentItemConfig[]) {
+  itemsWatchHandler(items: string | ContentItemConfig[]) {
     this.resolvedItems = resolveJson(items);
   }
 
   @Event() fieldChanged: EventEmitter<FieldChangedEventPayload>;
+
+  @Listen("changed")
+  changedEventHandler(event: Event) {
+    const element = event.target as HTMLInputElement;
+    this.fieldChanged.emit({
+      element,
+      newValue: element.value,
+      originalEvent: event
+    });
+  }
+
+  @Listen("selectedOptionsChanged")
+  selectedOptionsChangedHandler(event: CustomEvent<IOption[]>) {
+    const element = event.target as HTMLInputElement;
+    const value = event.detail;
+    this.fieldChanged.emit({
+      element,
+      newValue: value,
+      originalEvent: event
+    });
+  }
+
+  @Listen("colorPickedEvent")
+  colorPickedeventHandler(event: CustomEvent<string>) {
+    event.stopPropagation();
+    event.preventDefault();
+    const element = event.target as HTMLPwcColorPickerElement;
+    const value = event.detail;
+    this.fieldChanged.emit({
+      element,
+      newValue: value,
+      originalEvent: event
+    });
+  }
 
   private constructField(field: ContentItemConfig) {
     let castedField;
@@ -101,58 +136,8 @@ export class PwcDynamicFormContent {
     );
   }
 
-  private init() {
-    const PwcColorPickers = this.rootElement.querySelectorAll(
-      "pwc-color-picker"
-    );
-    PwcColorPickers.forEach(cp => {
-      cp.addEventListener("colorPickedEvent", originalEvent => {
-        this.fieldChanged.emit({
-          element: cp,
-          newValue: cp.activeColor,
-          originalEvent
-        });
-      });
-    });
-
-    const pwcChoicesElements = this.rootElement.querySelectorAll("pwc-choices");
-    pwcChoicesElements.forEach(pce => {
-      pce.addEventListener(
-        "selectedOptionsChanged",
-        (event: CustomEvent<IOption[]>) => {
-          this.fieldChanged.emit({
-            element: pce,
-            newValue: event.detail,
-            originalEvent: event
-          });
-        }
-      );
-    });
-
-    // vanilla html inputs
-    const vanillaInputs = getVanillaHtmlInputs(this.rootElement, true);
-
-    vanillaInputs.forEach(vf => {
-      vf.addEventListener("change", e => {
-        this.fieldChanged.emit({
-          element: vf,
-          newValue: vf.value,
-          originalEvent: e
-        });
-      });
-    });
-  }
-
   componentWillLoad() {
-    this.onItemsChanged(this.items);
-  }
-
-  componentDidLoad() {
-    this.init();
-  }
-
-  componentDidUpdate() {
-    this.init();
+    this.itemsWatchHandler(this.items);
   }
 
   render() {
