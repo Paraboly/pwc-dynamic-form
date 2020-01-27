@@ -36,14 +36,6 @@ export class PwcDynamicFormContent {
 
   @Event() fieldChanged: EventEmitter<FieldChangedEventPayload>;
 
-  componentWillLoad() {
-    this.onItemsChanged(this.items);
-  }
-
-  private handleFieldChange(eventPayload: FieldChangedEventPayload) {
-    this.fieldChanged.emit(eventPayload);
-  }
-
   private constructField(field: ContentItemConfig) {
     let castedField;
     const label = field.label;
@@ -113,12 +105,11 @@ export class PwcDynamicFormContent {
     const colorPickers = this.rootElement.querySelectorAll("color-picker");
     colorPickers.forEach(cp => {
       cp.addEventListener("colorPickedEvent", originalEvent => {
-        const fieldChangedEventPayload: FieldChangedEventPayload = {
+        this.fieldChanged.emit({
           element: cp,
           newValue: cp.activeColor,
           originalEvent
-        };
-        this.handleFieldChange(fieldChangedEventPayload);
+        });
       });
     });
 
@@ -127,12 +118,11 @@ export class PwcDynamicFormContent {
       pce.addEventListener(
         "selectedOptionsChanged",
         (event: CustomEvent<IOption[]>) => {
-          const fieldChangedEventPayload: FieldChangedEventPayload = {
+          this.fieldChanged.emit({
             element: pce,
             newValue: event.detail,
             originalEvent: event
-          };
-          this.handleFieldChange(fieldChangedEventPayload);
+          });
         }
       );
     });
@@ -142,14 +132,17 @@ export class PwcDynamicFormContent {
 
     vanillaInputs.forEach(vf => {
       vf.addEventListener("change", e => {
-        const fieldChangedEventPayload: FieldChangedEventPayload = {
+        this.fieldChanged.emit({
           element: vf,
           newValue: vf.value,
           originalEvent: e
-        };
-        this.handleFieldChange(fieldChangedEventPayload);
+        });
       });
     });
+  }
+
+  componentWillLoad() {
+    this.onItemsChanged(this.items);
   }
 
   componentDidLoad() {
