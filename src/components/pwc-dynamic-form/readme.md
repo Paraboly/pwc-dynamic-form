@@ -14,7 +14,7 @@
 
 ## Methods
 
-### `getFieldValues(pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<FormValuesType>`
+### `getFieldValues() => Promise<FormValuesType>`
 
 
 

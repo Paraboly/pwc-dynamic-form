@@ -14,9 +14,6 @@ import {
   FormValuesType,
 } from './components/pwc-dynamic-form/FormValuesType';
 import {
-  RetreiveMode,
-} from '@paraboly/pwc-choices/dist/types/components/pwc-choices/RetreiveMode';
-import {
   ButtonItemConfig,
 } from './components/pwc-dynamic-form-buttons/ButtonItemConfig';
 import {
@@ -28,7 +25,7 @@ import {
 
 export namespace Components {
   interface PwcDynamicForm {
-    'getFieldValues': (pwcChoicesRetreiveMode: "option" | "value" | "label") => Promise<FormValuesType>;
+    'getFieldValues': () => Promise<FormValuesType>;
   }
   interface PwcDynamicFormButtons {
     'items': string | ButtonItemConfig[];

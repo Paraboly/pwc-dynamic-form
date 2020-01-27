@@ -12,7 +12,7 @@ import {
 import { getVanillaHtmlInputs, resolveJson } from "../../utils/utils";
 import { ContentItemConfig } from "./ContentItemConfig";
 import { FieldChangedEventPayload } from "./FieldChangedEventPayload";
-import { ColorPickerConfig } from "./ColorPickerConfig";
+import { PwcColorPickerConfig } from "./PwcColorPickerConfig";
 import { NativeInputConfig } from "./NativeInputConfig";
 import { PwcChoicesConfig } from "./PwcChoicesConfig";
 import { IOption } from "@paraboly/pwc-choices/dist/types/components/pwc-choices/IOption";
@@ -43,12 +43,12 @@ export class PwcDynamicFormContent {
 
     switch (field.type) {
       case "color":
-        castedField = field as ColorPickerConfig;
+        castedField = field as PwcColorPickerConfig;
         return (
           <div class="form-group">
             <label>
               {label}
-              <color-picker {...castedField}></color-picker>
+              <pwc-color-picker {...castedField}></pwc-color-picker>
             </label>
           </div>
         );
@@ -102,8 +102,10 @@ export class PwcDynamicFormContent {
   }
 
   private init() {
-    const colorPickers = this.rootElement.querySelectorAll("color-picker");
-    colorPickers.forEach(cp => {
+    const PwcColorPickers = this.rootElement.querySelectorAll(
+      "pwc-color-picker"
+    );
+    PwcColorPickers.forEach(cp => {
       cp.addEventListener("colorPickedEvent", originalEvent => {
         this.fieldChanged.emit({
           element: cp,

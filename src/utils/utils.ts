@@ -20,12 +20,12 @@ export function getVanillaHtmlInputs(
         p.tagName.includes("PWC-CHOICES")
       );
       const isButton = inputElement.type === "button";
-      const isColorPicker = Enumerable.from(inputElementParents).any(p =>
-        p.tagName.includes("COLOR-PICKER")
+      const isPwcColorPicker = Enumerable.from(inputElementParents).any(p =>
+        p.tagName.includes("PWC-COLOR-PICKER")
       );
       return (
         false ===
-        (isChoices || (skipButtonElements && isButton) || isColorPicker)
+        (isChoices || (skipButtonElements && isButton) || isPwcColorPicker)
       );
     })
     .toArray();

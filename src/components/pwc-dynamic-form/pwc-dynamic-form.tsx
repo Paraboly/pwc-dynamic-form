@@ -10,7 +10,6 @@ import {
   EventEmitter
 } from "@stencil/core";
 import { getVanillaHtmlInputs } from "../../utils/utils";
-import { RetreiveMode } from "@paraboly/pwc-choices/dist/types/components/pwc-choices/RetreiveMode";
 import { FormChangedEventPayload } from "./FormChangedEventPayload";
 import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/FieldChangedEventPayload";
 import { FormValuesType } from "./FormValuesType";
@@ -28,7 +27,7 @@ export class PwcDynamicForm {
   @Listen("fieldChanged")
   handleFieldChanged(fieldChangedEventPayload: FieldChangedEventPayload) {
     const rootElement = this.rootElement;
-    this.getFieldValues("value").then(v => {
+    this.getFieldValues().then(v => {
       const formChangedEventPayload: FormChangedEventPayload = {
         type: "change",
         fieldChangedEventPayload,
@@ -43,7 +42,7 @@ export class PwcDynamicForm {
   @Listen("reset")
   handleFormReset(formResetEvent: Event) {
     const rootElement = this.rootElement;
-    this.getFieldValues("value").then(v => {
+    this.getFieldValues().then(v => {
       const formChangedEventPayload: FormChangedEventPayload = {
         type: "reset",
         fieldChangedEventPayload: null,
@@ -56,9 +55,7 @@ export class PwcDynamicForm {
   }
 
   @Method()
-  async getFieldValues(
-    pwcChoicesRetreiveMode: RetreiveMode
-  ): Promise<FormValuesType> {
+  async getFieldValues(): Promise<FormValuesType> {
     const form: HTMLFormElement = this.rootElement.querySelector("form");
     const resultObj: FormValuesType = {};
 
@@ -82,16 +79,18 @@ export class PwcDynamicForm {
     for (const key in pwcChoicesInputs) {
       if (pwcChoicesInputs.hasOwnProperty(key)) {
         const ci = pwcChoicesInputs[key];
-        const value = await ci.getSelectedOptions(pwcChoicesRetreiveMode);
+        const value = await ci.getSelectedOptionsAsValues();
         resultObj[ci.name] = value;
       }
     }
 
-    // color-picker
-    const colorPickers = this.rootElement.querySelectorAll("color-picker");
-    for (const key in colorPickers) {
-      if (colorPickers.hasOwnProperty(key)) {
-        const cp = colorPickers[key];
+    // pwc-color-picker
+    const PwcColorPickers = this.rootElement.querySelectorAll(
+      "pwc-color-picker"
+    );
+    for (const key in PwcColorPickers) {
+      if (PwcColorPickers.hasOwnProperty(key)) {
+        const cp = PwcColorPickers[key];
         const value = cp.activeColor;
         const name = cp.getAttribute("name");
         resultObj[name] = value;

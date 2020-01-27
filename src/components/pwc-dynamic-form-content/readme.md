@@ -23,13 +23,13 @@
 
 ### Depends on
 
-- color-picker
+- pwc-color-picker
 - pwc-choices
 
 ### Graph
 ```mermaid
 graph TD;
-  pwc-dynamic-form-content --> color-picker
+  pwc-dynamic-form-content --> pwc-color-picker
   pwc-dynamic-form-content --> pwc-choices
   pwc-choices --> pwc-choices-input-bar
   pwc-choices --> pwc-choices-dropdown

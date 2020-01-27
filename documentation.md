@@ -97,7 +97,7 @@ dynamicFormContent.items = [
 
 ### `PwcDynamicForm.ContentItemConfig` type union
 
-`type ContentItemConfig = NativeInputConfig | PwcSelectConfig | ColorPickerConfig`
+`type ContentItemConfig = NativeInputConfig | PwcSelectConfig | PwcColorPickerConfig`
 
 This type is a union of the supported interfaces for the fields.
 
@@ -154,18 +154,18 @@ This interface is used for [`pwc-choices`](https://github.com/Paraboly/pwc-choic
 
 You can also pass in all valid HTML attributes of an `<pwc-choices>` tag, alongside the custom fields listed above.
 
-#### `ColorPickerConfig` interface
+#### `PwcColorPickerConfig` interface
 
 ```ts
-export interface ColorPickerConfig
-  extends JSXBase.InputHTMLAttributes<HTMLColorPickerElement> {
+export interface PwcColorPickerConfig
+  extends JSXBase.InputHTMLAttributes<HTMLPwcColorPickerElement> {
   label: string;
 }
 ```
 
-This interface is used for [`color-picker`](https://github.com/Paraboly/pwc-color-picker) web components.
+This interface is used for [`pwc-color-picker`](https://github.com/Paraboly/pwc-color-picker) web components.
 
-You can pass in all valid HTML attributes of a `<color-picker>` tag. The label field is translated into a `<label>` element for our generated element.
+You can pass in all valid HTML attributes of a `<pwc-color-picker>` tag. The label field is translated into a `<label>` element for our generated element.
 
 ## `fieldChanged` Event
 
@@ -176,7 +176,7 @@ This event is emitted whenever a field changes.
 ### Payload
 
 ```ts
-element: HTMLInputElement | HTMLPwcChoicesElement | HTMLColorPickerElement;
+element: HTMLInputElement | HTMLPwcChoicesElement | HTMLPwcColorPickerElement;
 newValue: string | string[];
 originalEvent: Event | CustomEvent;
 ```
@@ -189,7 +189,7 @@ originalEvent: Event | CustomEvent;
 
 The type of the generated element is determined with the `type` field in the element's configuration object, in `items` prop:
 
-- `color` -> `<color-picker>`
+- `color` -> `<pwc-color-picker>`
 - `select-single` -> `<pwc-choices>` with single select config.
 - `select-multiple` -> `<pwc-choices>` with multiple select config.
 - `select-text` -> `<pwc-choices>` with text select config.
