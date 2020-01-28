@@ -7,15 +7,18 @@ import {
   EventEmitter,
   h,
   Prop,
-  Watch
+  Watch,
+  Listen,
+  Method
 } from "@stencil/core";
-import { getVanillaHtmlInputs, resolveJson } from "../../utils/utils";
+import { resolveJson } from "../../utils/utils";
 import { ContentItemConfig } from "./ContentItemConfig";
 import { FieldChangedEventPayload } from "./FieldChangedEventPayload";
 import { PwcColorPickerConfig } from "./PwcColorPickerConfig";
 import { NativeInputConfig } from "./NativeInputConfig";
 import { PwcChoicesConfig } from "./PwcChoicesConfig";
 import { IOption } from "@paraboly/pwc-choices/dist/types/components/pwc-choices/IOption";
+import _ from "lodash";
 
 @Component({
   tag: "pwc-dynamic-form-content",
@@ -24,17 +27,68 @@ import { IOption } from "@paraboly/pwc-choices/dist/types/components/pwc-choices
 })
 export class PwcDynamicFormContent {
   private resolvedItems: ContentItemConfig[];
+  private colorPickerRefs: HTMLPwcColorPickerElement[];
+  private choicesRefs: HTMLPwcChoicesElement[];
+  private nativeInputRefs: HTMLInputElement[];
 
   @Element() rootElement: HTMLPwcDynamicFormContentElement;
 
   @Prop() items: string | ContentItemConfig[];
-
   @Watch("items")
-  onItemsChanged(items: string | ContentItemConfig[]) {
+  itemsWatchHandler(items: string | ContentItemConfig[]) {
     this.resolvedItems = resolveJson(items);
   }
 
   @Event() fieldChanged: EventEmitter<FieldChangedEventPayload>;
+
+  @Listen("changed")
+  changedEventHandler(event: Event) {
+    const element = event.target as HTMLInputElement;
+    this.fieldChanged.emit({
+      element,
+      newValue: element.value,
+      originalEvent: event
+    });
+  }
+
+  @Listen("selectedOptionsChanged")
+  selectedOptionsChangedHandler(event: CustomEvent<IOption[]>) {
+    const element = event.target as HTMLInputElement;
+    const value = event.detail;
+    this.fieldChanged.emit({
+      element,
+      newValue: value,
+      originalEvent: event
+    });
+  }
+
+  @Listen("colorPickedEvent")
+  colorPickedeventHandler(event: CustomEvent<string>) {
+    event.stopPropagation();
+    event.preventDefault();
+    const element = event.target as HTMLPwcColorPickerElement;
+    const value = event.detail;
+    this.fieldChanged.emit({
+      element,
+      newValue: value,
+      originalEvent: event
+    });
+  }
+
+  @Method()
+  async getColorPickerRefs() {
+    return this.colorPickerRefs;
+  }
+
+  @Method()
+  async getChoicesRefs() {
+    return this.choicesRefs;
+  }
+
+  @Method()
+  async getNativeInputRefs() {
+    return this.nativeInputRefs;
+  }
 
   private constructField(field: ContentItemConfig) {
     let castedField;
@@ -48,7 +102,10 @@ export class PwcDynamicFormContent {
           <div class="form-group">
             <label>
               {label}
-              <pwc-color-picker {...castedField}></pwc-color-picker>
+              <pwc-color-picker
+                {...castedField}
+                ref={this.handleColorPickerRef.bind(this, castedField)}
+              ></pwc-color-picker>
             </label>
           </div>
         );
@@ -71,7 +128,10 @@ export class PwcDynamicFormContent {
         return (
           <div class="form-group">
             <label>
-              <input {...castedField}></input>
+              <input
+                {...castedField}
+                ref={this.handleNativeInputRef.bind(this, castedField)}
+              ></input>
               {label}
             </label>
           </div>
@@ -90,78 +150,64 @@ export class PwcDynamicFormContent {
     }
   }
 
+  private handleColorPickerRef(elementConfig, ref: HTMLPwcColorPickerElement) {
+    if (ref) {
+      this.colorPickerRefs = _.unionBy(this.colorPickerRefs, [ref], i =>
+        i.getAttribute("name")
+      );
+    } else {
+      _.remove(
+        this.colorPickerRefs,
+        i => i.getAttribute("name") === elementConfig.name
+      );
+    }
+  }
+
+  private handleChoicesRef(elementConfig, ref: HTMLPwcChoicesElement) {
+    if (ref) {
+      this.choicesRefs = _.unionBy(this.choicesRefs, [ref], i => i.name);
+    } else {
+      _.remove(this.choicesRefs, i => i.name === elementConfig.name);
+    }
+  }
+
+  private handleNativeInputRef(elementConfig, ref: HTMLInputElement) {
+    if (ref) {
+      this.nativeInputRefs = _.unionBy(
+        this.nativeInputRefs,
+        [ref],
+        i => i.name
+      );
+    } else {
+      _.remove(this.nativeInputRefs, i => i.name === elementConfig.name);
+    }
+  }
+
   private constructPwcChoices(label: string, castedField: any) {
     return (
       <div class="form-group">
         <label>
           {label}
-          <pwc-choices {...castedField}></pwc-choices>
+          <pwc-choices
+            {...castedField}
+            ref={this.handleChoicesRef.bind(this, castedField)}
+          ></pwc-choices>
         </label>
       </div>
     );
   }
 
-  private init() {
-    const PwcColorPickers = this.rootElement.querySelectorAll(
-      "pwc-color-picker"
-    );
-    PwcColorPickers.forEach(cp => {
-      cp.addEventListener("colorPickedEvent", originalEvent => {
-        this.fieldChanged.emit({
-          element: cp,
-          newValue: cp.activeColor,
-          originalEvent
-        });
-      });
-    });
-
-    const pwcChoicesElements = this.rootElement.querySelectorAll("pwc-choices");
-    pwcChoicesElements.forEach(pce => {
-      pce.addEventListener(
-        "selectedOptionsChanged",
-        (event: CustomEvent<IOption[]>) => {
-          this.fieldChanged.emit({
-            element: pce,
-            newValue: event.detail,
-            originalEvent: event
-          });
-        }
-      );
-    });
-
-    // vanilla html inputs
-    const vanillaInputs = getVanillaHtmlInputs(this.rootElement, true);
-
-    vanillaInputs.forEach(vf => {
-      vf.addEventListener("change", e => {
-        this.fieldChanged.emit({
-          element: vf,
-          newValue: vf.value,
-          originalEvent: e
-        });
-      });
-    });
-  }
-
   componentWillLoad() {
-    this.onItemsChanged(this.items);
-  }
-
-  componentDidLoad() {
-    this.init();
-  }
-
-  componentDidUpdate() {
-    this.init();
+    this.itemsWatchHandler(this.items);
   }
 
   render() {
-    return (
-      <div>
-        {this.resolvedItems
-          ? this.resolvedItems.map(field => this.constructField(field))
-          : ""}
-      </div>
-    );
+    if (this.resolvedItems) {
+      // we are mutating the config, therefore we have to clone it to leave the user input intact.
+      const resolvedItemsClone = _.cloneDeep(this.resolvedItems);
+      return resolvedItemsClone.map(field => this.constructField(field));
+    } else {
+      return "";
+    }
   }
 }

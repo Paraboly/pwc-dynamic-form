@@ -19,6 +19,39 @@
 | `fieldChanged` |             | `CustomEvent<FieldChangedEventPayload>` |
 
 
+## Methods
+
+### `getChoicesRefs() => Promise<HTMLPwcChoicesElement[]>`
+
+
+
+#### Returns
+
+Type: `Promise<HTMLPwcChoicesElement[]>`
+
+
+
+### `getColorPickerRefs() => Promise<HTMLPwcColorPickerElement[]>`
+
+
+
+#### Returns
+
+Type: `Promise<HTMLPwcColorPickerElement[]>`
+
+
+
+### `getNativeInputRefs() => Promise<HTMLInputElement[]>`
+
+
+
+#### Returns
+
+Type: `Promise<HTMLInputElement[]>`
+
+
+
+
 ## Dependencies
 
 ### Depends on

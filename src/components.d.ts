@@ -31,6 +31,9 @@ export namespace Components {
     'items': string | ButtonItemConfig[];
   }
   interface PwcDynamicFormContent {
+    'getChoicesRefs': () => Promise<HTMLPwcChoicesElement[]>;
+    'getColorPickerRefs': () => Promise<HTMLPwcColorPickerElement[]>;
+    'getNativeInputRefs': () => Promise<HTMLInputElement[]>;
     'items': string | ContentItemConfig[];
   }
 }
