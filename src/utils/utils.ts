@@ -5,7 +5,7 @@ import Enumerable from "linq";
 export function resolveJson<TReturnType>(
   input: string | TReturnType
 ): TReturnType {
-  return typeof input === "string" ? JSON.parse(input) : input;
+  return input ? (typeof input === "string" ? JSON.parse(input) : input) : [];
 }
 
 export function getVanillaHtmlInputs(

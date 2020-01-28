@@ -34,7 +34,6 @@ export class PwcDynamicFormContent {
   @Element() rootElement: HTMLPwcDynamicFormContentElement;
 
   @Prop() items: string | ContentItemConfig[];
-
   @Watch("items")
   itemsWatchHandler(items: string | ContentItemConfig[]) {
     this.resolvedItems = resolveJson(items);
@@ -203,12 +202,12 @@ export class PwcDynamicFormContent {
   }
 
   render() {
-    return (
-      <div>
-        {this.resolvedItems
-          ? this.resolvedItems.map(field => this.constructField(field))
-          : ""}
-      </div>
-    );
+    if (this.resolvedItems) {
+      // we are mutating the config, therefore we have to clone it to leave the user input intact.
+      const resolvedItemsClone = _.cloneDeep(this.resolvedItems);
+      return resolvedItemsClone.map(field => this.constructField(field));
+    } else {
+      return "";
+    }
   }
 }

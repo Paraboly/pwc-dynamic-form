@@ -3,6 +3,7 @@ import "@paraboly/pwc-color-picker";
 import { Component, h, Prop, Watch } from "@stencil/core";
 import { resolveJson } from "../../utils/utils";
 import { ButtonItemConfig } from "./ButtonItemConfig";
+import _ from "lodash";
 
 @Component({
   tag: "pwc-dynamic-form-buttons",

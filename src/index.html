@@ -24,8 +24,97 @@
     <hr style="margin-top: 25px; margin-bottom: 25px" />
 
     <button id="get-values-button">Log Values</button>
+    <button id="swap-items-button">Swap Item Set</button>
 
     <script async>
+      const firstSet = [
+        {
+          type: "select-single",
+          name: "ss1",
+          id: "ss1",
+          label: "ss1-label",
+          options: [
+            {
+              value: "superstar",
+              label: "Superstar"
+            },
+            {
+              value: "foo",
+              label: "bar"
+            }
+          ],
+          distinct: "value"
+        },
+        {
+          type: "select-multi",
+          name: "ms1",
+          id: "ms1",
+          label: "ms1-label",
+          options: [
+            {
+              value: "superstar",
+              label: "Superstar"
+            },
+            {
+              value: "foo",
+              label: "bar"
+            },
+            {
+              value: "foo",
+              label: "bar"
+            }
+          ],
+          distinct: "value"
+        },
+        {
+          type: "checkbox",
+          name: "cb1",
+          id: "cb1",
+          label: "cb1-label"
+        },
+        {
+          type: "color",
+          name: "c1",
+          id: "c1",
+          label: "c1-label"
+        }
+      ];
+
+      const secondSet = [
+        {
+          type: "select-single",
+          name: "new-ss",
+          label: "new-ss",
+          options: [
+            {
+              value: "superstar",
+              label: "Superstar"
+            }
+          ]
+        },
+        {
+          type: "select-multi",
+          name: "new-ms",
+          label: "new-ms",
+          options: [
+            {
+              value: "superstar",
+              label: "Superstar"
+            }
+          ]
+        },
+        {
+          type: "checkbox",
+          name: "new-cb",
+          label: "new-cb"
+        },
+        {
+          type: "color",
+          name: "new-c",
+          label: "new-c"
+        }
+      ];
+
       const dynamicForm = document.querySelector("pwc-dynamic-form");
       const dynamicFormContent = dynamicForm.querySelector(
         "pwc-dynamic-form-content"
@@ -39,6 +128,15 @@
           });
         });
 
+      let isFirstSet = true;
+
+      document
+        .querySelector("#swap-items-button")
+        .addEventListener("click", e => {
+          dynamicFormContent.items = isFirstSet ? secondSet : firstSet;
+          isFirstSet = !isFirstSet;
+        });
+
       dynamicForm.addEventListener("formChanged", e => console.log(e));
 
       (async function() {
@@ -48,58 +146,7 @@
       })();
 
       function init() {
-        dynamicFormContent.items = [
-          {
-            type: "select-single",
-            name: "ss1",
-            id: "ss1",
-            label: "ss1-label",
-            options: [
-              {
-                value: "superstar",
-                label: "Superstar"
-              },
-              {
-                value: "foo",
-                label: "bar"
-              }
-            ],
-            distinct: "value"
-          },
-          {
-            type: "select-multi",
-            name: "ms1",
-            id: "ms1",
-            label: "ms1-label",
-            options: [
-              {
-                value: "superstar",
-                label: "Superstar"
-              },
-              {
-                value: "foo",
-                label: "bar"
-              },
-              {
-                value: "foo",
-                label: "bar"
-              }
-            ],
-            distinct: "value"
-          },
-          {
-            type: "checkbox",
-            name: "cb1",
-            id: "cb1",
-            label: "cb1-label"
-          },
-          {
-            type: "color",
-            name: "c1",
-            id: "c1",
-            label: "c1-label"
-          }
-        ];
+        dynamicFormContent.items = firstSet;
       }
 
       async function waitForSecondsAndInit(seconds) {
