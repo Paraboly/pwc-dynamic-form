@@ -41,8 +41,8 @@ export class PwcDynamicFormContent {
 
   @Event() fieldChanged: EventEmitter<FieldChangedEventPayload>;
 
-  @Listen("changed")
-  changedEventHandler(event: Event) {
+  @Listen("change")
+  changeEventHandler(event: Event) {
     const element = event.target as HTMLInputElement;
     this.fieldChanged.emit({
       element,
