@@ -9,7 +9,6 @@ import {
   Event,
   EventEmitter
 } from "@stencil/core";
-import { getVanillaHtmlInputs } from "../../utils/utils";
 import { FormChangedEventPayload } from "./FormChangedEventPayload";
 import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/FieldChangedEventPayload";
 import { FormValuesType } from "./FormValuesType";
@@ -20,6 +19,8 @@ import { FormValuesType } from "./FormValuesType";
   shadow: false
 })
 export class PwcDynamicForm {
+  private contentRef: HTMLPwcDynamicFormContentElement;
+
   @Element() rootElement: HTMLPwcDynamicFormElement;
 
   @Event() formChanged: EventEmitter<FormChangedEventPayload>;
@@ -56,15 +57,9 @@ export class PwcDynamicForm {
 
   @Method()
   async getFieldValues(): Promise<FormValuesType> {
-    const form: HTMLFormElement = this.rootElement.querySelector("form");
     const resultObj: FormValuesType = {};
 
-    // vanilla html inputs
-    const vanillaInputs = getVanillaHtmlInputs(
-      this.rootElement.querySelector("pwc-dynamic-form-content"),
-      true
-    );
-
+    const vanillaInputs = await this.contentRef.getNativeInputRefs();
     vanillaInputs.forEach(vf => {
       if (vf.type === "checkbox") {
         resultObj[vf.name] = vf.checked;
@@ -73,31 +68,24 @@ export class PwcDynamicForm {
       }
     });
 
-    // pwc-choices
-    const pwcChoicesInputs = form.querySelectorAll("pwc-choices");
-
-    for (const key in pwcChoicesInputs) {
-      if (pwcChoicesInputs.hasOwnProperty(key)) {
-        const ci = pwcChoicesInputs[key];
-        const value = await ci.getSelectedOptionsAsValues();
-        resultObj[ci.name] = value;
-      }
-    }
-
-    // pwc-color-picker
-    const PwcColorPickers = this.rootElement.querySelectorAll(
-      "pwc-color-picker"
+    const pwcChoicesInputs = await this.contentRef.getChoicesRefs();
+    pwcChoicesInputs.forEach(
+      async elm =>
+        (resultObj[elm.name] = await elm.getSelectedOptionsAsValues())
     );
-    for (const key in PwcColorPickers) {
-      if (PwcColorPickers.hasOwnProperty(key)) {
-        const cp = PwcColorPickers[key];
-        const value = cp.activeColor;
-        const name = cp.getAttribute("name");
-        resultObj[name] = value;
-      }
-    }
+
+    const pwcColorPickers = await this.contentRef.getColorPickerRefs();
+    pwcColorPickers.forEach(
+      async elm => (resultObj[elm.getAttribute("name")] = elm.activeColor)
+    );
 
     return resultObj;
+  }
+
+  componentDidRender() {
+    this.contentRef = this.rootElement.querySelector(
+      "pwc-dynamic-form-content"
+    );
   }
 
   render() {

@@ -8,7 +8,8 @@ import {
   h,
   Prop,
   Watch,
-  Listen
+  Listen,
+  Method
 } from "@stencil/core";
 import { resolveJson } from "../../utils/utils";
 import { ContentItemConfig } from "./ContentItemConfig";
@@ -17,6 +18,7 @@ import { PwcColorPickerConfig } from "./PwcColorPickerConfig";
 import { NativeInputConfig } from "./NativeInputConfig";
 import { PwcChoicesConfig } from "./PwcChoicesConfig";
 import { IOption } from "@paraboly/pwc-choices/dist/types/components/pwc-choices/IOption";
+import _ from "lodash";
 
 @Component({
   tag: "pwc-dynamic-form-content",
@@ -25,6 +27,9 @@ import { IOption } from "@paraboly/pwc-choices/dist/types/components/pwc-choices
 })
 export class PwcDynamicFormContent {
   private resolvedItems: ContentItemConfig[];
+  private colorPickerRefs: HTMLPwcColorPickerElement[];
+  private choicesRefs: HTMLPwcChoicesElement[];
+  private nativeInputRefs: HTMLInputElement[];
 
   @Element() rootElement: HTMLPwcDynamicFormContentElement;
 
@@ -71,6 +76,21 @@ export class PwcDynamicFormContent {
     });
   }
 
+  @Method()
+  async getColorPickerRefs() {
+    return this.colorPickerRefs;
+  }
+
+  @Method()
+  async getChoicesRefs() {
+    return this.choicesRefs;
+  }
+
+  @Method()
+  async getNativeInputRefs() {
+    return this.nativeInputRefs;
+  }
+
   private constructField(field: ContentItemConfig) {
     let castedField;
     const label = field.label;
@@ -83,7 +103,10 @@ export class PwcDynamicFormContent {
           <div class="form-group">
             <label>
               {label}
-              <pwc-color-picker {...castedField}></pwc-color-picker>
+              <pwc-color-picker
+                {...castedField}
+                ref={this.handleColorPickerRef.bind(this, castedField)}
+              ></pwc-color-picker>
             </label>
           </div>
         );
@@ -106,7 +129,10 @@ export class PwcDynamicFormContent {
         return (
           <div class="form-group">
             <label>
-              <input {...castedField}></input>
+              <input
+                {...castedField}
+                ref={this.handleNativeInputRef.bind(this, castedField)}
+              ></input>
               {label}
             </label>
           </div>
@@ -125,12 +151,48 @@ export class PwcDynamicFormContent {
     }
   }
 
+  private handleColorPickerRef(elementConfig, ref: HTMLPwcColorPickerElement) {
+    if (ref) {
+      this.colorPickerRefs = _.unionBy(this.colorPickerRefs, [ref], i =>
+        i.getAttribute("name")
+      );
+    } else {
+      _.remove(
+        this.colorPickerRefs,
+        i => i.getAttribute("name") === elementConfig.name
+      );
+    }
+  }
+
+  private handleChoicesRef(elementConfig, ref: HTMLPwcChoicesElement) {
+    if (ref) {
+      this.choicesRefs = _.unionBy(this.choicesRefs, [ref], i => i.name);
+    } else {
+      _.remove(this.choicesRefs, i => i.name === elementConfig.name);
+    }
+  }
+
+  private handleNativeInputRef(elementConfig, ref: HTMLInputElement) {
+    if (ref) {
+      this.nativeInputRefs = _.unionBy(
+        this.nativeInputRefs,
+        [ref],
+        i => i.name
+      );
+    } else {
+      _.remove(this.nativeInputRefs, i => i.name === elementConfig.name);
+    }
+  }
+
   private constructPwcChoices(label: string, castedField: any) {
     return (
       <div class="form-group">
         <label>
           {label}
-          <pwc-choices {...castedField}></pwc-choices>
+          <pwc-choices
+            {...castedField}
+            ref={this.handleChoicesRef.bind(this, castedField)}
+          ></pwc-choices>
         </label>
       </div>
     );
