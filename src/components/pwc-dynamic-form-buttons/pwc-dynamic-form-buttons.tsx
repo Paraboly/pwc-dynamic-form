@@ -29,12 +29,8 @@ export class PwcDynamicFormButtons {
   }
 
   render() {
-    return (
-      <div>
-        {this.resolvedItems
-          ? this.resolvedItems.map(button => this.constructButton(button))
-          : ""}
-      </div>
-    );
+    return this.resolvedItems
+      ? this.resolvedItems.map(button => this.constructButton(button))
+      : "";
   }
 }
