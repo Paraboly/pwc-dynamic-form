@@ -59,7 +59,7 @@ export class PwcDynamicForm {
   async getFieldValues(): Promise<FormValuesType> {
     const resultObj: FormValuesType = {};
 
-    const vanillaInputs = await this.contentRef.getNativeInputRefs();
+    const vanillaInputs = (await this.contentRef.getNativeInputRefs()) || [];
     vanillaInputs.forEach(vf => {
       if (vf.type === "checkbox") {
         resultObj[vf.name] = vf.checked;
@@ -68,13 +68,13 @@ export class PwcDynamicForm {
       }
     });
 
-    const pwcChoicesInputs = await this.contentRef.getChoicesRefs();
+    const pwcChoicesInputs = (await this.contentRef.getChoicesRefs()) || [];
     pwcChoicesInputs.forEach(
       async elm =>
         (resultObj[elm.name] = await elm.getSelectedOptionsAsValues())
     );
 
-    const pwcColorPickers = await this.contentRef.getColorPickerRefs();
+    const pwcColorPickers = (await this.contentRef.getColorPickerRefs()) || [];
     pwcColorPickers.forEach(
       async elm => (resultObj[elm.getAttribute("name")] = elm.activeColor)
     );
