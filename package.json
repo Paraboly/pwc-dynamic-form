@@ -65,7 +65,7 @@
     "tslint-config-prettier": "^1.18.0"
   },
   "dependencies": {
-    "@paraboly/pwc-choices": "^4.0.1",
+    "@paraboly/pwc-choices": "^4.1.0",
     "@paraboly/pwc-color-picker": "^2.0.1",
     "linq": "^3.2.1",
     "lodash": "^4.17.15"
