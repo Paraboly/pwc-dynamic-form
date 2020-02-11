@@ -124,6 +124,13 @@ export class PwcDynamicFormContent {
   }
 
   private constructField(field: ContentItemConfig) {
+    let nameIndexer = 0;
+    const nameGenerator = name => {
+      return name || "pwc-dynamic-form___generated-name-" + nameIndexer++;
+    };
+
+    field.name = nameGenerator(field.name);
+
     let castedField;
     const label = field.label;
     delete field.label;
@@ -132,13 +139,13 @@ export class PwcDynamicFormContent {
       case "color":
         castedField = field as PwcColorPickerConfig;
         return (
-          <label>
-            {label}
+          <div class="pwc-dyamic-form___form-group">
+            <label htmlFor={castedField.name}>{label}</label>
             <pwc-color-picker
               {...castedField}
               ref={this.handleColorPickerRef.bind(this, castedField)}
             ></pwc-color-picker>
-          </label>
+          </div>
         );
 
       // Special handle reason: using pwc-choices.
@@ -157,35 +164,35 @@ export class PwcDynamicFormContent {
       case "checkbox":
         castedField = field as NativeInputConfig;
         return (
-          <label>
+          <div class="pwc-dyamic-form___form-group">
             <input
               {...castedField}
               ref={this.handleNativeInputRef.bind(this, castedField)}
             ></input>
-            {label}
-          </label>
+            <label htmlFor={castedField.name}>{label}</label>
+          </div>
         );
 
       default:
         castedField = field as NativeInputConfig;
         return (
-          <label>
-            {label}
+          <div class="pwc-dyamic-form___form-group">
+            <label htmlFor={castedField.name}>{label}</label>
             <input {...castedField}></input>
-          </label>
+          </div>
         );
     }
   }
 
   private constructPwcChoices(label: string, castedField: any) {
     return (
-      <label>
-        {label}
+      <div class="pwc-dyamic-form___form-group">
+        <label htmlFor={castedField.name}>{label}</label>
         <pwc-choices
           {...castedField}
           ref={this.handleChoicesRef.bind(this, castedField)}
         ></pwc-choices>
-      </label>
+      </div>
     );
   }
 
