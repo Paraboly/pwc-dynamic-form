@@ -14,13 +14,13 @@
 
 ## Methods
 
-### `getFieldValues() => Promise<FormValuesType>`
+### `getFieldValues() => Promise<{}>`
 
 
 
 #### Returns
 
-Type: `Promise<FormValuesType>`
+Type: `Promise<{}>`
 
 
 
