@@ -10,7 +10,7 @@ import {
   EventEmitter
 } from "@stencil/core";
 import { FormChangedEventPayload } from "./FormChangedEventPayload";
-import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/FieldChangedEventPayload";
+import { FieldChangedEventPayload } from "../pwc-dynamic-form-field/FieldChangedEventPayload";
 import { FormValuesType } from "./FormValuesType";
 
 @Component({

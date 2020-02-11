@@ -18,10 +18,10 @@ import {
 } from './components/pwc-dynamic-form-buttons/ButtonItemConfig';
 import {
   ContentItemConfig,
-} from './components/pwc-dynamic-form-content/ContentItemConfig';
+} from './components/pwc-dynamic-form-field/ContentItemConfig';
 import {
   FieldChangedEventPayload,
-} from './components/pwc-dynamic-form-content/FieldChangedEventPayload';
+} from './components/pwc-dynamic-form-field/FieldChangedEventPayload';
 
 export namespace Components {
   interface PwcDynamicForm {

@@ -2,7 +2,7 @@ import "@paraboly/pwc-choices";
 import "@paraboly/pwc-color-picker";
 import { Component, Element, h, Prop, Watch, Method } from "@stencil/core";
 import { resolveJson } from "../../utils/utils";
-import { ContentItemConfig } from "./ContentItemConfig";
+import { ContentItemConfig } from "../pwc-dynamic-form-field/ContentItemConfig";
 import _ from "lodash";
 
 @Component({

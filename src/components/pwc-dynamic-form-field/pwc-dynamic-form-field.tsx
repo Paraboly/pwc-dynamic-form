@@ -12,11 +12,11 @@ import {
 } from "@stencil/core";
 import { IOption } from "@paraboly/pwc-choices/dist/types/components/pwc-choices/IOption";
 import _ from "lodash";
-import { ContentItemConfig } from "../pwc-dynamic-form-content/ContentItemConfig";
-import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/FieldChangedEventPayload";
-import { PwcColorPickerConfig } from "../pwc-dynamic-form-content/PwcColorPickerConfig";
-import { PwcChoicesConfig } from "../pwc-dynamic-form-content/PwcChoicesConfig";
-import { NativeInputConfig } from "../pwc-dynamic-form-content/NativeInputConfig";
+import { ContentItemConfig } from "./ContentItemConfig";
+import { FieldChangedEventPayload } from "./FieldChangedEventPayload";
+import { PwcColorPickerConfig } from "./PwcColorPickerConfig";
+import { PwcChoicesConfig } from "./PwcChoicesConfig";
+import { NativeInputConfig } from "./NativeInputConfig";
 
 @Component({
   tag: "pwc-dynamic-form-field",
@@ -37,9 +37,17 @@ export class PwcDynamicFormField {
   @Listen("change")
   changeEventHandler(event: Event) {
     const element = event.target as HTMLInputElement;
+
+    let elementValue;
+    if (this.nativeInputRef.type === "checkbox") {
+      elementValue = element.checked;
+    } else {
+      elementValue = element.value;
+    }
+
     this.fieldChanged.emit({
       element,
-      newValue: element.value,
+      newValue: elementValue,
       originalEvent: event
     });
   }
