@@ -18,10 +18,10 @@ import {
 } from './components/pwc-dynamic-form-buttons/ButtonItemConfig';
 import {
   ContentItemConfig,
-} from './components/pwc-dynamic-form-content/ContentItemConfig';
+} from './components/pwc-dynamic-form-field/ContentItemConfig';
 import {
   FieldChangedEventPayload,
-} from './components/pwc-dynamic-form-content/FieldChangedEventPayload';
+} from './components/pwc-dynamic-form-field/FieldChangedEventPayload';
 
 export namespace Components {
   interface PwcDynamicForm {
@@ -31,10 +31,12 @@ export namespace Components {
     'items': string | ButtonItemConfig[];
   }
   interface PwcDynamicFormContent {
-    'getChoicesRefs': () => Promise<HTMLPwcChoicesElement[]>;
-    'getColorPickerRefs': () => Promise<HTMLPwcColorPickerElement[]>;
-    'getNativeInputRefs': () => Promise<HTMLInputElement[]>;
+    'getFieldRefs': () => Promise<HTMLPwcDynamicFormFieldElement[]>;
     'items': string | ContentItemConfig[];
+  }
+  interface PwcDynamicFormField {
+    'config': ContentItemConfig;
+    'getValue': () => Promise<string | boolean | string[]>;
   }
 }
 
@@ -58,10 +60,17 @@ declare global {
     prototype: HTMLPwcDynamicFormContentElement;
     new (): HTMLPwcDynamicFormContentElement;
   };
+
+  interface HTMLPwcDynamicFormFieldElement extends Components.PwcDynamicFormField, HTMLStencilElement {}
+  var HTMLPwcDynamicFormFieldElement: {
+    prototype: HTMLPwcDynamicFormFieldElement;
+    new (): HTMLPwcDynamicFormFieldElement;
+  };
   interface HTMLElementTagNameMap {
     'pwc-dynamic-form': HTMLPwcDynamicFormElement;
     'pwc-dynamic-form-buttons': HTMLPwcDynamicFormButtonsElement;
     'pwc-dynamic-form-content': HTMLPwcDynamicFormContentElement;
+    'pwc-dynamic-form-field': HTMLPwcDynamicFormFieldElement;
   }
 }
 
@@ -74,6 +83,9 @@ declare namespace LocalJSX {
   }
   interface PwcDynamicFormContent {
     'items'?: string | ContentItemConfig[];
+  }
+  interface PwcDynamicFormField {
+    'config'?: ContentItemConfig;
     'onFieldChanged'?: (event: CustomEvent<FieldChangedEventPayload>) => void;
   }
 
@@ -81,6 +93,7 @@ declare namespace LocalJSX {
     'pwc-dynamic-form': PwcDynamicForm;
     'pwc-dynamic-form-buttons': PwcDynamicFormButtons;
     'pwc-dynamic-form-content': PwcDynamicFormContent;
+    'pwc-dynamic-form-field': PwcDynamicFormField;
   }
 }
 
@@ -93,6 +106,7 @@ declare module "@stencil/core" {
       'pwc-dynamic-form': LocalJSX.PwcDynamicForm & JSXBase.HTMLAttributes<HTMLPwcDynamicFormElement>;
       'pwc-dynamic-form-buttons': LocalJSX.PwcDynamicFormButtons & JSXBase.HTMLAttributes<HTMLPwcDynamicFormButtonsElement>;
       'pwc-dynamic-form-content': LocalJSX.PwcDynamicFormContent & JSXBase.HTMLAttributes<HTMLPwcDynamicFormContentElement>;
+      'pwc-dynamic-form-field': LocalJSX.PwcDynamicFormField & JSXBase.HTMLAttributes<HTMLPwcDynamicFormFieldElement>;
     }
   }
 }

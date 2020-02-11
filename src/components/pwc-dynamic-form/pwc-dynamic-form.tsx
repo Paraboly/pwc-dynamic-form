@@ -10,7 +10,7 @@ import {
   EventEmitter
 } from "@stencil/core";
 import { FormChangedEventPayload } from "./FormChangedEventPayload";
-import { FieldChangedEventPayload } from "../pwc-dynamic-form-content/FieldChangedEventPayload";
+import { FieldChangedEventPayload } from "../pwc-dynamic-form-field/FieldChangedEventPayload";
 import { FormValuesType } from "./FormValuesType";
 
 @Component({
@@ -57,29 +57,13 @@ export class PwcDynamicForm {
 
   @Method()
   async getFieldValues(): Promise<FormValuesType> {
-    const resultObj: FormValuesType = {};
-
-    const vanillaInputs = (await this.contentRef.getNativeInputRefs()) || [];
-    vanillaInputs.forEach(vf => {
-      if (vf.type === "checkbox") {
-        resultObj[vf.name] = vf.checked;
-      } else {
-        resultObj[vf.name] = vf.value;
-      }
+    const fieldRefs = await this.contentRef.getFieldRefs();
+    const vals = {};
+    fieldRefs.forEach(async field => {
+      const val = await field.getValue();
+      vals[field.config.name] = val;
     });
-
-    const pwcChoicesInputs = (await this.contentRef.getChoicesRefs()) || [];
-    pwcChoicesInputs.forEach(
-      async elm =>
-        (resultObj[elm.name] = await elm.getSelectedOptionsAsValues())
-    );
-
-    const pwcColorPickers = (await this.contentRef.getColorPickerRefs()) || [];
-    pwcColorPickers.forEach(
-      async elm => (resultObj[elm.getAttribute("name")] = elm.activeColor)
-    );
-
-    return resultObj;
+    return vals;
   }
 
   componentDidRender() {

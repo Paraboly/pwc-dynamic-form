@@ -12,42 +12,15 @@
 | `items`  | `items`   |             | `ContentItemConfig[] \| string` | `undefined` |
 
 
-## Events
-
-| Event          | Description | Type                                    |
-| -------------- | ----------- | --------------------------------------- |
-| `fieldChanged` |             | `CustomEvent<FieldChangedEventPayload>` |
-
-
 ## Methods
 
-### `getChoicesRefs() => Promise<HTMLPwcChoicesElement[]>`
+### `getFieldRefs() => Promise<HTMLPwcDynamicFormFieldElement[]>`
 
 
 
 #### Returns
 
-Type: `Promise<HTMLPwcChoicesElement[]>`
-
-
-
-### `getColorPickerRefs() => Promise<HTMLPwcColorPickerElement[]>`
-
-
-
-#### Returns
-
-Type: `Promise<HTMLPwcColorPickerElement[]>`
-
-
-
-### `getNativeInputRefs() => Promise<HTMLInputElement[]>`
-
-
-
-#### Returns
-
-Type: `Promise<HTMLInputElement[]>`
+Type: `Promise<HTMLPwcDynamicFormFieldElement[]>`
 
 
 
@@ -56,14 +29,14 @@ Type: `Promise<HTMLInputElement[]>`
 
 ### Depends on
 
-- pwc-color-picker
-- pwc-choices
+- [pwc-dynamic-form-field](../pwc-dynamic-form-field)
 
 ### Graph
 ```mermaid
 graph TD;
-  pwc-dynamic-form-content --> pwc-color-picker
-  pwc-dynamic-form-content --> pwc-choices
+  pwc-dynamic-form-content --> pwc-dynamic-form-field
+  pwc-dynamic-form-field --> pwc-color-picker
+  pwc-dynamic-form-field --> pwc-choices
   pwc-choices --> pwc-choices-input-bar
   pwc-choices --> pwc-choices-dropdown
   pwc-choices-input-bar --> pwc-choices-option-bubble
