@@ -51,6 +51,7 @@ graph TD;
   pwc-choices --> pwc-choices-input-bar
   pwc-choices --> pwc-choices-dropdown
   pwc-choices-input-bar --> pwc-choices-option-bubble
+  pwc-choices-dropdown --> pwc-choices-dropdown-item
   pwc-dynamic-form-content --> pwc-dynamic-form-field
   style pwc-dynamic-form-field fill:#f9f,stroke:#333,stroke-width:4px
 ```
