@@ -31,8 +31,10 @@ export namespace Components {
     'items': string | ButtonItemConfig[];
   }
   interface PwcDynamicFormContent {
+    'addItem': (config: ContentItemConfig) => Promise<void>;
     'getFieldRefs': () => Promise<HTMLPwcDynamicFormFieldElement[]>;
     'items': string | ContentItemConfig[];
+    'removeItem': (id: string) => Promise<void>;
   }
   interface PwcDynamicFormField {
     'config': ContentItemConfig;

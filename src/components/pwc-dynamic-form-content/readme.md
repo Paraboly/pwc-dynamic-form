@@ -14,6 +14,16 @@
 
 ## Methods
 
+### `addItem(config: ContentItemConfig) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `getFieldRefs() => Promise<HTMLPwcDynamicFormFieldElement[]>`
 
 
@@ -21,6 +31,16 @@
 #### Returns
 
 Type: `Promise<HTMLPwcDynamicFormFieldElement[]>`
+
+
+
+### `removeItem(id: string) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
 
 
 

@@ -13,6 +13,7 @@ import _ from "lodash";
 export class PwcDynamicFormContent {
   private resolvedItems: ContentItemConfig[];
   private fieldRefs: HTMLPwcDynamicFormFieldElement[];
+  private itemsAddedViaMethod: ContentItemConfig[] = [];
 
   @Element() rootElement: HTMLPwcDynamicFormContentElement;
 
@@ -20,6 +21,21 @@ export class PwcDynamicFormContent {
   @Watch("items")
   itemsWatchHandler(items: string | ContentItemConfig[]) {
     this.resolvedItems = resolveJson(items);
+    this.resolvedItems = [...this.resolvedItems, ...this.itemsAddedViaMethod];
+  }
+
+  @Method()
+  async addItem(config: ContentItemConfig) {
+    this.itemsAddedViaMethod = [...this.itemsAddedViaMethod, config];
+    this.resolvedItems = [...this.resolvedItems, config];
+    this.rootElement.forceUpdate();
+  }
+
+  @Method()
+  async removeItem(id: string) {
+    _.remove(this.itemsAddedViaMethod, { id });
+    _.remove(this.resolvedItems, { id });
+    this.rootElement.forceUpdate();
   }
 
   @Method()

@@ -26,6 +26,12 @@
     <button id="get-values-button">Log Values</button>
     <button id="swap-items-button">Swap Item Set</button>
 
+    <div style="margin-top: 25px; margin-bottom: 25px"></div>
+
+    <input type="text" id="item-id" placeholder="Item ID" />
+    <button id="remove-item-button">Remove Item</button>
+    <button id="add-item-button">Add Item</button>
+
     <script async>
       const firstSet = [
         {
@@ -68,7 +74,13 @@
             }
           ],
           distinct: "value",
-          searchBarPlaceholder: "search bar placeholder text"
+          searchBarPlaceholder: "search bar placeholder text",
+          dropdownSelectionBehaviour: "toggle",
+          inputBarDisplayMode: "dynamic",
+          style: {
+            width: "250px",
+            height: "60px"
+          }
         },
         {
           type: "checkbox",
@@ -142,6 +154,25 @@
         });
 
       dynamicForm.addEventListener("formChanged", e => console.log(e));
+
+      document
+        .querySelector("#add-item-button")
+        .addEventListener("click", e => {
+          const id = document.querySelector("#item-id").value;
+          dynamicFormContent.addItem({
+            type: "checkbox",
+            name: id,
+            id: id,
+            label: "cb1-label"
+          });
+        });
+
+      document
+        .querySelector("#remove-item-button")
+        .addEventListener("click", e => {
+          const id = document.querySelector("#item-id").value;
+          dynamicFormContent.removeItem(id);
+        });
 
       (async function() {
         init();
