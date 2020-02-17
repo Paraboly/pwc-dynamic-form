@@ -64,14 +64,21 @@ export class PwcDynamicFormContent {
 
   constructField(fieldConfig: ContentItemConfig) {
     let nameIndexer = 0;
-    const nameGenerator = name => {
-      return name || "pwc-dynamic-form___generated-name-" + nameIndexer++;
+    const nameGenerator = () => {
+      return "pwc-dynamic-form___generated-name-" + nameIndexer++;
     };
 
-    fieldConfig.name = nameGenerator(fieldConfig.name);
+    let idIndexer = 0;
+    const idGenerator = () => {
+      return "pwc-dynamic-form___generated-id-" + idIndexer++;
+    };
+
+    fieldConfig.name = fieldConfig.name || nameGenerator();
+    fieldConfig.id = fieldConfig.id || idGenerator();
 
     return (
       <pwc-dynamic-form-field
+        key={fieldConfig.id + fieldConfig.name}
         config={fieldConfig}
         ref={this.handleFieldRef.bind(this, fieldConfig)}
       ></pwc-dynamic-form-field>
