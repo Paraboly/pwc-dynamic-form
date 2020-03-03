@@ -11,17 +11,21 @@ import _ from "lodash";
   shadow: false
 })
 export class PwcDynamicFormButtons {
-  private resolvedItems: ButtonItemConfig[];
+  private resolvedItems: ButtonItemConfig[] = [];
 
-  @Prop() items: string | ButtonItemConfig[];
-
+  private readonly defaultItems = [];
+  @Prop() items: string | ButtonItemConfig[] = this.defaultItems;
   @Watch("items")
-  onConfigChanged(items: string | ButtonItemConfig[]) {
-    this.resolvedItems = resolveJson(items);
+  onItemsChanged(newValue: string | ButtonItemConfig[]) {
+    if (newValue === null || newValue === undefined) {
+      this.items = this.defaultItems;
+    } else {
+      this.resolvedItems = resolveJson(newValue);
+    }
   }
 
   componentWillLoad() {
-    this.onConfigChanged(this.items);
+    this.onItemsChanged(this.items);
   }
 
   private constructButton(button: ButtonItemConfig): HTMLInputElement {

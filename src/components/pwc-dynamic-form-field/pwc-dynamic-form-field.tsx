@@ -24,9 +24,9 @@ import { NativeInputConfig } from "./NativeInputConfig";
   shadow: false
 })
 export class PwcDynamicFormField {
-  colorPickerRef: HTMLPwcColorPickerElement;
-  choicesRef: HTMLPwcChoicesElement;
-  nativeInputRef: HTMLInputElement;
+  private colorPickerRef: HTMLPwcColorPickerElement;
+  private choicesRef: HTMLPwcChoicesElement;
+  private nativeInputRef: HTMLInputElement;
 
   @Element() rootElement: HTMLPwcDynamicFormFieldElement;
 

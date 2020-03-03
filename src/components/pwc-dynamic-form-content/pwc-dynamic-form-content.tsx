@@ -11,31 +11,42 @@ import _ from "lodash";
   shadow: false
 })
 export class PwcDynamicFormContent {
-  private resolvedItems: ContentItemConfig[];
-  private fieldRefs: HTMLPwcDynamicFormFieldElement[];
+  private resolvedItems: ContentItemConfig[] = [];
+  private fieldRefs: HTMLPwcDynamicFormFieldElement[] = [];
   private itemsAddedViaMethod: ContentItemConfig[] = [];
 
   @Element() rootElement: HTMLPwcDynamicFormContentElement;
 
-  @Prop() items: string | ContentItemConfig[];
+  private readonly defaultItems = [];
+  @Prop() items: string | ContentItemConfig[] = this.defaultItems;
   @Watch("items")
-  itemsWatchHandler(items: string | ContentItemConfig[]) {
-    this.resolvedItems = resolveJson(items);
-    this.resolvedItems = [...this.resolvedItems, ...this.itemsAddedViaMethod];
+  itemsWatchHandler(newValue: string | ContentItemConfig[]) {
+    if (newValue === null || newValue === undefined) {
+      this.items = this.defaultItems;
+    } else {
+      this.resolvedItems = [
+        ...resolveJson(newValue),
+        ...this.itemsAddedViaMethod
+      ];
+    }
   }
 
   @Method()
   async addItem(config: ContentItemConfig) {
-    this.itemsAddedViaMethod = [...this.itemsAddedViaMethod, config];
-    this.resolvedItems = [...this.resolvedItems, config];
-    this.rootElement.forceUpdate();
+    if (config) {
+      this.itemsAddedViaMethod = [...this.itemsAddedViaMethod, config];
+      this.resolvedItems = [...this.resolvedItems, config];
+      this.rootElement.forceUpdate();
+    }
   }
 
   @Method()
   async removeItem(id: string) {
-    _.remove(this.itemsAddedViaMethod, { id });
-    _.remove(this.resolvedItems, { id });
-    this.rootElement.forceUpdate();
+    if (id !== null || id !== undefined) {
+      _.remove(this.itemsAddedViaMethod, { id });
+      _.remove(this.resolvedItems, { id });
+      this.rootElement.forceUpdate();
+    }
   }
 
   @Method()
@@ -63,26 +74,30 @@ export class PwcDynamicFormContent {
   }
 
   constructField(fieldConfig: ContentItemConfig) {
-    let nameIndexer = 0;
-    const nameGenerator = () => {
-      return "pwc-dynamic-form___generated-name-" + nameIndexer++;
-    };
+    if (fieldConfig) {
+      let nameIndexer = 0;
+      const nameGenerator = () => {
+        return "pwc-dynamic-form___generated-name-" + nameIndexer++;
+      };
 
-    let idIndexer = 0;
-    const idGenerator = () => {
-      return "pwc-dynamic-form___generated-id-" + idIndexer++;
-    };
+      let idIndexer = 0;
+      const idGenerator = () => {
+        return "pwc-dynamic-form___generated-id-" + idIndexer++;
+      };
 
-    fieldConfig.name = fieldConfig.name || nameGenerator();
-    fieldConfig.id = fieldConfig.id || idGenerator();
+      fieldConfig.name = fieldConfig.name || nameGenerator();
+      fieldConfig.id = fieldConfig.id || idGenerator();
 
-    return (
-      <pwc-dynamic-form-field
-        key={fieldConfig.id + fieldConfig.name}
-        config={fieldConfig}
-        ref={this.handleFieldRef.bind(this, fieldConfig)}
-      ></pwc-dynamic-form-field>
-    );
+      return (
+        <pwc-dynamic-form-field
+          key={fieldConfig.id + fieldConfig.name}
+          config={fieldConfig}
+          ref={this.handleFieldRef.bind(this, fieldConfig)}
+        ></pwc-dynamic-form-field>
+      );
+    } else {
+      return "";
+    }
   }
 
   render() {

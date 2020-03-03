@@ -57,15 +57,19 @@ export class PwcDynamicForm {
 
   @Method()
   async getFieldValues(): Promise<FormValuesType> {
-    const fieldRefs = await this.contentRef.getFieldRefs();
-    const vals = {};
+    if (!this.contentRef) {
+      return {};
+    } else {
+      const fieldRefs = await this.contentRef.getFieldRefs();
+      const vals = {};
 
-    for (const field of fieldRefs) {
-      const val = await field.getValue();
-      vals[field.config.name] = val;
+      for (const field of fieldRefs) {
+        const val = await field.getValue();
+        vals[field.config.name] = val;
+      }
+
+      return vals;
     }
-
-    return vals;
   }
 
   componentDidRender() {

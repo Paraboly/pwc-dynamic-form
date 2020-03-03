@@ -5,6 +5,8 @@ import Enumerable from "linq";
 export function resolveJson<TReturnType>(
   input: string | TReturnType
 ): TReturnType {
+  // TODO: returning [] when no input only works because of our limited usage in this component.
+  // We should return an instance of TReturnType instead.
   return input ? (typeof input === "string" ? JSON.parse(input) : input) : [];
 }
 

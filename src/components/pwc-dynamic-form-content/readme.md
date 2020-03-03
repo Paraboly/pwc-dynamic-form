@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type                            | Default     |
-| -------- | --------- | ----------- | ------------------------------- | ----------- |
-| `items`  | `items`   |             | `ContentItemConfig[] \| string` | `undefined` |
+| Property | Attribute | Description | Type                            | Default             |
+| -------- | --------- | ----------- | ------------------------------- | ------------------- |
+| `items`  | `items`   |             | `ContentItemConfig[] \| string` | `this.defaultItems` |
 
 
 ## Methods
