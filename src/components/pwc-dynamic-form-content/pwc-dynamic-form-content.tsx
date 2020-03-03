@@ -51,7 +51,7 @@ export class PwcDynamicFormContent {
 
   @Method()
   async getFieldRefs() {
-    return this.fieldRefs;
+    return this.fieldRefs || [];
   }
 
   componentWillLoad() {
